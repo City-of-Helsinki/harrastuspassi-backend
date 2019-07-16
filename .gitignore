@@ -1,0 +1,88 @@
+.ssh
+.env
+*.pyc
+*.env
+*.egg-info
+Pipfile
+database.db
+local_settings.py
+mediaroot/
+staticroot/
+*.egg-info
+*.orig
+*.pyc
+*.swp
+.cache
+.coverage
+.directory
+.DS_Store
+.fseventsd
+.git
+.installed.cfg
+.mr.developer.cfg
+.mypy_cache
+.Spotlight*
+.svn
+.Trashes
+bin/*
+celerybeat-schedule.db
+celerybeat.pid
+develop-eggs
+doc/build/
+downloads
+eggs
+local_settings.py
+mediaroot/*
+newrelic.ini
+parts
+project/database.db
+database.db
+staticroot/*
+
+*.pyc
+*.orig
+output/
+example
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Sphinx
+docs/_build
+
+# Vim
+*.swo
+*.swp
+
+# Salt generated settings
+project/local_settings.py
+local_settings.py
+
