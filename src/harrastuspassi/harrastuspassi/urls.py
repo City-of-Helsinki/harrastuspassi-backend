@@ -5,12 +5,15 @@
 # All rights reserved.
 #
 
-from django.urls import path
-from django.contrib.auth.decorators import login_required
-from harrastuspassi.views import IndexView
+from django.urls import path, include
+from rest_framework import routers
+from harrastuspassi.views import HobbyViewSet
+
+router = routers.DefaultRouter()
+router.register(r'hobbies', HobbyViewSet) 
 
 urlpatterns = [
-  path('', IndexView.as_view()),
+  path('', include(router.urls)),
 ]
 
 
