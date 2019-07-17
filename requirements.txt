@@ -32,3 +32,4 @@ snowballstemmer==1.9.0
 sqlparse==0.3.0
 typed-ast==1.4.0
 wrapt==1.11.2
+pillow==6.1.0
