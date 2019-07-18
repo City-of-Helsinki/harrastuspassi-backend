@@ -21,6 +21,8 @@ ROOT_URLCONF = 'project.urls'
 INSTALLED_APPS = [
   'harrastuspassi',
 
+  'rest_framework',
+
   'django.contrib.admin',
   'django.contrib.auth',
   'django.contrib.contenttypes',
@@ -28,8 +30,6 @@ INSTALLED_APPS = [
   'django.contrib.sessions',
   'django.contrib.messages',
   'django.contrib.staticfiles',
-
-  'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -96,10 +96,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 #
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'fi'
 
 LANGUAGES = (
+  ('fi', 'Finnish'),
   ('en', 'English'),
+  ('sv', 'Swedish'),
 )
 
 LOCALE_PATHS = (
