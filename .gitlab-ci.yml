@@ -8,7 +8,6 @@ before_script:
   - sed -i -r "s/^BROKER_URL/CELERY_BROKER_URL/g" local_settings.py
   - eval $(ssh-agent -s)
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  - ssh-add <(echo "$SSH_BITBUCKET_PRIVATE_KEY")
 
 services:
   - name: postgres:9.1
