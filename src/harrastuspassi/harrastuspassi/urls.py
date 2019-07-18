@@ -10,7 +10,7 @@ from rest_framework import routers
 from harrastuspassi.views import HobbyViewSet
 
 router = routers.DefaultRouter()
-router.register(r'hobbies', HobbyViewSet) 
+router.register(r'hobbies', HobbyViewSet, 'hobby')
 
 urlpatterns = [
   path('', include(router.urls)),
