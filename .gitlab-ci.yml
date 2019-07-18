@@ -5,16 +5,17 @@ before_script:
   - cp /home/bew/local_settings.py local_settings.py
   - echo "DEBUG = True" >> local_settings.py
   - echo "SITE_ID = 1" >> local_settings.py
-  - sed -i -r "s/^BROKER_URL/CELERY_BROKER_URL/g" local_settings.py
+  - echo "SECURE_SSL_REDIRECT = False" >> local_settings.py
   - eval $(ssh-agent -s)
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - python3 -m venv ../venv
+  - source ../venv/bin/activate
 
 services:
   - name: postgres:9.1
     alias: postgresql
   - memcached:1.4.25
   - redis:3.0.6
-  - rabbitmq:3.6.10
 
 variables:
   DJANGO_SETTINGS_MODULE: local_settings
@@ -32,43 +33,33 @@ build_devel:
   script:
     - pwd
     - cat local_settings.py
-    - buildout -c buildout.cfg
-    - bin/django help
+    - pip3 install -r requirements.txt
+    - python3 manage.py help
 
 build_prod:
   stage: build
   script:
-    - buildout -c production.cfg
-    - bin/django help
+    - pwd
+    - cat local_settings.py
+    - pip3 install -r requirements_prod.txt
+    - python3 manage.py help
 
 prospector:
   stage: test
   script:
-    - buildout -c buildout.cfg
-    - bin/prospector -0 --uses django,celery src
+    - pip3 install -r requirements.txt
+    - prospector -0 --uses django,celery src
 
 migrate:
   stage: test
   script:
-    - buildout -c production.cfg
-    - bin/django migrate dreamuserdb
-    - bin/django migrate
-
-staticfiles:
-  stage: test
-  script:
-    - buildout -c production.cfg
-    - bin/django collectstatic --noinput -v 3 --traceback
-    - bin/django compress -v 3 --traceback
+    - pip3 install -r requirements_prod.txt
+    - python3 manage.py migrate
 
 test:
   stage: test
   script:
-    - buildout -c buildout.cfg
-    - bin/test
+    - pip3 install -r requirements.txt
+    - pytest
 
-saucetest:
-  stage: test
-  script:
-    - buildout -c buildout.cfg
-    - bin/saucetest
+
