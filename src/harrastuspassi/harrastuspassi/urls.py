@@ -13,7 +13,8 @@ router = routers.DefaultRouter()
 router.register(r'hobbies', HobbyViewSet, 'hobby')
 
 urlpatterns = [
-  path('', include(router.urls)),
+  path('api/', include(router.urls)),
+  path('mobile-api/', include(router.urls))
 ]
 
 
