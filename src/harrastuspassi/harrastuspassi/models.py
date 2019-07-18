@@ -28,7 +28,7 @@ class Hobby(models.Model):
   name = models.CharField(max_length=256)
   day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
   location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
-  image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
+  cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
 
   def __str__(self):
     return self.name

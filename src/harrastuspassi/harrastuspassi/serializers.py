@@ -8,4 +8,4 @@ class HobbySerializer(serializers.ModelSerializer):
 
   class Meta:
     model = Hobby
-    fields = ['name', 'day_of_week', 'location', 'image']
+    fields = ['name', 'day_of_week', 'location', 'cover_image']
