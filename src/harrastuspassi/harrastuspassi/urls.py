@@ -3,7 +3,7 @@
 
 from django.urls import path, include
 from rest_framework import routers
-from harrastuspassi.views import HobbyViewSet
+from harrastuspassi.api import HobbyViewSet
 
 router = routers.DefaultRouter()
 router.register(r'hobbies', HobbyViewSet, 'hobby')
