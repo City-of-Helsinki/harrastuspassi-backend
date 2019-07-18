@@ -1,7 +1,7 @@
 
 # Harrastuspassi
 
-Backend for Harrastuspassi. Build with Django, uses PostgreSQL as a database.
+Backend for Harrastuspassi. Built with Django, uses PostgreSQL as a database.
 
 Installation
 ------------
