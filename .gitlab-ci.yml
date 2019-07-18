@@ -1,0 +1,65 @@
+---
+image: docker.haltu.net/haltu/env/heliconia:latest
+
+before_script:
+  - cp /home/bew/local_settings.py local_settings.py
+  - echo "DEBUG = True" >> local_settings.py
+  - echo "SITE_ID = 1" >> local_settings.py
+  - echo "SECURE_SSL_REDIRECT = False" >> local_settings.py
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - python3 -m venv ../venv
+  - source ../venv/bin/activate
+
+services:
+  - name: postgres:9.1
+    alias: postgresql
+  - memcached:1.4.25
+  - redis:3.0.6
+
+variables:
+  DJANGO_SETTINGS_MODULE: local_settings
+  POSTGRES_DB: heliconia
+  POSTGRES_PASSWORD: heliconia
+  POSTGRES_USER: heliconia
+  RABBITMQ_DEFAULT_VHOST: heliconia
+
+stages:
+  - build
+  - test
+
+build_devel:
+  stage: build
+  script:
+    - pwd
+    - cat local_settings.py
+    - pip3 install -r requirements.txt
+    - python3 manage.py help
+
+build_prod:
+  stage: build
+  script:
+    - pwd
+    - cat local_settings.py
+    - pip3 install -r requirements_prod.txt
+    - python3 manage.py help
+
+prospector:
+  stage: test
+  script:
+    - pip3 install -r requirements.txt
+    - prospector -0 --uses django,celery src
+
+migrate:
+  stage: test
+  script:
+    - pip3 install -r requirements_prod.txt
+    - python3 manage.py migrate
+
+test:
+  stage: test
+  script:
+    - pip3 install -r requirements.txt
+    - pytest
+
+
