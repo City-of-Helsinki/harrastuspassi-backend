@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
-
-# -*- coding: utf-8 -*-
 
 import os
 from django.core.wsgi import get_wsgi_application

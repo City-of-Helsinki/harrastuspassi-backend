@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
 
 from setuptools import setup, find_packages
 
@@ -17,7 +13,7 @@ setup(
   author='Haltu',
   packages=find_packages(),
   include_package_data=True,
-  license="Haltu",
+  license="",
   zip_safe=False,
   keywords='harrastuspassi',
   install_requires=[

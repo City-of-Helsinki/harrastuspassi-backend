@@ -1,9 +1,5 @@
 
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
 
 import os
 from project.settings import *

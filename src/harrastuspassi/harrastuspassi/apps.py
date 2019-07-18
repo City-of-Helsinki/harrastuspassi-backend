@@ -1,9 +1,5 @@
 
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
 
 from django.apps import AppConfig
 

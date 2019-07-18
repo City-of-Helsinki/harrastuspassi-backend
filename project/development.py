@@ -1,10 +1,5 @@
 
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
-
 #- This file documents what are the settings needed in development
 #-
 #- Infrastructure specific settings come from local_settings.py

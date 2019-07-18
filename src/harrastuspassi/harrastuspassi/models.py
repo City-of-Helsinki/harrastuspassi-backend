@@ -1,12 +1,8 @@
 
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
-
 import logging
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 LOG = logging.getLogger(__name__)
 
@@ -20,13 +16,13 @@ class Location(models.Model):
 
 class Hobby(models.Model):
   DAY_OF_WEEK_CHOICES = [
-    (1, 'Maanantai'),
-    (2, 'Tiistai'),
-    (3, 'Keskiviikko'),
-    (4, 'Torstai'),
-    (5, 'Perjantai'),
-    (6, 'Lauantai'),
-    (7, 'Sunnuntai'),
+    (1, _('Monday')),
+    (2, _('Tuesday')),
+    (3, _('Wednesday')),
+    (4, _('Thursday')),
+    (5, _('Friday')),
+    (6, _('Saturday')),
+    (7, _('Sunday')),
   ]
 
   name = models.CharField(max_length=256)

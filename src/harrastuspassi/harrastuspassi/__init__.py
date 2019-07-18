@@ -1,10 +1,5 @@
 
 # -*- coding: utf-8 -*-
-#
-# Copyright Haltu Oy, info@haltu.fi
-# All rights reserved.
-#
-
 
 default_app_config = 'harrastuspassi.apps.DefaultConfig'
 
