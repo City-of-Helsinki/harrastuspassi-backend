@@ -12,6 +12,7 @@ from harrastuspassi.views import HobbyViewSet
 router = routers.DefaultRouter()
 router.register(r'hobbies', HobbyViewSet, 'hobby')
 
+
 urlpatterns = [
   path('api/', include(router.urls)),
   path('mobile-api/', include(router.urls))

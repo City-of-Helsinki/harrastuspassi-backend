@@ -10,8 +10,8 @@ from rest_framework import viewsets
 from harrastuspassi.models import Hobby
 from harrastuspassi.serializers import HobbySerializer
 
-
 LOG = logging.getLogger(__name__)
+
 
 class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
   queryset = Hobby.objects.all()

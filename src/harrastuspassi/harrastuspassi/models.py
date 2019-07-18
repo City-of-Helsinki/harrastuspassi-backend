@@ -10,11 +10,13 @@ from django.db import models
 
 LOG = logging.getLogger(__name__)
 
+
 class Location(models.Model):
   name = models.CharField(max_length=256)
 
   def __str__(self):
     return self.name
+
 
 class Hobby(models.Model):
   DAY_OF_WEEK_CHOICES = [
