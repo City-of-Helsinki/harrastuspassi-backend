@@ -12,4 +12,4 @@ def api_client():
 @pytest.fixture
 def test_hobby():
   location = Location.objects.create(name='Testilokaatio')
-  return Hobby.objects.create(name='Testiharrastus', day_of_week=1, location=location)
+  return Hobby.objects.create(name='Testiharrastus', location=location)
