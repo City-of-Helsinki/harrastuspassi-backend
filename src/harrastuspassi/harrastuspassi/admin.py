@@ -2,13 +2,17 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from harrastuspassi.models import Hobby, Location
+from harrastuspassi.models import HobbyCategory, Hobby, Location, Organizer
 
 
 class SysAdminSite(admin.AdminSite):
 
   def has_permission(self, request):
     return request.user.is_active and request.user.is_staff and request.user.is_superuser
+
+
+class HobbyCategoryAdmin(admin.ModelAdmin):
+  pass
 
 
 class HobbyAdmin(admin.ModelAdmin):
@@ -19,9 +23,15 @@ class LocationAdmin(admin.ModelAdmin):
   pass
 
 
+class OrganizerAdmin(admin.ModelAdmin):
+  pass
+
+
 site = SysAdminSite()
+admin.site.register(HobbyCategory, HobbyCategoryAdmin)
 admin.site.register(Hobby, HobbyAdmin)
 admin.site.register(Location, LocationAdmin)
+admin.site.register(Organizer, OrganizerAdmin)
 
 
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
