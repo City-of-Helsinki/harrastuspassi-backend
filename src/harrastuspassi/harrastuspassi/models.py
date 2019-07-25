@@ -81,6 +81,8 @@ class Hobby(models.Model):
   name = models.CharField(max_length=256)
   start_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
   end_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
+  start_time = models.TimeField(blank=True, null=True)
+  end_time = models.TimeField(blank=True, null=True)
   location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
   cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
   description = models.TextField(blank=True)
