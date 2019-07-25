@@ -60,6 +60,9 @@ class HobbyCategory(MPTTModel):
   class MPTTMeta:
     order_insertion_by = ['name']
 
+  class Meta:
+    verbose_name_plural = 'Hobby categories'
+
   def __str__(self):
     return self.name
 
@@ -83,6 +86,9 @@ class Hobby(models.Model):
   description = models.TextField(blank=True)
   organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
   category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
+
+  class Meta:
+    verbose_name_plural = 'Hobbies'
 
   def __str__(self):
     return self.name
