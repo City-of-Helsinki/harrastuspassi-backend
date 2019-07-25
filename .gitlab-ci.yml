@@ -2,7 +2,7 @@
 image: docker.haltu.net/haltu/env/heliconia:latest
 
 before_script:
-  - cp /home/bew/local_settings.py local_settings.py
+  - cp local_settings.py.tpl local_settings.py
   - echo "DEBUG = True" >> local_settings.py
   - echo "SITE_ID = 1" >> local_settings.py
   - echo "SECURE_SSL_REDIRECT = False" >> local_settings.py
