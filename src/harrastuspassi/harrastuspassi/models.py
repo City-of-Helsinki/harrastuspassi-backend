@@ -1,12 +1,12 @@
 
 # -*- coding: utf-8 -*-
 import logging
-from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 from django.contrib.gis.db import models as gis_models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from mptt.models import MPTTModel, TreeForeignKey
 
 LOG = logging.getLogger(__name__)
 
