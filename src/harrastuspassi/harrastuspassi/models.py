@@ -13,14 +13,10 @@ LOG = logging.getLogger(__name__)
 
 class TimestampedModel(models.Model):
   created_at = models.DateTimeField(editable=False, default=timezone.now)
-  updated_at = models.DateTimeField(editable=False)
+  updated_at = models.DateTimeField(editable=False, auto_now=True)
 
   class Meta:
     abstract = True
-
-  def save(self, *args, **kwargs):
-    self.updated_at = timezone.now()
-    return super().save(*args, **kwargs)
 
 
 class Location(TimestampedModel):
@@ -30,9 +26,11 @@ class Location(TimestampedModel):
   city = models.CharField(max_length=64, blank=True)
   coordinates = gis_models.PointField(null=True, blank=True)
 
+  @property
   def lat(self):
     return self.coordinates.y if self.coordinates else None
 
+  @property
   def lon(self):
     return self.coordinates.x if self.coordinates else None
 
@@ -40,7 +38,7 @@ class Location(TimestampedModel):
     return self.name
 
   def clean(self):
-    super(Location, self).clean()
+    super().clean()
 
     if not self.name and not self.city and not self.coordinates:
       raise ValidationError('One of the following fields is required: name, city or coordinates')
@@ -53,7 +51,7 @@ class Organizer(TimestampedModel):
     return self.name
 
 
-class HobbyCategory(MPTTModel):
+class HobbyCategory(MPTTModel, TimestampedModel):
   name = models.CharField(max_length=256, unique=True)
   parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
@@ -67,7 +65,7 @@ class HobbyCategory(MPTTModel):
     return self.name
 
 
-class Hobby(models.Model):
+class Hobby(TimestampedModel):
   DAY_OF_WEEK_CHOICES = [
     (1, _('Monday')),
     (2, _('Tuesday')),
@@ -78,7 +76,7 @@ class Hobby(models.Model):
     (7, _('Sunday')),
   ]
 
-  name = models.CharField(max_length=256)
+  name = models.CharField(max_length=1024)
   start_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
   end_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
   start_time = models.TimeField(blank=True, null=True)

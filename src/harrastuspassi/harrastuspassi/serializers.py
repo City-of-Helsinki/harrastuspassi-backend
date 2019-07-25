@@ -29,6 +29,7 @@ class HobbySerializer(serializers.ModelSerializer):
   start_day_of_week = serializers.CharField(source='get_start_day_of_week_display')
   end_day_of_week = serializers.CharField(source='get_end_day_of_week_display')
 
+
   class Meta:
     model = Hobby
     fields = [

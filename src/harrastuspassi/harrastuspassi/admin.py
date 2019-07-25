@@ -3,6 +3,7 @@
 
 from django.contrib import admin
 from harrastuspassi.models import HobbyCategory, Hobby, Location, Organizer
+from mptt.admin import DraggableMPTTAdmin
 
 
 class SysAdminSite(admin.AdminSite):
@@ -11,7 +12,7 @@ class SysAdminSite(admin.AdminSite):
     return request.user.is_active and request.user.is_staff and request.user.is_superuser
 
 
-class HobbyCategoryAdmin(admin.ModelAdmin):
+class HobbyCategoryAdmin(DraggableMPTTAdmin):
   pass
 
 
