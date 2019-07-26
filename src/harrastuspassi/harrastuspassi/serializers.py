@@ -25,7 +25,6 @@ class LocationSerializer(serializers.ModelSerializer):
 
 class HobbySerializer(serializers.ModelSerializer):
   location = LocationSerializer()
-  category = serializers.StringRelatedField()
   start_day_of_week = serializers.CharField(source='get_start_day_of_week_display')
   end_day_of_week = serializers.CharField(source='get_end_day_of_week_display')
 
