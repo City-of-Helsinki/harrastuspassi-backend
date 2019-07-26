@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APIClient
 
-from harrastuspassi.models import Hobby, Location
+from harrastuspassi.models import Hobby, Location, HobbyCategory
 
 
 @pytest.fixture
@@ -12,4 +12,9 @@ def api_client():
 @pytest.fixture
 def test_hobby():
   location = Location.objects.create(name='Testilokaatio')
-  return Hobby.objects.create(name='Testiharrastus', day_of_week=1, location=location)
+  return Hobby.objects.create(name='Testiharrastus', location=location)
+
+
+@pytest.fixture
+def test_hobby_category():
+  return HobbyCategory.objects.create(name='Kielten opiskelu')
