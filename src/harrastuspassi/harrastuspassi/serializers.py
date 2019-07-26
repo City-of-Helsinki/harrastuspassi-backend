@@ -13,10 +13,10 @@ class LocationSerializer(serializers.ModelSerializer):
   lon = serializers.SerializerMethodField
 
   def get_lat(self, obj):
-    return obj.lat()
+    return obj.lat
 
   def get_lon(self, obj):
-    return obj.lon()
+    return obj.lon
 
   class Meta:
     model = Location
