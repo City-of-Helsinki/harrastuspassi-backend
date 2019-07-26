@@ -10,13 +10,16 @@ AUTH_PASSWORD_VALIDATORS = []
 
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': '',
-    'USER': '',
-    'PASSWORD': '',
-    'HOST': 'localhost',
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'HOST': 'postgresql',
     'PORT': '5432',
+    'NAME': 'heliconia',
+    'USER': 'heliconia',
+    'PASSWORD': 'heliconia',
+    'OPTIONS': {'sslmode': 'disable', },
+    'ATOMIC_REQUESTS': True,
   }
 }
+
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
