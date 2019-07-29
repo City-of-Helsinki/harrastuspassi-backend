@@ -86,6 +86,8 @@ class Hobby(TimestampedModel):
   description = models.TextField(blank=True)
   organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
   category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
+  start_date = models.DateField(null=True, blank=True)
+  end_date = models.DateField(null=True, blank=True)
 
   class Meta:
     verbose_name_plural = 'Hobbies'
