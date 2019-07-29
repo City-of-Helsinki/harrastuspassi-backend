@@ -48,7 +48,7 @@ prospector:
   stage: test
   script:
     - pip3 install -r requirements.txt
-    - prospector -0 --uses django,celery src
+    - prospector -0 --uses django .
 
 migrate:
   stage: test
