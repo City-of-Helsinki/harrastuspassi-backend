@@ -18,3 +18,11 @@ def test_hobby():
 @pytest.fixture
 def test_hobby_category():
   return HobbyCategory.objects.create(name='Kielten opiskelu')
+
+
+@pytest.fixture
+def hobbycategory_hierarchy_root():
+  root = HobbyCategory.objects.create(name='Ballgames')
+  HobbyCategory.objects.create(name='Football', parent=root)
+  HobbyCategory.objects.create(name='Tennis', parent=root)
+  return root

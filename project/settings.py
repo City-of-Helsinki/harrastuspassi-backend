@@ -17,8 +17,9 @@ ROOT_URLCONF = 'project.urls'
 INSTALLED_APPS = [
   'harrastuspassi',
 
-  'rest_framework',
+  'django_filters',
   'mptt',
+  'rest_framework',
 
   'django.contrib.admin',
   'django.contrib.auth',

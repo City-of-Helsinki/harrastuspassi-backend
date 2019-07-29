@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from django import forms
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, generics
+from django_filters import rest_framework as filters
+from rest_framework import viewsets
 from rest_framework.response import Response
 from harrastuspassi.models import Hobby, HobbyCategory
 from harrastuspassi.serializers import HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer
@@ -15,7 +17,19 @@ class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
   serializer_class = HobbyCategorySerializer
 
 
+class HobbyFilter(filters.FilterSet):
+  category = filters.ModelMultipleChoiceFilter(
+    queryset=HobbyCategory.objects.all(),
+  )
+
+  class Meta:
+    model = Hobby
+    fields = ['category']
+
+
 class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
+  filter_backends = (filters.DjangoFilterBackend,)
+  filterset_class = HobbyFilter
   queryset = Hobby.objects.all()
   serializer_class = HobbySerializer
 
