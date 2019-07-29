@@ -15,4 +15,4 @@ django-mptt==0.10.0
 # Must match Bergenia infra
 psycopg2==2.7.4
 Pillow==6.1.0
-
+django-health-check==3.10.2
