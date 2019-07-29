@@ -8,10 +8,10 @@ Installation
 
 ### 1. Create and activate virtualenv
 
-    python3 -m venv <venv_name>
-    source <venv_name>/bin/activate
+    python3 -m venv .venv
+    source .venv/bin/activate
 
-### 2. Install required packages
+### 2. Install required packages for development
 
     pip install -r requirements.txt
 

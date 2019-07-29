@@ -1,5 +1,10 @@
 ---
-image: docker.haltu.net/haltu/env/heliconia:latest
+
+.heliconia:
+  image: docker.haltu.net/haltu/env/heliconia:latest
+
+.bergenia:
+  image: docker.haltu.net/haltu/env/bergenia:1-init-repo-based-on-latest-heliconia
 
 before_script:
   - cp local_settings.py.tpl local_settings.py
@@ -28,7 +33,7 @@ stages:
   - build
   - test
 
-build_devel:
+.build_devel:
   stage: build
   script:
     - pwd
@@ -36,7 +41,17 @@ build_devel:
     - pip3 install -r requirements.txt
     - python3 manage.py help
 
-build_prod:
+build_devel_heliconia:
+  extends:
+    - .build_devel
+    - .heliconia
+
+build_devel_bergenia:
+  extends:
+    - .build_devel
+    - .bergenia
+
+.build_prod:
   stage: build
   script:
     - pwd
@@ -44,22 +59,61 @@ build_prod:
     - pip3 install -r requirements_prod.txt
     - python3 manage.py help
 
-prospector:
+build_prod_heliconia:
+  extends:
+    - .build_prod
+    - .heliconia
+
+build_prod_bergenia:
+  extends:
+    - .build_prod
+    - .bergenia
+
+.prospector:
   stage: test
   script:
     - pip3 install -r requirements.txt
     - prospector -0 --uses django .
 
-migrate:
+prospector_heliconia:
+  extends:
+    - .prospector
+    - .heliconia
+
+prospector_bergenia:
+  extends:
+    - .prospector
+    - .bergenia
+
+.migrate:
   stage: test
   script:
     - pip3 install -r requirements_prod.txt
     - python3 manage.py migrate
 
-test:
+migrate_heliconia:
+  extends:
+    - .migrate
+    - .heliconia
+
+migrate_bergenia:
+  extends:
+    - .migrate
+    - .bergenia
+
+.test:
   stage: test
   script:
     - pip3 install -r requirements.txt
     - pytest
 
+test_heliconia:
+  extends:
+    - .test
+    - .heliconia
+
+test_bergenia:
+  extends:
+    - .test
+    - .bergenia
 
