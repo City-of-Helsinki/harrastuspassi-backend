@@ -73,6 +73,7 @@ nosetests.xml
 # Dev tools
 .project
 .pydevproject
+.venv
 
 # Sphinx
 docs/_build
