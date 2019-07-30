@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-
-from django.conf.urls import include, url
+from django.urls import path, include
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from project import settings
 
 admin_urls = [
-  url(r'^sysadmin/', admin.site.urls),
+  path('sysadmin/', admin.site.urls),
 ]
 
 app_urls = [
-  url(r'', include('harrastuspassi.urls')),
+  path('', include('harrastuspassi.urls')),
+  path('monitor/', include('health_check.urls'))
 ]
 
 static_urls = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
