@@ -52,3 +52,23 @@ def test_hobby_category_multiple_filter(api_client, hobbycategory_hierarchy_root
   returned_hobby_names = [hobby['name'] for hobby in response.data]
   assert some_hobby.name in returned_hobby_names
   assert another_hobby.name in returned_hobby_names
+
+
+@pytest.mark.django_db
+def test_hobby_category_hierarchical_filter(api_client, hobbycategory_hierarchy_root, test_hobby_category, test_hobby):
+  """ Hobbies of child categories should be returned when filtering with parent category """
+  first_category = hobbycategory_hierarchy_root.get_children().first()
+  last_category = hobbycategory_hierarchy_root.get_children().last()
+  test_hobby.category = test_hobby_category
+  test_hobby.save()
+  assert first_category != last_category, "test data is invalid, there should be multiple child categories"
+  some_hobby = Hobby.objects.create(name="some hobby", category=first_category)
+  another_hobby = Hobby.objects.create(name="another hobby", category=last_category)
+
+  response = api_client.get(reverse('hobby-list'), {'category': hobbycategory_hierarchy_root.id})
+  assert response.status_code == 200
+  assert len(response.data) == 2
+  returned_hobby_names = [hobby['name'] for hobby in response.data]
+  assert some_hobby.name in returned_hobby_names
+  assert another_hobby.name in returned_hobby_names
+  assert test_hobby.name not in returned_hobby_names
