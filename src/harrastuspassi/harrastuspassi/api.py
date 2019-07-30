@@ -23,7 +23,7 @@ class HierarchyModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
     # qs is the initial list of objects to be filtered
     # value is a list of objects to be used for filtering
     values_with_children = chain.from_iterable(
-      [obj.get_descendants(include_self=True) if hasattr(obj, 'get_descendants') else obj for obj in value]
+      [obj.get_descendants(include_self=True) if hasattr(obj, 'get_descendants') else [obj] for obj in value]
     )
     return super().filter(qs, list(values_with_children))
 
