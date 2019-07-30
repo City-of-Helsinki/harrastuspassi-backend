@@ -1,28 +1,26 @@
 ---
-image: docker.haltu.net/haltu/env/heliconia:latest
+image: docker.haltu.net/haltu/env/bergenia:latest
 
 before_script:
-  - cp local_settings.py.tpl local_settings.py
-  - echo "DEBUG = True" >> local_settings.py
-  - echo "SITE_ID = 1" >> local_settings.py
-  - echo "SECURE_SSL_REDIRECT = False" >> local_settings.py
+  - cp local_settings.py.tpl project/local_settings.py
   - eval $(ssh-agent -s)
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
   - python3 -m venv ../venv
   - source ../venv/bin/activate
+  - pip3 install wheel
 
 services:
-  - name: mdillon/postgis:9.1
+  - name: mdillon/postgis:10
     alias: postgresql
-  - memcached:1.4.25
-  - redis:3.0.6
+  - memcached:1.5.6
+  - redis:4.0.9
 
 variables:
-  DJANGO_SETTINGS_MODULE: local_settings
-  POSTGRES_DB: heliconia
-  POSTGRES_PASSWORD: heliconia
-  POSTGRES_USER: heliconia
-  RABBITMQ_DEFAULT_VHOST: heliconia
+  DJANGO_SETTINGS_MODULE: project.local_settings
+  POSTGRES_DB: bergenia
+  POSTGRES_PASSWORD: bergenia
+  POSTGRES_USER: bergenia
+  RABBITMQ_DEFAULT_VHOST: bergenia
 
 stages:
   - build
@@ -32,7 +30,7 @@ build_devel:
   stage: build
   script:
     - pwd
-    - cat local_settings.py
+    - cat project/local_settings.py
     - pip3 install -r requirements.txt
     - python3 manage.py help
 
@@ -40,7 +38,7 @@ build_prod:
   stage: build
   script:
     - pwd
-    - cat local_settings.py
+    - cat project/local_settings.py
     - pip3 install -r requirements_prod.txt
     - python3 manage.py help
 
@@ -61,5 +59,3 @@ test:
   script:
     - pip3 install -r requirements.txt
     - pytest
-
-
