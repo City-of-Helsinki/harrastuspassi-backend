@@ -17,6 +17,11 @@ ROOT_URLCONF = 'project.urls'
 INSTALLED_APPS = [
   'harrastuspassi',
 
+  'health_check',
+  'health_check.db',
+  'health_check.cache',
+  'health_check.storage',
+
   'django_filters',
   'mptt',
   'rest_framework',
