@@ -46,7 +46,8 @@ def test_hobby_category_multiple_filter(api_client, hobbycategory_hierarchy_root
   some_hobby = Hobby.objects.create(name="some hobby", category=first_category)
   another_hobby = Hobby.objects.create(name="another hobby", category=last_category)
 
-  response = api_client.get(f"{reverse('hobby-list')}?category={first_category.id}&category={last_category.id}")
+  url = '{}?category={}&category={}'.format(reverse('hobby-list'), first_category.id, last_category.id)
+  response = api_client.get(url)
   assert response.status_code == 200
   assert len(response.data) == 2
   returned_hobby_names = [hobby['name'] for hobby in response.data]
