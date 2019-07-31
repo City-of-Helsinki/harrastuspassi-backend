@@ -10,10 +10,14 @@ router.register(r'hobbies', HobbyViewSet, 'hobby')
 router.register(r'hobbycategories', HobbyCategoryViewSet)
 
 
-urlpatterns = [
+public_urlpatterns = [
   path('api/', include(router.urls)),
-  path('mobile-api/', include(router.urls))
 ]
 
+internal_urlpatterns = [
+  path('mobile-api/', include(router.urls)),
+]
+
+urlpatterns = public_urlpatterns + internal_urlpatterns
 
 # vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2
