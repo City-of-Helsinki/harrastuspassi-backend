@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from django.urls import include, path
-from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
-from harrastuspassi.urls import public_urlpatterns, internal_urlpatterns
+from harrastuspassi.urls import internal_urlpatterns, public_urlpatterns
 
 schema_url_patterns = public_urlpatterns
 if settings.DEBUG:
@@ -25,7 +25,7 @@ app_urls = [
     description="API documentation",
     patterns=schema_url_patterns
   ), name='openapi-schema'),
-  path('redoc/', TemplateView.as_view(
+  path('api-documentation/', TemplateView.as_view(
     template_name='redoc.html',
     extra_context={'schema_url': 'openapi-schema'}
   ), name='redoc'),
