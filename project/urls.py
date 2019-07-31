@@ -29,6 +29,7 @@ app_urls = [
     template_name='redoc.html',
     extra_context={'schema_url': 'openapi-schema'}
   ), name='redoc'),
+  path('monitor/', include('health_check.urls'))
 ]
 
 static_urls = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
