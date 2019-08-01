@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 import imp
 
 BASEDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
@@ -11,9 +10,9 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'project.development'
 imp.load_source('django_binary', os.path.join(BASEDIR, 'bin', 'django'))
 
 extensions = ['sphinx.ext.autodoc']
-#templates_path = ['_templates']
-#html_theme_path = ['_themes']
-#html_static_path = ['_static']
+# templates_path = ['_templates']
+# html_theme_path = ['_themes']
+# html_static_path = ['_static']
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'Foo'
@@ -34,8 +33,7 @@ html_copy_source = False
 html_file_suffix = '.html'
 html_last_updated_fmt = '%b %d, %Y'
 html_add_permalinks = False
-#html_use_smartypants = True
+# html_use_smartypants = True
 html_additional_pages = {
-#  'index': 'index.html',
-  }
-
+    # 'index': 'index.html',
+}
