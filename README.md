@@ -24,6 +24,8 @@ Installation
     sudo su - postgres
     psql
     CREATE DATABASE <database_name>;
+    \c <database_name>
+    CREATE EXTENSION postgis;
     CREATE USER <user> WITH PASSWORD '<password>';
     GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user>;
 
@@ -36,3 +38,6 @@ Installation
 ### 7. Start server
 
     python3 manage.py runserver
+
+### 8. Run tests
+    DJANGO_SETTINGS_MODULE=local_settings pytest
