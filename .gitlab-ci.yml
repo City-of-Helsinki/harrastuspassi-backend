@@ -1,6 +1,5 @@
 ---
 image: docker.haltu.net/haltu/env/bergenia:latest
-
 before_script:
   - cp local_settings.py.tpl local_settings.py
   - eval $(ssh-agent -s)
@@ -38,6 +37,14 @@ build_prod:
   stage: build
   script:
     - pwd
+    - cat local_settings.py
+    - pip3 install -r requirements_prod.txt
+    - python3 manage.py help
+
+test_local_settings:
+  image: docker.haltu.net/c-helsinki/harrastuspassi_salt:develop
+  script:
+    - cp /home/bew/local_settings.py local_settings.py
     - cat local_settings.py
     - pip3 install -r requirements_prod.txt
     - python3 manage.py help
