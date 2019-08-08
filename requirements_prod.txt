@@ -10,6 +10,7 @@ redis==2.10.6
 django==2.2
 gunicorn==19.9.0
 newrelic==4.20.1.121
+PyYAML==5.1.1
 python-memcached==1.57
 raven==6.10.0
 redis==2.10.6
