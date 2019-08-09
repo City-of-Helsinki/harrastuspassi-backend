@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import logging
 from itertools import chain
 from django.shortcuts import get_object_or_404
@@ -7,8 +8,10 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
-from harrastuspassi.models import Hobby, HobbyCategory
-from harrastuspassi.serializers import HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
+from harrastuspassi.serializers import (
+    HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer, HobbyEventSerializer
+)
 
 LOG = logging.getLogger(__name__)
 

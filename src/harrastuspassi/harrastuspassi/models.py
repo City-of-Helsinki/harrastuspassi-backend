@@ -66,31 +66,35 @@ class HobbyCategory(MPTTModel, TimestampedModel):
 
 
 class Hobby(TimestampedModel):
-    DAY_OF_WEEK_CHOICES = [
-        (1, _('Monday')),
-        (2, _('Tuesday')),
-        (3, _('Wednesday')),
-        (4, _('Thursday')),
-        (5, _('Friday')),
-        (6, _('Saturday')),
-        (7, _('Sunday')),
-    ]
-
     name = models.CharField(max_length=1024)
-    start_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
-    end_day_of_week = models.IntegerField(choices=DAY_OF_WEEK_CHOICES, null=True, blank=True)
-    start_time = models.TimeField(blank=True, null=True)
-    end_time = models.TimeField(blank=True, null=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
     category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
-    start_date = models.DateField(null=True, blank=True)
-    end_date = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Hobbies'
 
     def __str__(self):
         return self.name
+
+
+class HobbyEvent(TimestampedModel):
+    """ An event in time when a hobby takes place """
+    hobby = models.ForeignKey(Hobby, related_name='events', verbose_name=_('Hobby'),
+                              null=False, on_delete=models.CASCADE)
+    start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
+    start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
+    end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
+    end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
+
+    class Meta:
+        ordering = ('start_date', 'start_time')
+        verbose_name = 'Hobby Event'
+
+    def __str__(self):
+        if self.start_date != self.end_date:
+            return f'{self.hobby.name} {self.start_date} - {self.end_date}'
+        else:
+            return f'{self.hobby.name} {self.start_date}'
