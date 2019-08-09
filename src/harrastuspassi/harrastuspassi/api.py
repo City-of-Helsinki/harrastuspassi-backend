@@ -12,7 +12,13 @@ from harrastuspassi.serializers import HobbySerializer, HobbyDetailSerializer, H
 LOG = logging.getLogger(__name__)
 
 
+class HobbyCategoryFilter(filters.FilterSet):
+    parent = filters.ModelChoiceFilter(null_label='Root category', queryset=HobbyCategory.objects.all())
+
+
 class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = HobbyCategoryFilter
     queryset = HobbyCategory.objects.all()
     serializer_class = HobbyCategorySerializer
 
