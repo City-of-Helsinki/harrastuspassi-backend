@@ -82,16 +82,33 @@ class Hobby(TimestampedModel):
 
 class HobbyEvent(TimestampedModel):
     """ An event in time when a hobby takes place """
+    DAY_OF_WEEK_CHOICES = (
+        (1, _('Monday')),
+        (2, _('Tuesday')),
+        (3, _('Wednesday')),
+        (4, _('Thursday')),
+        (5, _('Friday')),
+        (6, _('Saturday')),
+        (7, _('Sunday')),
+    )
     hobby = models.ForeignKey(Hobby, related_name='events', verbose_name=_('Hobby'),
                               null=False, on_delete=models.CASCADE)
     start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
     start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
+    # note that ISO 8601 weekdays are used in start_weekday: 1=Monday, 7=Sunday
+    start_weekday = models.PositiveSmallIntegerField(default=0, choices=DAY_OF_WEEK_CHOICES,
+                                                     verbose_name=_('Start weekday'))
     end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
     end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
 
     class Meta:
         ordering = ('start_date', 'start_time')
         verbose_name = 'Hobby Event'
+
+    def save(self, *args, **kwargs):
+        # precalculate ISO 8601 day of week for cheaper querying
+        self.start_weekday = self.start_date.isoweekday()
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         if self.start_date != self.end_date:

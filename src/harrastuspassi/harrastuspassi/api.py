@@ -83,3 +83,27 @@ class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
         hobby = get_object_or_404(queryset, pk=pk)
         serializer = HobbyDetailSerializer(hobby)
         return Response(serializer.data)
+
+
+class HobbyEventFilter(filters.FilterSet):
+    category = HierarchyModelMultipleChoiceFilter(
+        field_name='hobby__category', queryset=HobbyCategory.objects.all(),
+    )
+    hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all())
+    start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte')
+    start_date_to = filters.DateFilter(field_name='start_date', lookup_expr='lte')
+    start_time_from = filters.TimeFilter(field_name='start_time', lookup_expr='gte')
+    start_time_to = filters.TimeFilter(field_name='start_time', lookup_expr='lte')
+    start_weekday = filters.MultipleChoiceFilter(choices=HobbyEvent.DAY_OF_WEEK_CHOICES)
+
+    class Meta:
+        model = HobbyEvent
+        fields = ['category', 'hobby', 'start_date_from', 'start_date_to',
+                  'start_time_from', 'start_time_to', 'start_weekday']
+
+
+class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = HobbyEventFilter
+    queryset = HobbyEvent.objects.all().select_related('hobby__location')
+    serializer_class = HobbyEventSerializer

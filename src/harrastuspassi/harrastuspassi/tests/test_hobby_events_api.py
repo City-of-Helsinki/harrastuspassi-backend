@@ -85,3 +85,18 @@ def test_list_events_include_hobby_detail(api_client, hobby_with_events, frozen_
     response = api_client.get(url)
     assert response.status_code == 200
     assert response.data[0]['hobby']['name'] == hobby_with_events.name, 'Response should include full hobby data'
+
+
+@freeze_time(FROZEN_DATE)
+@pytest.mark.django_db
+def test_list_events_filter_by_weekday(api_client, hobby_with_events, hobby_with_events2, frozen_date):
+    """ HobbyEvents should be filterable by ISO weekday based on start_date """
+    set_event_dates(hobby_with_events.events.all(), frozen_date)
+    set_event_dates(hobby_with_events2.events.all(), frozen_date + datetime.timedelta(days=1))
+    day_of_week = frozen_date.isoweekday()
+    api_url = reverse('hobbyevent-list')
+    url = f'{api_url}?start_weekday={day_of_week}'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    event_ids = set(e['id'] for e in response.data)
+    assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
