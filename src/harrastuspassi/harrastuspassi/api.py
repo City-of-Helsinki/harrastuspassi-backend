@@ -4,6 +4,7 @@ import datetime
 import logging
 from itertools import chain
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -88,13 +89,25 @@ class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
 class HobbyEventFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
         field_name='hobby__category', queryset=HobbyCategory.objects.all(),
+        label=_('HobbyCategory id'),
     )
-    hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all())
-    start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte')
-    start_date_to = filters.DateFilter(field_name='start_date', lookup_expr='lte')
-    start_time_from = filters.TimeFilter(field_name='start_time', lookup_expr='gte')
-    start_time_to = filters.TimeFilter(field_name='start_time', lookup_expr='lte')
-    start_weekday = filters.MultipleChoiceFilter(choices=HobbyEvent.DAY_OF_WEEK_CHOICES)
+    hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all(), label=_('Hobby id'))
+    start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte',
+                                         label=_(f'Return results starting from given date (inclusive).'
+                                                 f' Use ISO 8601 date format, eg. "2020-01-30".'))
+    start_date_to = filters.DateFilter(field_name='start_date', lookup_expr='lte',
+                                       label=_(f'Return results with starting date up to given date (inclusive).'
+                                               f' Use ISO 8601 date format, eg. "2020-01-30".'))
+    start_time_from = filters.TimeFilter(field_name='start_time', lookup_expr='gte',
+                                         label=_(f'Return results with starting time from given time (inclusive)'
+                                                 f' Eg. "19:00".'))
+    start_time_to = filters.TimeFilter(field_name='start_time', lookup_expr='lte',
+                                       label=_(f'Return results with starting time up to given time (inclusive)'
+                                               f' Eg. "21:00".'))
+    start_weekday = filters.MultipleChoiceFilter(choices=HobbyEvent.DAY_OF_WEEK_CHOICES,
+                                                 label=_(f'Return results with starting date in given weekday.'
+                                                         f' Enter a number from 1 to 7. Use ISO 8601 weekdays:'
+                                                         f' 1=Monday, 7=Sunday.'))
 
     class Meta:
         model = HobbyEvent
