@@ -6,14 +6,45 @@ from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.schemas.openapi import AutoSchema
 from harrastuspassi.models import Hobby, HobbyCategory
 from harrastuspassi.serializers import HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer
 
 LOG = logging.getLogger(__name__)
 
 
+class ExtraDataSchema(AutoSchema):
+    """ Schema describing the include parameter from ExtraDataMixin for serializers """
+    def __init__(self, *args, **kwargs):
+        self.include_description = kwargs.pop('include_description')
+        if self.include_description is None:
+            self.include_description = 'Include extra data in the response'
+        super().__init__(*args, **kwargs)
+
+    def get_operation(self, path, method, *args, **kwargs):
+        operation = super().get_operation(path, method, *args, **kwargs)
+        if method == 'GET':
+            include_parameter = {
+                'description': self.include_description,
+                'in': 'query',
+                'name': 'include',
+                'required': False,
+                'schema': {'type': 'string'},
+            }
+            operation['parameters'].append(include_parameter)
+        return operation
+
+
+class HobbyCategoryFilter(filters.FilterSet):
+    parent = filters.ModelChoiceFilter(null_label='Root category', queryset=HobbyCategory.objects.all())
+
+
 class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = HobbyCategoryFilter
     queryset = HobbyCategory.objects.all()
+    schema = ExtraDataSchema(
+        include_description='Include extra data in the response. Possible options: child_categories')
     serializer_class = HobbyCategorySerializer
 
 

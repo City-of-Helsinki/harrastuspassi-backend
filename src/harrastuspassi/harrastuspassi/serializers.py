@@ -2,7 +2,50 @@ from rest_framework import serializers
 from harrastuspassi.models import Hobby, HobbyCategory, Location
 
 
-class HobbyCategorySerializer(serializers.ModelSerializer):
+class ExtraDataMixin():
+    """ Mixin for serializers that provides conditionally included extra fields """
+    INCLUDE_PARAMETER_NAME = 'include'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if 'context' in kwargs and 'request' in kwargs['context']:
+            request = kwargs['context']['request']
+            includes = request.GET.getlist(self.INCLUDE_PARAMETER_NAME)
+            self.fields.update(self.get_extra_fields(includes, context=kwargs['context']))
+
+    def get_extra_fields(self, includes, context):
+        """ Return a dictionary of extra serializer fields.
+        includes is a list of requested extra data.
+
+        Example:
+            fields = {}
+            if 'user' in includes:
+                fields['user'] = UserSerializer(read_only=True, context=context)
+            return fields
+        """
+        return {}
+
+
+class HobbyCategorySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'child_categories' in includes:
+            fields['child_categories'] = HobbyCategoryTreeSerializer(many=True, source='get_children', context=context)
+        return fields
+
+    class Meta:
+        model = HobbyCategory
+        fields = ['id', 'name', 'tree_id', 'level', 'parent']
+
+
+class HobbyCategoryTreeSerializer(serializers.ModelSerializer):
+    """ Serializer for an arbitrarily deep tree of categories """
+    def get_fields(self):
+        fields = super().get_fields()
+        fields['child_categories'] = HobbyCategoryTreeSerializer(many=True, source='get_children')
+        return fields
+
     class Meta:
         model = HobbyCategory
         fields = ['id', 'name', 'tree_id', 'level', 'parent']
