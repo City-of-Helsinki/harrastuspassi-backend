@@ -3,12 +3,15 @@
 import logging
 from itertools import chain
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
-from harrastuspassi.models import Hobby, HobbyCategory
-from harrastuspassi.serializers import HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
+from harrastuspassi.serializers import (
+    HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer, HobbyEventSerializer
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -44,7 +47,8 @@ class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = HobbyCategoryFilter
     queryset = HobbyCategory.objects.all()
     schema = ExtraDataSchema(
-        include_description='Include extra data in the response. Possible options: child_categories')
+        include_description=('Include extra data in the response. Multiple include parameters are supported.'
+                             ' Possible options: child_categories'))
     serializer_class = HobbyCategorySerializer
 
 
@@ -80,3 +84,42 @@ class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
         hobby = get_object_or_404(queryset, pk=pk)
         serializer = HobbyDetailSerializer(hobby)
         return Response(serializer.data)
+
+
+class HobbyEventFilter(filters.FilterSet):
+    category = HierarchyModelMultipleChoiceFilter(
+        field_name='hobby__category', queryset=HobbyCategory.objects.all(),
+        label=_('HobbyCategory id'),
+    )
+    hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all(), label=_('Hobby id'))
+    start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte',
+                                         label=_(f'Return results starting from given date (inclusive).'
+                                                 f' Use ISO 8601 date format, eg. "2020-01-30".'))
+    start_date_to = filters.DateFilter(field_name='start_date', lookup_expr='lte',
+                                       label=_(f'Return results with starting date up to given date (inclusive).'
+                                               f' Use ISO 8601 date format, eg. "2020-01-30".'))
+    start_time_from = filters.TimeFilter(field_name='start_time', lookup_expr='gte',
+                                         label=_(f'Return results with starting time from given time (inclusive)'
+                                                 f' Eg. "19:00".'))
+    start_time_to = filters.TimeFilter(field_name='start_time', lookup_expr='lte',
+                                       label=_(f'Return results with starting time up to given time (inclusive)'
+                                               f' Eg. "21:00".'))
+    start_weekday = filters.MultipleChoiceFilter(choices=HobbyEvent.DAY_OF_WEEK_CHOICES,
+                                                 label=_(f'Return results with starting date in given weekday.'
+                                                         f' Enter a number from 1 to 7. Use ISO 8601 weekdays:'
+                                                         f' 1=Monday, 7=Sunday.'))
+
+    class Meta:
+        model = HobbyEvent
+        fields = ['category', 'hobby', 'start_date_from', 'start_date_to',
+                  'start_time_from', 'start_time_to', 'start_weekday']
+
+
+class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = HobbyEventFilter
+    queryset = HobbyEvent.objects.all().select_related('hobby__location')
+    schema = ExtraDataSchema(
+        include_description=('Include extra data in the response. Multiple include parameters are supported.'
+                             ' Possible options: hobby_detail'))
+    serializer_class = HobbyEventSerializer

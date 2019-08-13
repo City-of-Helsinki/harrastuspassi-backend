@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from harrastuspassi.models import Hobby, HobbyCategory, Location
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location
 
 
 class ExtraDataMixin():
@@ -17,7 +17,6 @@ class ExtraDataMixin():
     def get_extra_fields(self, includes, context):
         """ Return a dictionary of extra serializer fields.
         includes is a list of requested extra data.
-
         Example:
             fields = {}
             if 'user' in includes:
@@ -68,16 +67,12 @@ class LocationSerializer(serializers.ModelSerializer):
 
 class HobbySerializer(serializers.ModelSerializer):
     location = LocationSerializer()
-    start_day_of_week = serializers.CharField(source='get_start_day_of_week_display')
-    end_day_of_week = serializers.CharField(source='get_end_day_of_week_display')
 
     class Meta:
         model = Hobby
         fields = [
             'id',
             'name',
-            'start_day_of_week',
-            'end_day_of_week',
             'location',
             'cover_image',
             'category',
@@ -90,3 +85,15 @@ class HobbyDetailSerializer(HobbySerializer):
     class Meta:
         model = Hobby
         fields = '__all__'
+
+
+class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'hobby_detail' in includes:
+            fields['hobby'] = HobbySerializer(context=context)
+        return fields
+
+    class Meta:
+        model = HobbyEvent
+        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time',)
