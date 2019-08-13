@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import logging
 from itertools import chain
 from django.shortcuts import get_object_or_404
