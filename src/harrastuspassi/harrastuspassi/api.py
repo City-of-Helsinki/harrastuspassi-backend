@@ -48,7 +48,8 @@ class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = HobbyCategoryFilter
     queryset = HobbyCategory.objects.all()
     schema = ExtraDataSchema(
-        include_description='Include extra data in the response. Possible options: child_categories')
+        include_description=('Include extra data in the response. Multiple include parameters are supported.'
+                             ' Possible options: child_categories'))
     serializer_class = HobbyCategorySerializer
 
 
@@ -119,4 +120,7 @@ class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location')
+    schema = ExtraDataSchema(
+        include_description=('Include extra data in the response. Multiple include parameters are supported.'
+                             ' Possible options: hobby_detail'))
     serializer_class = HobbyEventSerializer
