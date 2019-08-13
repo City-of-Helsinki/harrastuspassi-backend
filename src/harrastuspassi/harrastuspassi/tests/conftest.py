@@ -19,22 +19,22 @@ def frozen_date():
 
 
 @pytest.fixture
-def test_location():
+def location():
     return Location.objects.create(name='Tampere')
 
 
 @pytest.fixture
-def test_hobby(test_location):
-    return Hobby.objects.create(name='Test Hobby', location=test_location)
+def hobby(location):
+    return Hobby.objects.create(name='Test Hobby', location=location)
 
 
 @pytest.fixture
-def test_hobby2(test_location):
-    return Hobby.objects.create(name='Test Hobby 2', location=test_location)
+def hobby2(location):
+    return Hobby.objects.create(name='Test Hobby 2', location=location)
 
 
 @pytest.fixture
-def test_hobby_category():
+def hobby_category():
     return HobbyCategory.objects.create(name='Language learning')
 
 
@@ -47,20 +47,20 @@ def hobbycategory_hierarchy_root():
 
 
 @pytest.fixture
-def hobby_with_events(test_hobby, frozen_date):
-    HobbyEvent.objects.create(hobby=test_hobby, start_date=frozen_date, start_time='18:00',
+def hobby_with_events(hobby, frozen_date):
+    HobbyEvent.objects.create(hobby=hobby, start_date=frozen_date, start_time='18:00',
                               end_date=frozen_date, end_time='19:00')
     another_date = frozen_date + datetime.timedelta(days=7)
-    HobbyEvent.objects.create(hobby=test_hobby, start_date=another_date, start_time='18:00',
+    HobbyEvent.objects.create(hobby=hobby, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
-    return test_hobby
+    return hobby
 
 
 @pytest.fixture
-def hobby_with_events2(test_hobby2, frozen_date):
-    HobbyEvent.objects.create(hobby=test_hobby2, start_date=frozen_date, start_time='12:00',
+def hobby_with_events2(hobby2, frozen_date):
+    HobbyEvent.objects.create(hobby=hobby2, start_date=frozen_date, start_time='12:00',
                               end_date=frozen_date, end_time='13:00')
     another_date = frozen_date + datetime.timedelta(days=7)
-    HobbyEvent.objects.create(hobby=test_hobby2, start_date=another_date, start_time='12:00',
+    HobbyEvent.objects.create(hobby=hobby2, start_date=another_date, start_time='12:00',
                               end_date=another_date, end_time='13:00')
-    return test_hobby2
+    return hobby2
