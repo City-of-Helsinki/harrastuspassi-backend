@@ -1,5 +1,6 @@
 import datetime
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location
@@ -10,6 +11,23 @@ FROZEN_DATE = '2022-2-22'
 @pytest.fixture
 def api_client():
     return APIClient()
+
+
+@pytest.mark.django_db
+@pytest.fixture
+def user():
+    return get_user_model().objects.create(
+        username='test_user',
+        first_name='James',
+        last_name='Doe',
+        email='james.doe@foo.com',
+    )
+
+
+@pytest.fixture
+def user_api_client(user, api_client):
+    api_client.force_authenticate(user)
+    return api_client
 
 
 @pytest.fixture

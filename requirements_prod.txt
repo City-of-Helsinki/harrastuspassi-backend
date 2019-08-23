@@ -6,9 +6,11 @@ django-health-check==3.10.2
 django-mptt==0.10.0
 django-redis-sessions==0.5.0
 django==2.2.4
+djangorestframework-simplejwt==4.3.0
 djangorestframework==3.10.2
 gunicorn==19.9.0
 newrelic==4.20.1.121
+PyJWT==1.7.1
 PyYAML==5.1.1
 python-memcached==1.57
 raven==6.10.0

@@ -8,11 +8,14 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 
-from harrastuspassi.urls import internal_urlpatterns, public_urlpatterns
+from harrastuspassi.urls.api import (
+    internal_urlpatterns as api_internal_urlpatterns,
+    public_urlpatterns as api_public_urlpatterns,
+)
 
-schema_url_patterns = public_urlpatterns
+schema_url_patterns = api_public_urlpatterns
 if settings.DEBUG:
-    schema_url_patterns += internal_urlpatterns
+    schema_url_patterns += api_internal_urlpatterns
 
 admin_urls = [
     path('sysadmin/', admin.site.urls),

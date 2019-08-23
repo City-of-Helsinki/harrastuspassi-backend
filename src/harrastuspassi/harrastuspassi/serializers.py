@@ -72,7 +72,7 @@ class OrganizerSerializer(serializers.ModelSerializer):
 
 
 class HobbySerializer(serializers.ModelSerializer):
-    location = LocationSerializer()
+    location = LocationSerializer(required=False)
     organizer = OrganizerSerializer()
 
     class Meta:
