@@ -76,7 +76,7 @@ class HobbyFilter(filters.FilterSet):
 class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyFilter
-    queryset = Hobby.objects.all()
+    queryset = Hobby.objects.all().select_related('location', 'organizer')
     serializer_class = HobbySerializer
 
     def retrieve(self, request, pk=None):
@@ -118,7 +118,7 @@ class HobbyEventFilter(filters.FilterSet):
 class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyEventFilter
-    queryset = HobbyEvent.objects.all().select_related('hobby__location')
+    queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
 
 class ExtraDataMixin():
@@ -65,17 +65,26 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'address', 'zip_code', 'city', 'lat', 'lon']
 
 
+class OrganizerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organizer
+        fields = ['name']
+
+
 class HobbySerializer(serializers.ModelSerializer):
     location = LocationSerializer()
+    organizer = OrganizerSerializer()
 
     class Meta:
         model = Hobby
         fields = [
-            'id',
-            'name',
-            'location',
-            'cover_image',
             'category',
+            'cover_image',
+            'description',
+            'id',
+            'location',
+            'name',
+            'organizer',
         ]
 
 
@@ -96,4 +105,5 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
 
     class Meta:
         model = HobbyEvent
-        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time',)
+        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday')
+        read_only_fields = ('start_weekday',)
