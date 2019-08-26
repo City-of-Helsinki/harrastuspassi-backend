@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-26 16:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: project/templates/registration/login.html:7
+msgid "#service-name"
+msgstr "Harrastuspassi"
+
+#: project/templates/registration/login.html:13
+msgid "Please correct the error below."
+msgstr ""
+
+#: project/templates/registration/login.html:13
+msgid "Please correct the errors below."
+msgstr ""
+
+#: project/templates/registration/login.html:32
+msgid "Username"
+msgstr ""
+
+#: project/templates/registration/login.html:39
+msgid "Password"
+msgstr ""
+
+#: project/templates/registration/login.html:44
+msgid "Log in"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:111
+msgid "HobbyCategory id"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:113
+msgid "Hobby id"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:115
+msgid "Return results starting from given date (inclusive)."
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:118
+msgid "Return results with starting date up to given date (inclusive)."
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:121
+msgid "Return results with starting time from given time (inclusive)"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:124
+msgid "Return results with starting time up to given time (inclusive)"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/api.py:127
+msgid "Return results with starting date in given weekday."
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:86
+msgid "Monday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:87
+msgid "Tuesday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:88
+msgid "Wednesday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:89
+msgid "Thursday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:90
+msgid "Friday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:91
+msgid "Saturday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:92
+msgid "Sunday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:94
+msgid "Hobby"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:96
+msgid "Start date"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:97
+msgid "Start time"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:100
+msgid "Start weekday"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:101
+msgid "End date"
+msgstr ""
+
+#: src/harrastuspassi/harrastuspassi/models.py:102
+msgid "End time"
+msgstr ""
