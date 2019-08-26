@@ -21,6 +21,10 @@ admin_urls = [
     path('sysadmin/', admin.site.urls),
 ]
 
+auth_urls = [
+    path('accounts/', include('django.contrib.auth.urls')),
+]
+
 app_urls = [
     path('', include('harrastuspassi.urls')),
     path('openapi', get_schema_view(
@@ -38,4 +42,4 @@ app_urls = [
 static_urls = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 static_urls += staticfiles_urlpatterns()
 
-urlpatterns = admin_urls + app_urls + static_urls
+urlpatterns = admin_urls + auth_urls + app_urls + static_urls
