@@ -3,7 +3,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
 FROZEN_DATE = '2022-2-22'
 
@@ -42,13 +42,18 @@ def location():
 
 
 @pytest.fixture
-def hobby(location):
-    return Hobby.objects.create(name='Test Hobby', location=location)
+def organizer():
+    return Organizer.objects.create(name='Sports Club')
 
 
 @pytest.fixture
-def hobby2(location):
-    return Hobby.objects.create(name='Test Hobby 2', location=location)
+def hobby(location, organizer):
+    return Hobby.objects.create(name='Test Hobby', location=location, organizer=organizer)
+
+
+@pytest.fixture
+def hobby2(location, organizer):
+    return Hobby.objects.create(name='Test Hobby 2', location=location, organizer=organizer)
 
 
 @pytest.fixture
