@@ -24,9 +24,28 @@ def user():
     )
 
 
+@pytest.mark.django_db
 @pytest.fixture
-def user_api_client(user, api_client):
+def user2():
+    return get_user_model().objects.create(
+        username='test_user2',
+        first_name='Athelney',
+        last_name='Jones',
+        email='athelney.jones@met.police.uk',
+    )
+
+
+@pytest.fixture
+def user_api_client(user):
+    api_client = APIClient()
     api_client.force_authenticate(user)
+    return api_client
+
+
+@pytest.fixture
+def user2_api_client(user2):
+    api_client = APIClient()
+    api_client.force_authenticate(user2)
     return api_client
 
 
