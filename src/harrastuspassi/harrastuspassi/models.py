@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
+from harrastuspassi import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -72,9 +73,12 @@ class Hobby(TimestampedModel):
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
     category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
+        ordering = ('id',)
         verbose_name_plural = 'Hobbies'
+        get_latest_by = 'created_at'
 
     def __str__(self):
         return self.name

@@ -73,3 +73,38 @@ def test_hobby_category_hierarchical_filter(api_client, hobbycategory_hierarchy_
     assert some_hobby.name in returned_hobby_names
     assert another_hobby.name in returned_hobby_names
     assert hobby.name not in returned_hobby_names
+
+
+@pytest.mark.django_db
+def test_hobby_create(user_api_client, valid_hobby_data):
+    """ Authenticated user should be able to create a new hobby """
+    url = reverse('hobby-list')
+    hobby_count = Hobby.objects.count()
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    assert Hobby.objects.count() == hobby_count + 1
+    latest_hobby = Hobby.objects.latest()
+    for field in ['name', 'description']:
+        assert getattr(latest_hobby, field) == valid_hobby_data.get(field)
+    for id_field in ['category', 'location', 'organizer']:
+        assert getattr(latest_hobby, f'{id_field}_id') == valid_hobby_data.get(id_field)
+
+
+@pytest.mark.django_db
+def test_hobby_unauthenticated_create(api_client, valid_hobby_data):
+    """ Unauthenticated user should not be able to create a new hobby """
+    url = reverse('hobby-list')
+    hobby_count = Hobby.objects.count()
+    response = api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 401
+    assert Hobby.objects.count() == hobby_count
+
+
+@pytest.mark.django_db
+def test_hobby_create_created_by(user, user_api_client, valid_hobby_data):
+    """ When creating a hobby, authenticated user should be saved in the hobby """
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    latest_hobby = Hobby.objects.latest()
+    assert latest_hobby.created_by == user

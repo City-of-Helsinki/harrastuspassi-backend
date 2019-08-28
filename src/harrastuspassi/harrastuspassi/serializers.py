@@ -68,12 +68,17 @@ class LocationSerializer(serializers.ModelSerializer):
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organizer
-        fields = ['name']
+        fields = ['id', 'name']
 
 
-class HobbySerializer(serializers.ModelSerializer):
-    location = LocationSerializer(required=False)
-    organizer = OrganizerSerializer(required=False)
+class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'location_detail' in includes:
+            fields['location'] = LocationSerializer(read_only=True, context=context)
+        if 'organizer_detail' in includes:
+            fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
+        return fields
 
     class Meta:
         model = Hobby
@@ -96,11 +101,23 @@ class HobbyDetailSerializer(HobbySerializer):
         fields = '__all__'
 
 
+class HobbyNestedSerializer(HobbySerializer):
+    """ HobbySerializer providing related fields as nested data.
+    Except category.
+    TODO: category should also be nested.
+    """
+    location = LocationSerializer(read_only=True)
+    organizer = OrganizerSerializer(read_only=True)
+
+    class Meta(HobbySerializer.Meta):
+        pass
+
+
 class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
         if 'hobby_detail' in includes:
-            fields['hobby'] = HobbySerializer(context=context)
+            fields['hobby'] = HobbyNestedSerializer(context=context)
         return fields
 
     class Meta:

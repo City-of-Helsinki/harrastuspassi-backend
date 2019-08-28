@@ -87,3 +87,15 @@ def hobby_with_events2(hobby2, frozen_date):
     HobbyEvent.objects.create(hobby=hobby2, start_date=another_date, start_time='12:00',
                               end_date=another_date, end_time='13:00')
     return hobby2
+
+
+@pytest.fixture
+def valid_hobby_data(hobby_category, location, organizer):
+    """ Valid JSON data for creating a new Hobby """
+    return {
+        'category': hobby_category.id,
+        'description': 'Description of a new hobby',
+        'location': location.id,
+        'name': 'New Hobby',
+        'organizer': organizer.id,
+    }
