@@ -5,7 +5,7 @@ from itertools import chain
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
-from rest_framework import viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
@@ -14,6 +14,24 @@ from harrastuspassi.serializers import (
 )
 
 LOG = logging.getLogger(__name__)
+
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Object-level permission to only allow owners of an object to edit it.
+    Assumes the model instance has an `owner` attribute.
+    """
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        # Instance must have an attribute named `owner`.
+        return obj.owner == request.user
 
 
 class ExtraDataSchema(AutoSchema):
@@ -73,9 +91,10 @@ class HobbyFilter(filters.FilterSet):
         fields = ['category']
 
 
-class HobbyViewSet(viewsets.ReadOnlyModelViewSet):
+class HobbyViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyFilter
+    permission_classes = (IsOwnerOrReadOnly,)
     queryset = Hobby.objects.all().select_related('location', 'organizer')
     serializer_class = HobbySerializer
 
