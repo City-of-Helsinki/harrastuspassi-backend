@@ -72,6 +72,8 @@ class OrganizerSerializer(serializers.ModelSerializer):
 
 
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    permissions = serializers.SerializerMethodField()
+
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
         if 'location_detail' in includes:
@@ -79,6 +81,13 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
         if 'organizer_detail' in includes:
             fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
         return fields
+
+    def get_permissions(self, instance):
+        if 'request' in self.context:
+            return {
+                'can_edit': instance.created_by == self.context['request'].user
+            }
+        return {}
 
     class Meta:
         model = Hobby
@@ -90,6 +99,7 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             'location',
             'name',
             'organizer',
+            'permissions',
         ]
 
 
