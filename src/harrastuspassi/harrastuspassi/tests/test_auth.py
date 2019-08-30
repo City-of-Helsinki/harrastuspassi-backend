@@ -25,13 +25,10 @@ def test_get_jwt_token_unauthenticated(api_client):
 
 
 @pytest.mark.django_db
-def test_use_jwt_auth(api_client, user):
+def test_use_jwt_auth(api_client, user, valid_hobby_data):
     """ Unauthenticated request with valid JWT authorization token should allow access """
-    new_hobby = {
-        'name': 'Test Hobby',
-    }
     refresh_token = RefreshToken.for_user(user)
     access_token = refresh_token.access_token
     api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
-    response = api_client.post(reverse('hobby-list'), data=new_hobby, format='json')
+    response = api_client.post(reverse('hobby-list'), data=valid_hobby_data, format='json')
     assert response.status_code == 201

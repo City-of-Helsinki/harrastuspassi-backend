@@ -73,3 +73,113 @@ def test_hobby_category_hierarchical_filter(api_client, hobbycategory_hierarchy_
     assert some_hobby.name in returned_hobby_names
     assert another_hobby.name in returned_hobby_names
     assert hobby.name not in returned_hobby_names
+
+
+@pytest.mark.django_db
+def test_hobby_create(user_api_client, valid_hobby_data):
+    """ Authenticated user should be able to create a new hobby """
+    url = reverse('hobby-list')
+    hobby_count = Hobby.objects.count()
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    assert Hobby.objects.count() == hobby_count + 1
+    latest_hobby = Hobby.objects.latest()
+    for field in ['name', 'description']:
+        assert getattr(latest_hobby, field) == valid_hobby_data.get(field)
+    for id_field in ['category', 'location', 'organizer']:
+        assert getattr(latest_hobby, f'{id_field}_id') == valid_hobby_data.get(id_field)
+
+
+@pytest.mark.django_db
+def test_hobby_unauthenticated_create(api_client, valid_hobby_data):
+    """ Unauthenticated user should not be able to create a new hobby """
+    url = reverse('hobby-list')
+    hobby_count = Hobby.objects.count()
+    response = api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 401
+    assert Hobby.objects.count() == hobby_count
+
+
+@pytest.mark.django_db
+def test_hobby_create_created_by(user, user_api_client, valid_hobby_data):
+    """ When creating a hobby, authenticated user should be saved in the hobby """
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    latest_hobby = Hobby.objects.latest()
+    assert latest_hobby.created_by == user
+
+
+@pytest.mark.django_db
+def test_hobby_update(user_api_client, valid_hobby_data):
+    """ Authenticated user should be able to edit their hobbies """
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    hobby_data = response.data.copy()
+    hobby_data['name'] = 'A changed name'
+    update_url = reverse('hobby-detail', kwargs={'pk': hobby_data['id']})
+    response = user_api_client.put(update_url, data=hobby_data, format='json')
+    assert response.status_code == 200
+    hobby_obj = Hobby.objects.get(id=response.data['id'])
+    assert hobby_obj.name == hobby_data['name']
+
+
+@pytest.mark.django_db
+def test_hobby_update_another_user(user_api_client, user2_api_client, valid_hobby_data):
+    """ Authenticated user should not be able to edit someone elses hobbies """
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    hobby_data = response.data.copy()
+    hobby_data['name'] = 'A changed name'
+    update_url = reverse('hobby-detail', kwargs={'pk': hobby_data['id']})
+    response = user2_api_client.put(update_url, data=hobby_data, format='json')
+    assert response.status_code == 403
+    hobby_obj = Hobby.objects.get(id=hobby_data['id'])
+    assert hobby_obj.name == valid_hobby_data['name']
+
+
+@pytest.mark.django_db
+def test_hobby_update_unauthenticated_user(user_api_client, api_client, valid_hobby_data):
+    """ Authenticated user should not be able to edit someone elses hobbies """
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+    hobby_data = response.data.copy()
+    hobby_data['name'] = 'A changed name'
+    update_url = reverse('hobby-detail', kwargs={'pk': hobby_data['id']})
+    response = api_client.put(update_url, data=hobby_data, format='json')
+    assert response.status_code == 401
+    hobby_obj = Hobby.objects.get(id=hobby_data['id'])
+    assert hobby_obj.name == valid_hobby_data['name']
+
+
+@pytest.mark.django_db
+def test_hobby_delete(user, user_api_client, hobby):
+    """ Authenticated user should be able to delete their own hobby """
+    url = reverse('hobby-detail', kwargs={'pk': hobby.pk})
+    hobby.created_by = user
+    hobby.save()
+    response = user_api_client.delete(url)
+    assert response.status_code == 204
+
+
+@pytest.mark.django_db
+def test_hobby_delete_another_user(user2, user_api_client, hobby):
+    """ Authenticated user should not be able to delete someone elses hobby """
+    url = reverse('hobby-detail', kwargs={'pk': hobby.pk})
+    hobby.created_by = user2
+    hobby.save()
+    response = user_api_client.delete(url)
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_hobby_delete_unauthenticated_user(user, api_client, hobby):
+    """ Unauthenticated user should not be able to delete someone elses hobby """
+    url = reverse('hobby-detail', kwargs={'pk': hobby.pk})
+    hobby.created_by = user
+    hobby.save()
+    response = api_client.delete(url)
+    assert response.status_code == 401

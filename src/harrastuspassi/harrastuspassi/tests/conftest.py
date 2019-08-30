@@ -24,9 +24,28 @@ def user():
     )
 
 
+@pytest.mark.django_db
 @pytest.fixture
-def user_api_client(user, api_client):
+def user2():
+    return get_user_model().objects.create(
+        username='test_user2',
+        first_name='Athelney',
+        last_name='Jones',
+        email='athelney.jones@met.police.uk',
+    )
+
+
+@pytest.fixture
+def user_api_client(user):
+    api_client = APIClient()
     api_client.force_authenticate(user)
+    return api_client
+
+
+@pytest.fixture
+def user2_api_client(user2):
+    api_client = APIClient()
+    api_client.force_authenticate(user2)
     return api_client
 
 
@@ -87,3 +106,15 @@ def hobby_with_events2(hobby2, frozen_date):
     HobbyEvent.objects.create(hobby=hobby2, start_date=another_date, start_time='12:00',
                               end_date=another_date, end_time='13:00')
     return hobby2
+
+
+@pytest.fixture
+def valid_hobby_data(hobby_category, location, organizer):
+    """ Valid JSON data for creating a new Hobby """
+    return {
+        'category': hobby_category.id,
+        'description': 'Description of a new hobby',
+        'location': location.id,
+        'name': 'New Hobby',
+        'organizer': organizer.id,
+    }

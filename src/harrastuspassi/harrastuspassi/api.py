@@ -16,22 +16,16 @@ from harrastuspassi.serializers import (
 LOG = logging.getLogger(__name__)
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class IsCreatorOrReadOnly(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit it.
-    Assumes the model instance has an `owner` attribute.
+    Assumes the model instance has a `created_by` attribute.
     """
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        else:
-            return request.user.is_authenticated
-
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        # Instance must have an attribute named `owner`.
-        return obj.owner == request.user
+        # Instance must have an attribute named `created_by`.
+        return obj.created_by == request.user
 
 
 class ExtraDataSchema(AutoSchema):
@@ -94,9 +88,15 @@ class HobbyFilter(filters.FilterSet):
 class HobbyViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyFilter
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly)
     queryset = Hobby.objects.all().select_related('location', 'organizer')
+    schema = ExtraDataSchema(
+        include_description=('Include extra data in the response. Multiple include parameters are supported.'
+                             ' Possible options: location_detail, organizer_detail'))
     serializer_class = HobbySerializer
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
 
     def retrieve(self, request, pk=None):
         queryset = Hobby.objects.all()
