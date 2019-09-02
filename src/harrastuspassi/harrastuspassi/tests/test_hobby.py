@@ -3,7 +3,7 @@ from django.db import IntegrityError
 
 
 @pytest.mark.django_db
-def test_hobby_without_name(test_hobby):
-    test_hobby.name = None
+def test_hobby_without_name(hobby):
+    hobby.name = None
     with pytest.raises(IntegrityError):
-        test_hobby.save()
+        hobby.save()

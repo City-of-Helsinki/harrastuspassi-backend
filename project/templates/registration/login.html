@@ -1,0 +1,52 @@
+{% extends "./base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <h3 class="col offset-m4 m4 s12">{% trans "#service-name" %}</h3>
+        </div>
+        <div class="row">
+            <div class="col offset-m4 m4 s12">
+                {% if form.errors and not form.non_field_errors %}
+                <p class="errornote red-text">
+                    {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+                </p>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <p class="errornote red-text">
+                    {{ error }}
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <form class="col s12" method="POST" >
+            {% csrf_token %}
+            <div class="row">
+                <div class="input-field col offset-m4 m4 s12">
+                    {{ form.username.errors }}
+                    <input id="id_username" type="text" name="username" autofocus required>
+                    <label for="id_username">{% trans "Username" %}:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col offset-m4 m4 s12">
+                    {{ form.password.errors }}
+                    <input id="id_password" type="password" name="password" required>
+                    <label for="id_password">{% trans "Password" %}:</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col offset-m4 m4 s12">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">{% trans "Log in" %}
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

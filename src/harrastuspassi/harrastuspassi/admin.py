@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from harrastuspassi.models import HobbyCategory, Hobby, Location, Organizer
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 from mptt.admin import DraggableMPTTAdmin
 
 
@@ -15,8 +15,13 @@ class HobbyCategoryAdmin(DraggableMPTTAdmin):
     pass
 
 
+class HobbyEventInline(admin.TabularInline):
+    model = HobbyEvent
+    extra = 1
+
+
 class HobbyAdmin(admin.ModelAdmin):
-    pass
+    inlines = (HobbyEventInline,)
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -28,7 +33,7 @@ class OrganizerAdmin(admin.ModelAdmin):
 
 
 site = SysAdminSite()
-admin.site.register(HobbyCategory, HobbyCategoryAdmin)
 admin.site.register(Hobby, HobbyAdmin)
+admin.site.register(HobbyCategory, HobbyCategoryAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Organizer, OrganizerAdmin)

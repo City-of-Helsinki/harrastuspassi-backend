@@ -1,0 +1,33 @@
+sudo: required
+dist: bionic
+
+language: python
+python:
+  - '3.6'
+  - '3.7'
+  - '3.8-dev'
+
+matrix:
+  allow_failures:
+  - python: 3.8-dev
+
+cache: pip
+
+addons:
+  postgresql: 10
+  apt:
+    packages:
+    - postgresql-10-postgis-2.4
+
+before_script:
+  - psql -c 'CREATE EXTENSION IF NOT EXISTS postgis;'
+  - psql -c 'create database harrastuspassi_travis_ci;' -U postgres
+
+script: DJANGO_SETTINGS_MODULE=local_settings_travis pytest --cov=src
+
+#after_success:
+  #- codecov
+
+#notifications:
+  #slack:
+    #secure: xxx

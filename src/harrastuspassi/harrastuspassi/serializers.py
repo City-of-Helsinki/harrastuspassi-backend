@@ -1,8 +1,50 @@
 from rest_framework import serializers
-from harrastuspassi.models import Hobby, HobbyCategory, Location
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
 
-class HobbyCategorySerializer(serializers.ModelSerializer):
+class ExtraDataMixin():
+    """ Mixin for serializers that provides conditionally included extra fields """
+    INCLUDE_PARAMETER_NAME = 'include'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if 'context' in kwargs and 'request' in kwargs['context']:
+            request = kwargs['context']['request']
+            includes = request.GET.getlist(self.INCLUDE_PARAMETER_NAME)
+            self.fields.update(self.get_extra_fields(includes, context=kwargs['context']))
+
+    def get_extra_fields(self, includes, context):
+        """ Return a dictionary of extra serializer fields.
+        includes is a list of requested extra data.
+        Example:
+            fields = {}
+            if 'user' in includes:
+                fields['user'] = UserSerializer(read_only=True, context=context)
+            return fields
+        """
+        return {}
+
+
+class HobbyCategorySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'child_categories' in includes:
+            fields['child_categories'] = HobbyCategoryTreeSerializer(many=True, source='get_children', context=context)
+        return fields
+
+    class Meta:
+        model = HobbyCategory
+        fields = ['id', 'name', 'tree_id', 'level', 'parent']
+
+
+class HobbyCategoryTreeSerializer(serializers.ModelSerializer):
+    """ Serializer for an arbitrarily deep tree of categories """
+    def get_fields(self):
+        fields = super().get_fields()
+        fields['child_categories'] = HobbyCategoryTreeSerializer(many=True, source='get_children')
+        return fields
+
     class Meta:
         model = HobbyCategory
         fields = ['id', 'name', 'tree_id', 'level', 'parent']
@@ -23,21 +65,41 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'address', 'zip_code', 'city', 'lat', 'lon']
 
 
-class HobbySerializer(serializers.ModelSerializer):
-    location = LocationSerializer()
-    start_day_of_week = serializers.CharField(source='get_start_day_of_week_display')
-    end_day_of_week = serializers.CharField(source='get_end_day_of_week_display')
+class OrganizerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organizer
+        fields = ['id', 'name']
+
+
+class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    permissions = serializers.SerializerMethodField()
+
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'location_detail' in includes:
+            fields['location'] = LocationSerializer(read_only=True, context=context)
+        if 'organizer_detail' in includes:
+            fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
+        return fields
+
+    def get_permissions(self, instance):
+        if 'request' in self.context:
+            return {
+                'can_edit': instance.created_by == self.context['request'].user
+            }
+        return {}
 
     class Meta:
         model = Hobby
         fields = [
-            'id',
-            'name',
-            'start_day_of_week',
-            'end_day_of_week',
-            'location',
-            'cover_image',
             'category',
+            'cover_image',
+            'description',
+            'id',
+            'location',
+            'name',
+            'organizer',
+            'permissions',
         ]
 
 
@@ -47,3 +109,28 @@ class HobbyDetailSerializer(HobbySerializer):
     class Meta:
         model = Hobby
         fields = '__all__'
+
+
+class HobbyNestedSerializer(HobbySerializer):
+    """ HobbySerializer providing related fields as nested data.
+    Except category.
+    TODO: category should also be nested.
+    """
+    location = LocationSerializer(read_only=True)
+    organizer = OrganizerSerializer(read_only=True)
+
+    class Meta(HobbySerializer.Meta):
+        pass
+
+
+class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'hobby_detail' in includes:
+            fields['hobby'] = HobbyNestedSerializer(context=context)
+        return fields
+
+    class Meta:
+        model = HobbyEvent
+        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday')
+        read_only_fields = ('start_weekday',)
