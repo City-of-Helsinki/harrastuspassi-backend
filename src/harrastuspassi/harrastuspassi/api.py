@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import requests
 from itertools import chain
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -8,6 +9,8 @@ from django_filters import rest_framework as filters
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
+from rest_framework.views import APIView
+from harrastuspassi import settings
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
 from harrastuspassi.serializers import (
     HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer, HobbyEventSerializer
@@ -142,3 +145,43 @@ class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))
     serializer_class = HobbyEventSerializer
+
+
+class GeocodingAPIView(APIView):
+    """ Provides geocoding service for the mobile application """
+    def get(self, request, format=None):
+        address = request.GET.get('address')
+        if address:
+            payload = {
+                'searchtext': address,
+                'app_id': settings.HERE_APP_ID,
+                'app_code': settings.HERE_APP_CODE,
+            }
+            url = 'https://geocoder.api.here.com/6.2/geocode.json'
+            try:
+                response = requests.get(url, params=payload, timeout=settings.DEFAULT_REQUESTS_TIMEOUT)
+                response.raise_for_status()
+                location_data = response.json()
+            except requests.exceptions.RequestException:
+                LOG.error('Invalid response from GeoCoding API',
+                          extra={'data': {
+                              'status_code': response.status_code, 'location_data': repr(response.content)}})
+                return Response(self.format_response([]))
+            LOG.debug('Received location data', extra={'data': {'location_data': repr(location_data)}})
+            location_views = location_data['Response']['View']
+            if len(location_views) == 0:
+                LOG.warning('No location results for address', extra={'data': {'url': response.url}})
+                return Response(self.format_response([]))
+            else:
+                location_results = location_views[0]['Result']
+                results = [{
+                    'latitude': result['Location']['DisplayPosition']['Latitude'],
+                    'longitude': result['Location']['DisplayPosition']['Longitude'],
+                } for result in location_results]
+                return Response(self.format_response(results))
+
+    def format_response(self, result_list):
+        return {
+            'result_count': len(result_list),
+            'results': result_list
+        }
