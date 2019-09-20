@@ -183,3 +183,31 @@ def test_hobby_delete_unauthenticated_user(user, api_client, hobby):
     hobby.save()
     response = api_client.delete(url)
     assert response.status_code == 401
+
+
+@pytest.mark.django_db
+def test_hobby_list_near_point(
+    api_client,
+    hobby_far,
+    hobby_midway,
+    hobby_near,
+):
+    """ Hobbies should be orderable by distance to a point """
+    api_url = reverse('hobby-list')
+    url = f'{api_url}?ordering=nearest&near_latitude=1.00000&near_longitude=1.00000'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    hobbies = response.json()
+    from pprint import pprint
+    pprint(hobbies)
+    assert hobby_near.pk == hobbies[0]['id']
+    assert hobby_midway.pk == hobbies[1]['id']
+    assert hobby_far.pk == hobbies[2]['id']
+    # Reverse
+    url = f'{api_url}?ordering=-nearest&near_latitude=1.00000&near_longitude=1.00000'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    hobbies = response.json()
+    assert hobby_near.pk == hobbies[2]['id']
+    assert hobby_midway.pk == hobbies[1]['id']
+    assert hobby_far.pk == hobbies[0]['id']

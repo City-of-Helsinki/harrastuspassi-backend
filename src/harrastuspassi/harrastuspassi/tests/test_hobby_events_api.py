@@ -111,13 +111,6 @@ def test_list_events_filter_by_weekday(api_client, hobby_with_events, hobby_with
 @pytest.mark.django_db
 def test_list_events_near_point(
     api_client,
-    point_far,
-    point_midway,
-    point_near,
-    point_home,
-    location_far,
-    location_midway,
-    location_near,
     hobby_far_with_events,
     hobby_midway_with_events,
     hobby_near_with_events,
