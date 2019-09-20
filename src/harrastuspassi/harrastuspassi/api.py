@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from collections import defaultdict
 from itertools import chain
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
+from django_filters.constants import EMPTY_VALUES
 from rest_framework import permissions, viewsets
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
@@ -75,9 +78,61 @@ class HierarchyModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
         return super().filter(qs, list(values_with_children))
 
 
+class NearestOrderingFilter(filters.OrderingFilter):
+    def get_coordinates(self):
+        errors = defaultdict(list)
+        try:
+            near_latitude = self.parent.data.get('near_latitude')
+        except KeyError:
+            errors['near_latitude'].append(_('This field is required when nearest ordering is used.'))
+        try:
+            near_longitude = self.parent.data.get('near_longitude')
+        except KeyError:
+            errors['near_longitude'].append(_('This field is required when nearest ordering is used.'))
+        try:
+            near_latitude = float(near_latitude)
+        except ValueError:
+            errors['near_latitude'].append(_('Must be a float.'))
+        try:
+            near_longitude = float(near_longitude)
+        except ValueError:
+            errors['near_longitude'].append(_('Must be a float.'))
+        try:
+            assert near_latitude >= -180.0
+            assert near_latitude <= 180.0
+        except AssertionError:
+            errors['near_latitude'].append(_('Value must be within -180.0 and 180.0.'))
+        try:
+            assert near_longitude >= -90.0
+            assert near_longitude <= 90.0
+        except AssertionError:
+            errors['near_longitude'].append(_('Value must be within -90.0 and 90.0.'))
+        if errors:
+            raise ValidationError(errors)
+        return near_latitude, near_longitude
+
+    def filter(self, qs, value):
+        if value in EMPTY_VALUES:
+            return qs
+        ordering = [self.get_ordering_value(param) for param in value]
+        if 'distance_to_point' in ordering or '-distance_to_point' in ordering:
+            near_latitude, near_longitude = self.get_coordinates()
+            qs = qs.order_by_distance_to(near_latitude, near_longitude)
+        return qs.order_by(*ordering)
+
+
 class HobbyFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
         queryset=HobbyCategory.objects.all(),
+    )
+    ordering = NearestOrderingFilter(
+        fields=(
+            # (field name, param name)
+            ('distance_to_point', 'nearest'),
+        ),
+        field_labels={
+            'distance_to_point': _('Nearest'),
+        }
     )
 
     class Meta:
@@ -109,6 +164,15 @@ class HobbyEventFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
         field_name='hobby__category', queryset=HobbyCategory.objects.all(),
         label=_('HobbyCategory id'),
+    )
+    ordering = NearestOrderingFilter(
+        fields=(
+            # (field name, param name)
+            ('distance_to_point', 'nearest'),
+        ),
+        field_labels={
+            'distance_to_point': _('Nearest'),
+        }
     )
     hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all(), label=_('Hobby id'))
     start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte',

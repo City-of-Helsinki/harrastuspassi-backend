@@ -105,3 +105,43 @@ def test_list_events_filter_by_weekday(api_client, hobby_with_events, hobby_with
     assert response.status_code == 200
     event_ids = set(e['id'] for e in response.data)
     assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
+
+
+@freeze_time(FROZEN_DATE)
+@pytest.mark.django_db
+def test_list_events_near_point(
+    api_client,
+    point_far,
+    point_midway,
+    point_near,
+    point_home,
+    location_far,
+    location_midway,
+    location_near,
+    hobby_far_with_events,
+    hobby_midway_with_events,
+    hobby_near_with_events,
+):
+    """ HobbyEvents should be orderable by distance to a point """
+    api_url = reverse('hobbyevent-list')
+    url = f'{api_url}?ordering=nearest&near_latitude=1.00000&near_longitude=1.00000'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    events = response.json()
+    assert hobby_near_with_events.pk == events[0]['hobby']
+    assert hobby_near_with_events.pk == events[1]['hobby']
+    assert hobby_midway_with_events.pk == events[2]['hobby']
+    assert hobby_midway_with_events.pk == events[3]['hobby']
+    assert hobby_far_with_events.pk == events[4]['hobby']
+    assert hobby_far_with_events.pk == events[5]['hobby']
+    # Reverse
+    url = f'{api_url}?ordering=-nearest&near_latitude=1.00000&near_longitude=1.00000'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    events = response.json()
+    assert hobby_near_with_events.pk == events[5]['hobby']
+    assert hobby_near_with_events.pk == events[4]['hobby']
+    assert hobby_midway_with_events.pk == events[3]['hobby']
+    assert hobby_midway_with_events.pk == events[2]['hobby']
+    assert hobby_far_with_events.pk == events[1]['hobby']
+    assert hobby_far_with_events.pk == events[0]['hobby']

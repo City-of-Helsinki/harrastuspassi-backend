@@ -1,6 +1,7 @@
 import datetime
 import pytest
 from django.contrib.auth import get_user_model
+from django.contrib.gis.geos import Point
 from rest_framework.test import APIClient
 
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
@@ -118,3 +119,89 @@ def valid_hobby_data(hobby_category, location, organizer):
         'name': 'New Hobby',
         'organizer': organizer.id,
     }
+
+
+#
+# Geo fixtures
+#
+
+@pytest.fixture
+def point_far():
+    return Point(8, 10)
+
+
+@pytest.fixture
+def point_midway():
+    return Point(6, 4)
+
+
+@pytest.fixture
+def point_near():
+    return Point(2, 3)
+
+
+@pytest.fixture
+def point_home():
+    return Point(1, 1)
+
+
+@pytest.fixture
+def location_far(point_far):
+    return Location.objects.create(name='Farland', coordinates=point_far)
+
+
+@pytest.fixture
+def location_midway(point_midway):
+    return Location.objects.create(name='Midwayland', coordinates=point_midway)
+
+
+@pytest.fixture
+def location_near(point_near):
+    return Location.objects.create(name='Nearland', coordinates=point_near)
+
+
+@pytest.fixture
+def hobby_far(location_far, organizer):
+    return Hobby.objects.create(name='Test Hobby at farland', location=location_far, organizer=organizer)
+
+
+@pytest.fixture
+def hobby_midway(location_midway, organizer):
+    return Hobby.objects.create(name='Test Hobby at midwayland', location=location_midway, organizer=organizer)
+
+
+@pytest.fixture
+def hobby_near(location_near, organizer):
+    return Hobby.objects.create(name='Test Hobby at nearland', location=location_near, organizer=organizer)
+
+
+@pytest.fixture
+def hobby_far_with_events(hobby_far, frozen_date):
+    HobbyEvent.objects.create(hobby=hobby_far, start_date=frozen_date, start_time='18:00',
+                              end_date=frozen_date, end_time='19:00')
+    another_date = frozen_date + datetime.timedelta(days=7)
+    HobbyEvent.objects.create(hobby=hobby_far, start_date=another_date, start_time='18:00',
+                              end_date=another_date, end_time='19:00')
+    return hobby_far
+
+
+@pytest.fixture
+def hobby_midway_with_events(hobby_midway, frozen_date):
+    HobbyEvent.objects.create(hobby=hobby_midway, start_date=frozen_date, start_time='18:00',
+                              end_date=frozen_date, end_time='19:00')
+    another_date = frozen_date + datetime.timedelta(days=7)
+    HobbyEvent.objects.create(hobby=hobby_midway, start_date=another_date, start_time='18:00',
+                              end_date=another_date, end_time='19:00')
+    return hobby_midway
+
+
+@pytest.fixture
+def hobby_near_with_events(hobby_near, frozen_date):
+    HobbyEvent.objects.create(hobby=hobby_near, start_date=frozen_date, start_time='18:00',
+                              end_date=frozen_date, end_time='19:00')
+    another_date = frozen_date + datetime.timedelta(days=7)
+    HobbyEvent.objects.create(hobby=hobby_near, start_date=another_date, start_time='18:00',
+                              end_date=another_date, end_time='19:00')
+    return hobby_near
+
+
