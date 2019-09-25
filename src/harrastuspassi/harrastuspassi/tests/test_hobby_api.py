@@ -198,8 +198,6 @@ def test_hobby_list_near_point(
     response = api_client.get(url)
     assert response.status_code == 200
     hobbies = response.json()
-    from pprint import pprint
-    pprint(hobbies)
     assert hobby_near.pk == hobbies[0]['id']
     assert hobby_midway.pk == hobbies[1]['id']
     assert hobby_far.pk == hobbies[2]['id']

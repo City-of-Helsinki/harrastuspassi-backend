@@ -15,6 +15,18 @@ from harrastuspassi import settings
 LOG = logging.getLogger(__name__)
 
 
+# SRID 4326 - Spatial Reference System Identifier number 4326.
+# EPSG:4326 - It's the same thing, but EPSG is the name of the authority maintaining an SRID reference.
+# WGS 84 - World Geodetic System from 1984. It's the coordinate system used in GPS.
+#
+# 4326 is the identifier number (SRID) for WGS 84 in the EPSG reference.
+# So in summary SRID 4326 == EPSG:4326 == WGS 84 == "GPS coordinates".
+#
+# The coordinates in this coordinate system are numbers in the range of
+# -90.0000 to 90.0000 for latitude and -180.0000 to 180.0000 for longitude.
+COORDINATE_SYSTEM_ID = 4326
+
+
 class TimestampedModel(models.Model):
     created_at = models.DateTimeField(editable=False, default=timezone.now)
     updated_at = models.DateTimeField(editable=False, auto_now=True)
@@ -36,19 +48,22 @@ class GeometryDistance(GeoFunc):
         return Func.as_sql(self, *args, **kwargs)
 
 
-class OrderByDistanceMixin:
+class DistanceMixin:
     coordinates_field = 'coordinates'
 
-    def order_by_distance_to(self, lat, lon):
+    def annotate_distance_to(self, lat, lon):
         x = lon
         y = lat
-        point = Point(x, y, srid=4326)
-        qs = self.annotate(distance_to_point=GeometryDistance(self.coordinates_field, point))
+        point = Point(x, y, srid=COORDINATE_SYSTEM_ID)
+        return self.annotate(distance_to_point=GeometryDistance(self.coordinates_field, point))
+
+    def order_by_distance_to(self, lat, lon):
+        qs = self.annotate_distance_to(lat, lon)
         qs = qs.order_by('distance_to_point')
         return qs
 
 
-class LocationQuerySet(OrderByDistanceMixin, models.QuerySet):
+class LocationQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'coordinates'
 
 
@@ -57,7 +72,7 @@ class Location(TimestampedModel):
     address = models.CharField(max_length=256, blank=True)
     zip_code = models.CharField(max_length=5, blank=True)
     city = models.CharField(max_length=64, blank=True)
-    coordinates = gis_models.PointField(null=True, blank=True, srid=4326)
+    coordinates = gis_models.PointField(null=True, blank=True, srid=COORDINATE_SYSTEM_ID)
 
     objects = LocationQuerySet.as_manager()
 
@@ -100,7 +115,7 @@ class HobbyCategory(MPTTModel, TimestampedModel):
         return self.name
 
 
-class HobbyQuerySet(OrderByDistanceMixin, models.QuerySet):
+class HobbyQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'location__coordinates'
 
 
@@ -124,7 +139,7 @@ class Hobby(TimestampedModel):
         return self.name
 
 
-class HobbyEventQuerySet(OrderByDistanceMixin, models.QuerySet):
+class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'
 
 

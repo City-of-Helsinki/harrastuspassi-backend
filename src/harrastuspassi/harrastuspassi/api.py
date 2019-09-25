@@ -81,22 +81,29 @@ class HierarchyModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
 class NearestOrderingFilter(filters.OrderingFilter):
     def get_coordinates(self):
         errors = defaultdict(list)
+
         try:
-            near_latitude = self.parent.data.get('near_latitude')
+            near_latitude = self.parent.data['near_latitude']
         except KeyError:
             errors['near_latitude'].append(_('This field is required when nearest ordering is used.'))
         try:
-            near_longitude = self.parent.data.get('near_longitude')
+            near_longitude = self.parent.data['near_longitude']
         except KeyError:
             errors['near_longitude'].append(_('This field is required when nearest ordering is used.'))
+        if errors:
+            raise ValidationError(errors)
+
         try:
             near_latitude = float(near_latitude)
-        except ValueError:
+        except (TypeError, ValueError):
             errors['near_latitude'].append(_('Must be a float.'))
         try:
             near_longitude = float(near_longitude)
-        except ValueError:
+        except (TypeError, ValueError):
             errors['near_longitude'].append(_('Must be a float.'))
+        if errors:
+            raise ValidationError(errors)
+
         try:
             assert near_latitude >= -180.0
             assert near_latitude <= 180.0
@@ -109,6 +116,7 @@ class NearestOrderingFilter(filters.OrderingFilter):
             errors['near_longitude'].append(_('Value must be within -90.0 and 90.0.'))
         if errors:
             raise ValidationError(errors)
+
         return near_latitude, near_longitude
 
     def filter(self, qs, value):
@@ -117,7 +125,7 @@ class NearestOrderingFilter(filters.OrderingFilter):
         ordering = [self.get_ordering_value(param) for param in value]
         if 'distance_to_point' in ordering or '-distance_to_point' in ordering:
             near_latitude, near_longitude = self.get_coordinates()
-            qs = qs.order_by_distance_to(near_latitude, near_longitude)
+            qs = qs.annotate_distance_to(near_latitude, near_longitude)
         return qs.order_by(*ordering)
 
 
