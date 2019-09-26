@@ -2,6 +2,7 @@
 
 import logging
 from collections import defaultdict
+from functools import wraps
 from itertools import chain
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -17,6 +18,19 @@ from harrastuspassi.serializers import (
 )
 
 LOG = logging.getLogger(__name__)
+
+
+def dummy_filter(filter_callable):
+    """
+    Ignore filter method of Filter classes.
+    Can be used for documentation-only params and custom non-field filters.
+    """
+    def wrapped_filter(*args, **kwargs):
+        return wrapped_filter(*args, **kwargs)
+    def noop_filter(self, qs, value):
+        return qs
+    wrapped_filter.filter = noop_filter
+    return wraps(filter_callable)(wrapped_filter)
 
 
 class IsCreatorOrReadOnly(permissions.BasePermission):
@@ -140,8 +154,11 @@ class HobbyFilter(filters.FilterSet):
         ),
         field_labels={
             'distance_to_point': _('Nearest'),
-        }
+        },
+        label=_('Ordering. Choices: `nearest`')
     )
+    near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
+    near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
 
     class Meta:
         model = Hobby
@@ -180,8 +197,11 @@ class HobbyEventFilter(filters.FilterSet):
         ),
         field_labels={
             'distance_to_point': _('Nearest'),
-        }
+        },
+        label=_('Ordering. Choices: `nearest`')
     )
+    near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
+    near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
     hobby = filters.ModelChoiceFilter(field_name='hobby', queryset=Hobby.objects.all(), label=_('Hobby id'))
     start_date_from = filters.DateFilter(field_name='start_date', lookup_expr='gte',
                                          label=_(f'Return results starting from given date (inclusive).'
