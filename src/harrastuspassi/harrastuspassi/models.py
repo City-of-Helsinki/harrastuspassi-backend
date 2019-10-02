@@ -2,14 +2,29 @@
 # -*- coding: utf-8 -*-
 import logging
 from django.contrib.gis.db import models as gis_models
+from django.contrib.gis.db.models.functions import GeoFunc
+from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.expressions import Func
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 from harrastuspassi import settings
 
 LOG = logging.getLogger(__name__)
+
+
+# SRID 4326 - Spatial Reference System Identifier number 4326.
+# EPSG:4326 - It's the same thing, but EPSG is the name of the authority maintaining an SRID reference.
+# WGS 84 - World Geodetic System from 1984. It's the coordinate system used in GPS.
+#
+# 4326 is the identifier number (SRID) for WGS 84 in the EPSG reference.
+# So in summary SRID 4326 == EPSG:4326 == WGS 84 == "GPS coordinates".
+#
+# The coordinates in this coordinate system are numbers in the range of
+# -90.0000 to 90.0000 for latitude and -180.0000 to 180.0000 for longitude.
+COORDINATE_SYSTEM_ID = 4326
 
 
 class TimestampedModel(models.Model):
@@ -20,12 +35,46 @@ class TimestampedModel(models.Model):
         abstract = True
 
 
+class GeometryDistance(GeoFunc):
+    # Backported from Django 3.0
+    # GeometryDistance allows spatial sorting using spatial indexes
+    output_field = models.FloatField()
+    arity = 2
+    function = ''
+    arg_joiner = ' <-> '
+    geom_param_pos = (0, 1)
+
+    def as_sql(self, *args, **kwargs):
+        return Func.as_sql(self, *args, **kwargs)
+
+
+class DistanceMixin:
+    coordinates_field = 'coordinates'
+
+    def annotate_distance_to(self, lat, lon):
+        x = lon
+        y = lat
+        point = Point(x, y, srid=COORDINATE_SYSTEM_ID)
+        return self.annotate(distance_to_point=GeometryDistance(self.coordinates_field, point))
+
+    def order_by_distance_to(self, lat, lon):
+        qs = self.annotate_distance_to(lat, lon)
+        qs = qs.order_by('distance_to_point')
+        return qs
+
+
+class LocationQuerySet(DistanceMixin, models.QuerySet):
+    coordinates_field = 'coordinates'
+
+
 class Location(TimestampedModel):
     name = models.CharField(max_length=256, blank=True)
     address = models.CharField(max_length=256, blank=True)
     zip_code = models.CharField(max_length=5, blank=True)
     city = models.CharField(max_length=64, blank=True)
-    coordinates = gis_models.PointField(null=True, blank=True)
+    coordinates = gis_models.PointField(null=True, blank=True, srid=COORDINATE_SYSTEM_ID)
+
+    objects = LocationQuerySet.as_manager()
 
     @property
     def lat(self):
@@ -66,6 +115,10 @@ class HobbyCategory(MPTTModel, TimestampedModel):
         return self.name
 
 
+class HobbyQuerySet(DistanceMixin, models.QuerySet):
+    coordinates_field = 'location__coordinates'
+
+
 class Hobby(TimestampedModel):
     name = models.CharField(max_length=1024)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
@@ -75,6 +128,8 @@ class Hobby(TimestampedModel):
     category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
+    objects = HobbyQuerySet.as_manager()
+
     class Meta:
         ordering = ('id',)
         verbose_name_plural = 'Hobbies'
@@ -82,6 +137,10 @@ class Hobby(TimestampedModel):
 
     def __str__(self):
         return self.name
+
+
+class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
+    coordinates_field = 'hobby__location__coordinates'
 
 
 class HobbyEvent(TimestampedModel):
@@ -104,6 +163,8 @@ class HobbyEvent(TimestampedModel):
                                                      verbose_name=_('Start weekday'))
     end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
     end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
+
+    objects = HobbyEventQuerySet.as_manager()
 
     class Meta:
         ordering = ('start_date', 'start_time')
