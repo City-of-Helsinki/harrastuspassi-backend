@@ -1,10 +1,8 @@
-
 # Harrastuspassi
 
 Backend for Harrastuspassi. Built with Django, uses PostgreSQL as a database.
 
-Installation
-------------
+## Installation
 
 ### 1. Create and activate virtualenv
 
@@ -40,22 +38,21 @@ Installation
     python3 manage.py runserver
 
 ### 8. Run tests
-    DJANGO_SETTINGS_MODULE=local_settings pytest
 
+    pytest
 
-API authentication
-------------------
+## API authentication
 
 Two kinds of token authentication are supported:
 
 - Long-lived API token which can be created from Django admin and does not automatically invalidate.
-This is supposed to be used for automation and server-to-server authentication. It should used in a
-request header: `Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b`
+  This is supposed to be used for automation and server-to-server authentication. It should used in a
+  request header: `Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b`
   - Tokens are managed in `/sysadmin/authtoken/token/`.
 - Short-lived JWT token. Token can be fetched from `/auth/token` via GET request if you have a valid
-session cookie or by POST request with username and password payload. The endpoint returns 2 tokens,
-access token and refresh token. Access token can be used to authenticate requests via header
-`Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`. Refresh token can be used to obtain a new short-lived access token.
+  session cookie or by POST request with username and password payload. The endpoint returns 2 tokens,
+  access token and refresh token. Access token can be used to authenticate requests via header
+  `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`. Refresh token can be used to obtain a new short-lived access token.
 
 ### Example: obtaining JWT tokens
 
