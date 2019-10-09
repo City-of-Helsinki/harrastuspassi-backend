@@ -14,7 +14,8 @@ from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
 from harrastuspassi.serializers import (
-    HobbySerializer, HobbyDetailSerializer, HobbyCategorySerializer, HobbyEventSerializer
+    HobbySerializer, HobbyCategorySerializer, HobbyDetailSerializer, HobbyDetailSerializerPre1, HobbyEventSerializer,
+    HobbySerializerPre1
 )
 
 LOG = logging.getLogger(__name__)
@@ -145,7 +146,7 @@ class NearestOrderingFilter(filters.OrderingFilter):
 
 class HobbyFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
-        queryset=HobbyCategory.objects.all(),
+        field_name='categories', queryset=HobbyCategory.objects.all(),
     )
     ordering = NearestOrderingFilter(
         fields=(
@@ -175,13 +176,24 @@ class HobbyViewSet(viewsets.ModelViewSet):
                              ' Possible options: location_detail, organizer_detail'))
     serializer_class = HobbySerializer
 
+    def get_serializer_class(self):
+        # TODO: DEPRECATE VERSION pre1
+        if self.request.version == 'pre1':
+            return HobbySerializerPre1
+        return self.serializer_class
+
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
     def retrieve(self, request, pk=None):
+        # TODO: DEPRECATE VERSION pre1
+        if self.request.version == 'pre1':
+            serializer_class = HobbyDetailSerializerPre1
+        else:
+            serializer_class = HobbyDetailSerializer
         queryset = Hobby.objects.all()
         hobby = get_object_or_404(queryset, pk=pk)
-        serializer = HobbyDetailSerializer(hobby)
+        serializer = serializer_class(hobby)
         return Response(serializer.data)
 
 

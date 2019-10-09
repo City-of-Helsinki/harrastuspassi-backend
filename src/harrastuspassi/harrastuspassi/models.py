@@ -133,7 +133,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
-    category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
+    categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = HobbyQuerySet.as_manager()
