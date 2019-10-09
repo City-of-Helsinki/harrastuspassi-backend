@@ -69,6 +69,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+.pytest_cache
 
 # Dev tools
 .project
@@ -81,6 +82,9 @@ docs/_build
 # Vim
 *.swo
 *.swp
+
+# VS Code
+.vscode
 
 # Salt generated settings
 local_settings.py
