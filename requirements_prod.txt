@@ -10,6 +10,7 @@ djangorestframework-simplejwt==4.3.0
 djangorestframework==3.10.2
 gunicorn==19.9.0
 newrelic==4.20.1.121
+owlready2==0.21
 PyJWT==1.7.1
 PyYAML==5.1.1
 python-memcached==1.57
