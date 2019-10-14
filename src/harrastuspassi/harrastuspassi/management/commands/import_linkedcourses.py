@@ -8,6 +8,9 @@ Standalone event, create Hobby and one HobbyEvent
 Event: super_event: null, super_event_type:
 
 
+TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
+TODO:
+
 """
 
 import iso8601
@@ -51,21 +54,20 @@ class Command(BaseCommand):
                             help='Import from a given URL')
 
     def handle(self, *args, **options):
-        import pprint
         orphaned_hobby_events = []
-        with requests.Session() as session:
+        with requests.Session() as session, transaction.atomic():
             session.headers.update({'Accept': 'application/json'})
             self.session = session
             for page in self.get_event_pages(options['url']):
                 for event in page:
-                    # pprint.pprint(json.dumps(event, indent=4))
-                    # pprint.pprint(self.get_keywords(event))
                     objects = self.handle_event(event)
                     for obj in objects:
                         if isinstance(obj, HobbyEvent) and not obj.hobby:
+                            # we might have created HobbyEvents which could not determine
+                            # a Hobby instance. these are not yet persisted to db.
                             orphaned_hobby_events.append(obj)
-        # handle orphaned hobby events. should save the hobby origin id to the obj
-        pprint.pprint(orphaned_hobby_events)
+        # try to find hobbies for orphaned events now that we have processed all pages
+        self.handle_orphaned_hobby_events(orphaned_hobby_events)
 
     def get_event_pages(self, events_url: str) -> Iterator[List[Dict]]:
         next_url = events_url
@@ -95,30 +97,6 @@ class Command(BaseCommand):
         if self.is_hobby_event(event):
             result_objects.append(self.handle_hobby_event(event))
         return result_objects
-
-    def determine_categories(self, event: Dict) -> List[HobbyCategory]:
-        """ Get a list of Category objects an event maps to based on its keywords """
-        event_keywords = self.get_keywords(event)
-        filters = [Q(data_source=kw.source, origin_id=kw.id) for kw in event_keywords]
-        return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
-
-    def is_hobby(self, event: Dict) -> bool:
-        """ Event should form a Hobby if:
-            - super_event == null && super_event_type == null
-            - super_event_type == recurring
-        """
-        is_self_contained_event = event['super_event'] is None and event['super_event_type'] is None
-        is_recurring_superevent = event['super_event_type'] == 'recurring'
-        return is_self_contained_event or is_recurring_superevent
-
-    def is_hobby_event(self, event: Dict) -> bool:
-        """ Event should form a HobbyEvent if:
-            - super_event == null && super_event_type == null
-            - super_event != null && super_event_type == null
-        """
-        is_self_contained_event = event['super_event'] is None and event['super_event_type'] is None
-        is_plain_subevent = event['super_event'] is not None and event['super_event_type'] is None
-        return is_self_contained_event or is_plain_subevent
 
     def handle_hobby(self, event: Dict, categories) -> Hobby:
         """ Handle an event, creating or updating existing Hobby """
@@ -178,12 +156,19 @@ class Command(BaseCommand):
             if HobbyEvent.objects.filter(data_source=self.source, origin_id=event['@id']):
                 # We have previously had this event but it's super_event has changed??
                 # TODO: handle this better. now just bail out...
-                self.stderr.write(f'I don\'t know how to handle event which had it\'s super_event changed, sorry. Event @id: {event["@id"]}')
+                self.stderr.write(
+                    f'I don\'t know how to handle an event which had '
+                    f'it\'s super_event changed, sorry. Event @id: {event["@id"]}'
+                )
                 return None
             # instantiate the object but do not persist yet. we may have a
             # hobby at the end of the run.
-            return HobbyEvent(**data)
-        hobby_event, created = HobbyEvent.objects.get_or_create(data_source=self.source, origin_id=event['@id'], defaults=data)
+            self.stdout.write(f'Created a HobbyEvent but we don\'t have a Hobby for it. Reprocessing later.\n')
+            orphan_event = HobbyEvent(data_source=self.source, origin_id=event['@id'], **data)
+            setattr(orphan_event, '_hobby_origin_id', hobby_origin_id)
+            return orphan_event
+        hobby_event, created = HobbyEvent.objects.get_or_create(
+            data_source=self.source, origin_id=event['@id'], defaults=data)
         if not created:
             self.stdout.write(f'Updating HobbyEvent {hobby_event.pk} {str(hobby_event)}\n')
             is_dirty = False
@@ -196,6 +181,35 @@ class Command(BaseCommand):
         else:
             self.stdout.write(f'Created HobbyEvent {hobby_event.pk} {str(hobby_event)}\n')
         return hobby_event
+
+    def handle_orphaned_hobby_events(self, hobby_events: List[HobbyEvent]) -> None:
+        self.stdout.write(f'Starting to handle orphaned HobbyEvents\n')
+        for hobby_event in hobby_events:
+            hobby_origin_id = getattr(hobby_event, '_hobby_origin_id', None)
+            if not hobby_origin_id:
+                self.stderr.write(f'Orphan event {hobby_event.origin_id} is missing hobby origin id, skipping.')
+                continue
+            try:
+                hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id)
+                hobby_event.hobby = hobby
+                hobby_event.save()
+                self.stdout.write(f'Created HobbyEvent {hobby_event.pk} {str(hobby_event)}\n')
+            except Hobby.DoesNotExist:
+                self.stderr.write(
+                    f'Orphan event {hobby_event.origin_id} ignored - '
+                    f'we don\'t have a hobby with origin_id {hobby_origin_id}')
+                continue
+            except Hobby.MultipleObjectsReturned:
+                self.stderr.write(
+                    f'Orphan event {hobby_event.origin_id} ignored - '
+                    f'multiple hobbies with origin_id {hobby_origin_id} found')
+                continue
+
+    def determine_categories(self, event: Dict) -> List[HobbyCategory]:
+        """ Get a list of Category objects an event maps to based on its keywords """
+        event_keywords = self.get_keywords(event)
+        filters = [Q(data_source=kw.source, origin_id=kw.id) for kw in event_keywords]
+        return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
 
     def get_keywords(self, event: Dict) -> List[Keyword]:
         """ Get all keywords of an event """
@@ -215,6 +229,24 @@ class Command(BaseCommand):
         if match is None:
             raise InvalidKeywordException
         return Keyword(source=match.group(1), id=match.group(2))
+
+    def is_hobby(self, event: Dict) -> bool:
+        """ Event should form a Hobby if:
+            - super_event == null && super_event_type == null
+            - super_event_type == recurring
+        """
+        is_self_contained_event = event['super_event'] is None and event['super_event_type'] is None
+        is_recurring_superevent = event['super_event_type'] == 'recurring'
+        return is_self_contained_event or is_recurring_superevent
+
+    def is_hobby_event(self, event: Dict) -> bool:
+        """ Event should form a HobbyEvent if:
+            - super_event == null && super_event_type == null
+            - super_event != null && super_event_type == null
+        """
+        is_self_contained_event = event['super_event'] is None and event['super_event_type'] is None
+        is_plain_subevent = event['super_event'] is not None and event['super_event_type'] is None
+        return is_self_contained_event or is_plain_subevent
 
     def get_location(self, event: Dict) -> Optional[Location]:
         location_url = event['location'].get('@id')
