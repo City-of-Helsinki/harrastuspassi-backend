@@ -54,6 +54,7 @@ class Command(BaseCommand):
                             help='Import from a given URL')
 
     def handle(self, *args, **options):
+        self.stdout.write(f'Starting to pull events from {options["url"]}\n')
         orphaned_hobby_events = []
         with requests.Session() as session, transaction.atomic():
             session.headers.update({'Accept': 'application/json'})

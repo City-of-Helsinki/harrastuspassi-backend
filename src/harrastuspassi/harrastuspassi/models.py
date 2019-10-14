@@ -110,7 +110,7 @@ class Organizer(ExternalDataModel, TimestampedModel):
 
 
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     class MPTTMeta:
