@@ -9,7 +9,7 @@ Event: super_event: null, super_event_type:
 
 
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
-TODO:
+TODO: handle events by querying modified_by
 
 """
 
@@ -69,6 +69,7 @@ class Command(BaseCommand):
                             orphaned_hobby_events.append(obj)
         # try to find hobbies for orphaned events now that we have processed all pages
         self.handle_orphaned_hobby_events(orphaned_hobby_events)
+        self.stdout.write(f'Finished.\n')
 
     def get_event_pages(self, events_url: str) -> Iterator[List[Dict]]:
         next_url = events_url
@@ -99,10 +100,10 @@ class Command(BaseCommand):
             result_objects.append(self.handle_hobby_event(event))
         return result_objects
 
-    def handle_hobby(self, event: Dict, categories) -> Hobby:
+    def handle_hobby(self, event: Dict, categories: List[HobbyCategory]) -> Hobby:
         """ Handle an event, creating or updating existing Hobby """
         data = {
-            'name': event['name']['fi'],  # TODO language support
+            'name': event['name'].get('fi'),  # TODO language support
             'location': self.get_location(event),
             'description': self.get_description(event),
             'organizer': self.get_organizer(event),
@@ -119,12 +120,13 @@ class Command(BaseCommand):
                 hobby.save()
         else:
             self.stdout.write(f'Created Hobby {hobby.pk} {hobby.name}\n')
+        hobby.categories.set(categories)
         if not hobby.cover_image:
             # image is only saved if hobby has no image. it is never updated.
             # TODO: make updating image possible. more metadata needs to be saved for the image.
             image_file = self.get_image(event)
             if image_file:
-                hobby.cover_image.save(f'image_{self.pk}', image_file)
+                hobby.cover_image.save(f'image_{hobby.pk}', image_file)
                 hobby.save()
         return hobby
 
@@ -184,7 +186,8 @@ class Command(BaseCommand):
         return hobby_event
 
     def handle_orphaned_hobby_events(self, hobby_events: List[HobbyEvent]) -> None:
-        self.stdout.write(f'Starting to handle orphaned HobbyEvents\n')
+        if hobby_events:
+            self.stdout.write(f'Starting to handle orphaned HobbyEvents\n')
         for hobby_event in hobby_events:
             hobby_origin_id = getattr(hobby_event, '_hobby_origin_id', None)
             if not hobby_origin_id:
@@ -307,7 +310,7 @@ class Command(BaseCommand):
         temp_file = NamedTemporaryFile(delete=True)
         if len(event['images']) == 0:
             return None
-        image_url = event['images'][0]
+        image_url = event['images'][0]['url']
         try:
             response = self.session.get(image_url, timeout=REQUESTS_TIMEOUT)
             response.raise_for_status()
@@ -322,7 +325,10 @@ class Command(BaseCommand):
             return None
 
     def get_description(self, event: Dict) -> str:
-        return event['short_description']['fi']  # TODO: language support
+        short_description = event.get('short_description')
+        if short_description is None:
+            return ''
+        return short_description.get('fi')  # TODO: language support
 
     def get_organizer(self, event: Dict) -> Organizer:
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
