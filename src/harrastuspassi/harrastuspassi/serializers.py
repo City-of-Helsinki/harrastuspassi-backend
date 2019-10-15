@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from harrastuspassi.models import Hobby, Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
 
 class ExtraDataMixin():
@@ -92,6 +92,29 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     class Meta:
         model = Hobby
         fields = [
+            'categories',
+            'cover_image',
+            'description',
+            'id',
+            'location',
+            'name',
+            'organizer',
+            'permissions',
+        ]
+
+
+class HobbySerializerPre1(HobbySerializer):
+    category = serializers.SerializerMethodField()
+
+    def get_category(self, instance):
+        category = instance.categories.first()
+        if category:
+            return category.pk
+        else:
+            return None
+
+    class Meta(HobbySerializer.Meta):
+        fields = [
             'category',
             'cover_image',
             'description',
@@ -104,6 +127,14 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
 
 
 class HobbyDetailSerializer(HobbySerializer):
+    organizer = serializers.StringRelatedField()
+
+    class Meta:
+        model = Hobby
+        fields = '__all__'
+
+
+class HobbyDetailSerializerPre1(HobbySerializerPre1):
     organizer = serializers.StringRelatedField()
 
     class Meta:

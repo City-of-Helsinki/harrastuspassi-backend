@@ -21,11 +21,13 @@ class Command(BaseCommand):
 
   def add_subclasses_as_categories(self, parent_class, parent_hobby_category=None):
     for subclass in parent_class.subclasses():
-      [yso_id] = subclass.identifier or [None]
+      [origin_id] = subclass.identifier or ['']
+      if not origin_id:
+        data_source = ''
+      else:
+        data_source = 'yso'
       [label] = subclass.label
-      # NOTE: This comment is here for a purpose: yso data source is being worked in another branch
-      # hobby_category = HobbyCategory.objects.create(name=label, parent=parent_hobby_category, data_source='yso', origin_id=yso_id)
-      hobby_category = HobbyCategory.objects.create(name=label, parent=parent_hobby_category)
+      hobby_category = HobbyCategory.objects.create(name=label, parent=parent_hobby_category, data_source=data_source, origin_id=origin_id)
       indent = '--' * self.depth
       self.stdout.write(f'{indent}{label}')
       self.depth += 1

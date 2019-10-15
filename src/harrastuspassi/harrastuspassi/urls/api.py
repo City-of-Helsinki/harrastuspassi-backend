@@ -12,12 +12,12 @@ router.register(r'hobbyevents', HobbyEventViewSet)
 
 
 public_urlpatterns = [
-    re_path('api/(?P<version>(pre1))/', include(router.urls,)),
+    re_path('api/(?P<version>(pre1|pre2))/', include(router.urls,)),
     path('api/', include(router.urls)),  # DEPRECATED, used by mobile v0.2.0
 ]
 
 internal_urlpatterns = [
-    re_path('mobile-api/(?P<version>(pre1))/', include(router.urls)),
+    re_path('mobile-api/(?P<version>(pre1|pre2))/', include(router.urls)),
     path('mobile-api/', include(router.urls)),  # DEPRECATED, used by mobile v0.2.0
 ]
 

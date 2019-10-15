@@ -113,7 +113,7 @@ def hobby_with_events2(hobby2, frozen_date):
 def valid_hobby_data(hobby_category, location, organizer):
     """ Valid JSON data for creating a new Hobby """
     return {
-        'category': hobby_category.id,
+        'categories': [hobby_category.id],
         'description': 'Description of a new hobby',
         'location': location.id,
         'name': 'New Hobby',
