@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 
 """
-Event: super_event: null, super_event_type: null sub_events: []
-Standalone event, create Hobby and one HobbyEvent
-- if it starts and ends on different days and has only dates, not datetimes, and has no subevents, ignore it
+Create Hobbies and HobbyEvents from data in Linked Courses
 
-Event: super_event: null, super_event_type:
-
-
+TODO: using the full URI ('@id' attribute) as origin_id is not a good idea. should
+use the real id instead, but this requires either parsing from the URI or doing an
+API request every time
+TODO: organizer is not saved for the Hobbies
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
-TODO: handle events by querying modified_by
-
+TODO: handle only recently changed or created events by querying modified_by
+TODO: updating images are not currently possible. more metadata needs to be saved
+from the linked courses image data structure so we can determine whether the image
+has changed or not. we don't want to download the full image file every time to
+see if it has changed or not.
 """
 
 import iso8601
@@ -203,12 +205,12 @@ class Command(BaseCommand):
             except Hobby.DoesNotExist:
                 self.stderr.write(
                     f'Orphan event {hobby_event.origin_id} ignored - '
-                    f'we don\'t have a hobby with origin_id {hobby_origin_id}')
+                    f'we don\'t have a hobby with origin_id {hobby_origin_id}\n')
                 continue
             except Hobby.MultipleObjectsReturned:
                 self.stderr.write(
                     f'Orphan event {hobby_event.origin_id} ignored - '
-                    f'multiple hobbies with origin_id {hobby_origin_id} found')
+                    f'multiple hobbies with origin_id {hobby_origin_id} found\n')
                 continue
 
     def determine_categories(self, event: Dict) -> List[HobbyCategory]:
@@ -224,7 +226,7 @@ class Command(BaseCommand):
             try:
                 keywords.append(self.parse_ld_keyword_id(keyword['@id']))
             except InvalidKeywordException:
-                self.stderr.write(f'Can not parse keyword: {repr(keyword)}')
+                self.stderr.write(f'Can not parse keyword: {repr(keyword)}\n')
         return keywords
 
     def parse_ld_keyword_id(self, ld_keyword_id: str) -> Keyword:
@@ -264,8 +266,8 @@ class Command(BaseCommand):
         data = {
             'name': location_data['name'].get('fi'),  # TODO: language support
             'zip_code': location_data['postal_code'],
-            'city': location_data['address_locality'],
-            'address': location_data['street_address'],
+            'city': location_data['address_locality'].get('fi', ''),
+            'address': location_data['street_address'].get('fi', ''),
             'coordinates': None
         }
         if location_data['position'].get('type') == 'Point':
@@ -299,10 +301,10 @@ class Command(BaseCommand):
             response.raise_for_status()
             return response.json()
         except requests.exceptions.RequestException as e:
-            self.stderr.write(f'Could not get location data: {str(e)}')
+            self.stderr.write(f'Could not get location data: {str(e)}\n')
             return None
         except (json.decoder.JSONDecodeError, TypeError) as e:
-            self.stderr.write(f'Could not parse location data: {str(e)}')
+            self.stderr.write(f'Could not parse location data: {str(e)}\n')
             return None
 
     def get_image(self, event: Dict) -> Tuple[Optional[File], Optional[str]]:
@@ -323,10 +325,10 @@ class Command(BaseCommand):
             temp_file.flush()
             return (File(temp_file), image_name)
         except requests.exceptions.RequestException as e:
-            self.stderr.write(f'Could not get location data: {str(e)}')
+            self.stderr.write(f'Could not get image data: {str(e)}\n')
             return (None, None)
         except IOError as e:
-            self.stderr.write(f'Could not save image file: {str(e)}')
+            self.stderr.write(f'Could not save image file: {str(e)}\n')
             return (None, None)
 
     def parse_image_name(self, url: str) -> Optional[str]:
