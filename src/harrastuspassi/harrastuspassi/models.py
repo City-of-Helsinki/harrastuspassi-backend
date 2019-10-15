@@ -35,6 +35,14 @@ class TimestampedModel(models.Model):
         abstract = True
 
 
+class ExternalDataModel(models.Model):
+    data_source = models.CharField(verbose_name=_('External data source'), max_length=256, blank=True, default='')
+    origin_id = models.CharField(verbose_name=_('ID in external data source'), max_length=128, blank=True, default='')
+
+    class Meta:
+        abstract = True
+
+
 class GeometryDistance(GeoFunc):
     # Backported from Django 3.0
     # GeometryDistance allows spatial sorting using spatial indexes
@@ -67,7 +75,7 @@ class LocationQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'coordinates'
 
 
-class Location(TimestampedModel):
+class Location(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, blank=True)
     address = models.CharField(max_length=256, blank=True)
     zip_code = models.CharField(max_length=5, blank=True)
@@ -94,15 +102,15 @@ class Location(TimestampedModel):
             raise ValidationError('One of the following fields is required: name, city or coordinates')
 
 
-class Organizer(TimestampedModel):
+class Organizer(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name
 
 
-class HobbyCategory(MPTTModel, TimestampedModel):
-    name = models.CharField(max_length=256, unique=True)
+class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
+    name = models.CharField(max_length=256)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     class MPTTMeta:
@@ -119,13 +127,13 @@ class HobbyQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'location__coordinates'
 
 
-class Hobby(TimestampedModel):
+class Hobby(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=1024)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
-    category = models.ForeignKey(HobbyCategory, null=True, blank=True, on_delete=models.CASCADE)
+    categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = HobbyQuerySet.as_manager()
@@ -143,7 +151,7 @@ class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'
 
 
-class HobbyEvent(TimestampedModel):
+class HobbyEvent(ExternalDataModel, TimestampedModel):
     """ An event in time when a hobby takes place """
     DAY_OF_WEEK_CHOICES = (
         (1, _('Monday')),

@@ -28,8 +28,10 @@ def test_hobby_category_filter(api_client, hobbycategory_hierarchy_root):
     first_category = hobbycategory_hierarchy_root.get_children().first()
     last_category = hobbycategory_hierarchy_root.get_children().last()
     assert first_category != last_category, "test data is invalid, there should be multiple child categories"
-    some_hobby = Hobby.objects.create(name="some hobby", category=first_category)
-    Hobby.objects.create(name="another hobby", category=last_category)
+    some_hobby = Hobby.objects.create(name="some hobby")
+    some_hobby.categories.add(first_category)
+    another_hobby = Hobby.objects.create(name="another hobby")
+    another_hobby.categories.add(last_category)
 
     response = api_client.get(reverse('hobby-list'), {'category': first_category.id})
     assert response.status_code == 200
@@ -43,8 +45,10 @@ def test_hobby_category_multiple_filter(api_client, hobbycategory_hierarchy_root
     first_category = hobbycategory_hierarchy_root.get_children().first()
     last_category = hobbycategory_hierarchy_root.get_children().last()
     assert first_category != last_category, "test data is invalid, there should be multiple child categories"
-    some_hobby = Hobby.objects.create(name="some hobby", category=first_category)
-    another_hobby = Hobby.objects.create(name="another hobby", category=last_category)
+    some_hobby = Hobby.objects.create(name="some hobby")
+    some_hobby.categories.add(first_category)
+    another_hobby = Hobby.objects.create(name="another hobby")
+    another_hobby.categories.add(last_category)
 
     url = '{}?category={}&category={}'.format(reverse('hobby-list'), first_category.id, last_category.id)
     response = api_client.get(url)
@@ -60,11 +64,13 @@ def test_hobby_category_hierarchical_filter(api_client, hobbycategory_hierarchy_
     """ Hobbies of child categories should be returned when filtering with parent category """
     first_category = hobbycategory_hierarchy_root.get_children().first()
     last_category = hobbycategory_hierarchy_root.get_children().last()
-    hobby.category = hobby_category
+    hobby.categories.add(hobby_category)
     hobby.save()
     assert first_category != last_category, "test data is invalid, there should be multiple child categories"
-    some_hobby = Hobby.objects.create(name="some hobby", category=first_category)
-    another_hobby = Hobby.objects.create(name="another hobby", category=last_category)
+    some_hobby = Hobby.objects.create(name="some hobby")
+    some_hobby.categories.add(first_category)
+    another_hobby = Hobby.objects.create(name="another hobby")
+    another_hobby.categories.add(last_category)
 
     response = api_client.get(reverse('hobby-list'), {'category': hobbycategory_hierarchy_root.id})
     assert response.status_code == 200
@@ -86,8 +92,9 @@ def test_hobby_create(user_api_client, valid_hobby_data):
     latest_hobby = Hobby.objects.latest()
     for field in ['name', 'description']:
         assert getattr(latest_hobby, field) == valid_hobby_data.get(field)
-    for id_field in ['category', 'location', 'organizer']:
+    for id_field in ['location', 'organizer']:
         assert getattr(latest_hobby, f'{id_field}_id') == valid_hobby_data.get(id_field)
+    assert set(latest_hobby.categories.all().values_list('pk', flat=True)) == set(valid_hobby_data['categories'])
 
 
 @pytest.mark.django_db
