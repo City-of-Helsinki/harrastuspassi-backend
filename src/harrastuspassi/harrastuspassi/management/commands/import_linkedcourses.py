@@ -17,6 +17,7 @@ import iso8601
 import json
 import logging
 import operator
+import os
 import re
 import requests
 from collections import namedtuple
@@ -27,7 +28,8 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models import Q
 from tempfile import NamedTemporaryFile
-from typing import Dict, Iterator, List, Optional, Union
+from typing import Dict, Iterator, List, Optional, Tuple, Union
+from urllib.parse import urlparse
 from harrastuspassi import settings
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
@@ -124,9 +126,9 @@ class Command(BaseCommand):
         if not hobby.cover_image:
             # image is only saved if hobby has no image. it is never updated.
             # TODO: make updating image possible. more metadata needs to be saved for the image.
-            image_file = self.get_image(event)
+            image_file, image_name = self.get_image(event)
             if image_file:
-                hobby.cover_image.save(f'image_{hobby.pk}', image_file)
+                hobby.cover_image.save(f'hobby_{hobby.pk}_{image_name}', image_file)
                 hobby.save()
         return hobby
 
@@ -303,26 +305,34 @@ class Command(BaseCommand):
             self.stderr.write(f'Could not parse location data: {str(e)}')
             return None
 
-    def get_image(self, event: Dict) -> Optional[File]:
+    def get_image(self, event: Dict) -> Tuple[Optional[File], Optional[str]]:
         """ Get a File instance with a downloaded image file.
             Returns the first image in the event if it's accessible.
         """
         temp_file = NamedTemporaryFile(delete=True)
         if len(event['images']) == 0:
-            return None
+            return (None, None)
         image_url = event['images'][0]['url']
+        image_name = self.parse_image_name(event['images'][0]['url'])
+        if not image_url or not image_name:
+            return (None, None)
         try:
             response = self.session.get(image_url, timeout=REQUESTS_TIMEOUT)
             response.raise_for_status()
             temp_file.write(response.content)
             temp_file.flush()
-            return File(temp_file)
+            return (File(temp_file), image_name)
         except requests.exceptions.RequestException as e:
             self.stderr.write(f'Could not get location data: {str(e)}')
-            return None
+            return (None, None)
         except IOError as e:
             self.stderr.write(f'Could not save image file: {str(e)}')
-            return None
+            return (None, None)
+
+    def parse_image_name(self, url: str) -> Optional[str]:
+        """ Get filename from image url """
+        parsed = urlparse(url)
+        return os.path.basename(parsed.path)
 
     def get_description(self, event: Dict) -> str:
         short_description = event.get('short_description')
