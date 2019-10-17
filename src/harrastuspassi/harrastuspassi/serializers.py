@@ -154,11 +154,21 @@ class HobbyNestedSerializer(HobbySerializer):
         pass
 
 
+class HobbyNestedSerializerPre1(HobbySerializerPre1):
+
+    class Meta(HobbySerializerPre1.Meta):
+        pass
+
+
 class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
         if 'hobby_detail' in includes:
             fields['hobby'] = HobbyNestedSerializer(context=context)
+        # TODO: DEPRECATE VERSION pre1
+        request = context.get('request')
+        if 'hobby_detail' in includes and request and request.version == 'pre1':
+            fields['hobby'] = HobbyNestedSerializerPre1(context=context)
         return fields
 
     class Meta:
