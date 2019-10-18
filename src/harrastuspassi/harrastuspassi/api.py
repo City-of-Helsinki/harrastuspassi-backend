@@ -199,7 +199,7 @@ class HobbyViewSet(viewsets.ModelViewSet):
 
 class HobbyEventFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
-        field_name='hobby__category', queryset=HobbyCategory.objects.all(),
+        field_name='hobby__categories', queryset=HobbyCategory.objects.all(),
         label=_('HobbyCategory id'),
     )
     ordering = NearestOrderingFilter(
