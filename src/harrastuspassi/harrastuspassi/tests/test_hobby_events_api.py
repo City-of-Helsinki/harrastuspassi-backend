@@ -43,6 +43,24 @@ def test_list_events_filter_by_time(api_client, hobby_with_events, hobby_with_ev
     assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
 
 
+@pytest.mark.django_db
+def test_list_events_filter_by_category(
+    api_client,
+    hobby_with_events,
+    hobby_with_events2,
+    hobby_category
+):
+    """ HobbyEvents should be filterable by category """
+    hobby_with_events.categories.set([hobby_category])
+    hobby_with_events.save()
+    api_url = reverse('hobbyevent-list')
+    url = f'{api_url}?category={hobby_category.pk}'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    event_ids = set(e['id'] for e in response.data)
+    assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
+
+
 def set_event_times(events, start_time):
     # set list of events to occur at the given time, ending 1 hour after
     for event in events:
