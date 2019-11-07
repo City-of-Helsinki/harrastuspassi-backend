@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 from mptt.admin import DraggableMPTTAdmin
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 
 
 class SysAdminSite(admin.AdminSite):
