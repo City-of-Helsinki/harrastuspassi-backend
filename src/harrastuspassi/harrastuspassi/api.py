@@ -192,7 +192,7 @@ class HobbyViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, *args, pk=None, **kwargs):
         # TODO: DEPRECATE VERSION pre1
         if self.request.version == 'pre1':
             serializer_class = HobbyDetailSerializerPre1
