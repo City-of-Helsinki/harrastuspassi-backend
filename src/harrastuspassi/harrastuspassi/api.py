@@ -12,10 +12,17 @@ from rest_framework import permissions, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
+from harrastuspassi.models import (
+    Hobby,
+    HobbyCategory,
+    HobbyEvent,
+    Organizer,
+    Location
+)
+
 from harrastuspassi.serializers import (
-    HobbySerializer, HobbyCategorySerializer, HobbyDetailSerializer, HobbyDetailSerializerPre1, HobbyEventSerializer,
-    HobbySerializerPre1
+    HobbySerializer, HobbyCategorySerializer, HobbyDetailSerializer, HobbyDetailSerializerPre1,
+    HobbyEventSerializer, HobbySerializerPre1, LocationSerializer, LocationSerializerPre1, OrganizerSerializer
 )
 
 LOG = logging.getLogger(__name__)
@@ -185,7 +192,7 @@ class HobbyViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
 
-    def retrieve(self, request, pk=None):
+    def retrieve(self, request, *args, pk=None, **kwargs):
         # TODO: DEPRECATE VERSION pre1
         if self.request.version == 'pre1':
             serializer_class = HobbyDetailSerializerPre1
@@ -238,7 +245,7 @@ class HobbyEventFilter(filters.FilterSet):
                   'start_time_from', 'start_time_to', 'start_weekday']
 
 
-class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
+class HobbyEventViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
@@ -246,3 +253,21 @@ class HobbyEventViewSet(viewsets.ReadOnlyModelViewSet):
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))
     serializer_class = HobbyEventSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+class OrganizerViewSet(viewsets.ModelViewSet):
+    queryset = Organizer.objects.all()
+    serializer_class = OrganizerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class LocationViewSet(viewsets.ModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_serializer_class(self):
+        # TODO: DEPRECATE VERSION pre1
+        if self.request.version == 'pre1':
+            return LocationSerializerPre1
+        return self.serializer_class

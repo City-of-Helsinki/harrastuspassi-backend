@@ -156,3 +156,53 @@ def test_list_events_near_point(
     assert hobby_midway_with_events.pk == events[2]['hobby']
     assert hobby_far_with_events.pk == events[1]['hobby']
     assert hobby_far_with_events.pk == events[0]['hobby']
+
+
+@pytest.mark.django_db
+def test_hobbyevent_create(user_api_client, valid_hobbyevent_data):
+    """ Authenticated user should be able to create a new HobbyEvent """
+    url = reverse('hobbyevent-list')
+    hobbyevent_count = HobbyEvent.objects.count()
+    response = user_api_client.post(url, data=valid_hobbyevent_data, format='json')
+    assert response.status_code == 201
+    assert HobbyEvent.objects.count() == hobbyevent_count + 1
+
+
+@pytest.mark.django_db
+def test_hobbyevent_unauthenticated_create(api_client, valid_hobbyevent_data):
+    """ Unauthenticated user should not be able to create a new HobbyEvent """
+    url = reverse('hobbyevent-list')
+    hobbyevent_count = HobbyEvent.objects.count()
+    response = api_client.post(url, data=valid_hobbyevent_data, format='json')
+    assert response.status_code == 401
+    assert HobbyEvent.objects.count() == hobbyevent_count
+
+
+@pytest.mark.django_db
+def test_hobbyevent_update(user_api_client, valid_hobbyevent_data):
+    """ Authenticated user should be able to edit their HobbyEvents """
+    url = reverse('hobbyevent-list')
+    response = user_api_client.post(url, data=valid_hobbyevent_data, format='json')
+    assert response.status_code == 201
+    hobbyevent_data = response.data.copy()
+    hobbyevent_data['end_time'] = datetime.datetime.strptime('20:00', '%H:%M').time()
+    update_url = reverse('hobbyevent-detail', kwargs={'pk': hobbyevent_data['id']})
+    response = user_api_client.put(update_url, data=hobbyevent_data, format='json')
+    assert response.status_code == 200
+    hobby_obj = HobbyEvent.objects.get(id=response.data['id'])
+    assert hobby_obj.end_time == hobbyevent_data['end_time']
+
+
+@pytest.mark.django_db
+def test_hobbyevent_update_unauthenticated_user(user_api_client, api_client, valid_hobbyevent_data):
+    """ Authenticated user should not be able to edit someone elses HobbyEvents """
+    url = reverse('hobbyevent-list')
+    response = user_api_client.post(url, data=valid_hobbyevent_data, format='json')
+    assert response.status_code == 201
+    hobbyevent_data = response.data.copy()
+    hobbyevent_data['end_time'] = datetime.datetime.strptime('21:00', '%H:%M').time()
+    update_url = reverse('hobbyevent-detail', kwargs={'pk': hobbyevent_data['id']})
+    response = api_client.put(update_url, data=hobbyevent_data, format='json')
+    assert response.status_code == 401
+    hobbyevent_obj = HobbyEvent.objects.get(id=hobbyevent_data['id'])
+    assert hobbyevent_obj.end_time == valid_hobbyevent_data['end_time']

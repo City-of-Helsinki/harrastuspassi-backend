@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'django_filters',
     'mptt',
     'rest_framework',
+    'rest_framework_gis',
     'rest_framework.authtoken',
 
     'django.contrib.admin',
