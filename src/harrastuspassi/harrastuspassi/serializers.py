@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from harrastuspassi.models import Hobby, Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from drf_extra_fields.fields import Base64ImageField
 
 
 class ExtraDataMixin():
@@ -50,7 +51,7 @@ class HobbyCategoryTreeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'tree_id', 'level', 'parent']
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationSerializerPre1(serializers.ModelSerializer):
     lat = serializers.SerializerMethodField
     lon = serializers.SerializerMethodField
 
@@ -64,6 +65,12 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = ['id', 'name', 'address', 'zip_code', 'city', 'lat', 'lon']
 
+class LocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = ['id', 'name', 'address', 'zip_code', 'city', 'coordinates']
+
 
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -73,6 +80,7 @@ class OrganizerSerializer(serializers.ModelSerializer):
 
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
+    cover_image = Base64ImageField(required=False, allow_null=True)
 
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
@@ -128,7 +136,6 @@ class HobbySerializerPre1(HobbySerializer):
 
 
 class HobbyDetailSerializer(HobbySerializer):
-    organizer = serializers.StringRelatedField()
 
     class Meta:
         model = Hobby

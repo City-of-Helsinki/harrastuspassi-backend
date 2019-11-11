@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'guardian',
     'mptt',
     'rest_framework',
+    'rest_framework_gis',
     'rest_framework.authtoken',
 
     'django.contrib.admin',

@@ -70,6 +70,15 @@ def organizer():
 def hobby(location, organizer):
     return Hobby.objects.create(name='Test Hobby', location=location, organizer=organizer)
 
+@pytest.fixture
+def hobbyevent(hobby):
+    return HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date='2019-01-01',
+        end_date='2019-01-01',
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
+    )
 
 @pytest.fixture
 def hobby2(location, organizer):
@@ -118,6 +127,18 @@ def valid_hobby_data(hobby_category, location, organizer):
         'location': location.id,
         'name': 'New Hobby',
         'organizer': organizer.id,
+    }
+
+
+@pytest.fixture
+def valid_hobbyevent_data(hobby_far):
+    """ Valid JSON data for creating a new HobbyEvent """
+    return {
+        'hobby': hobby_far.id,
+        'start_date': '2019-06-01',
+        'end_date': '2019-07-01',
+        'start_time': datetime.datetime.strptime('14:30', '%H:%M').time(),
+        'end_time': datetime.datetime.strptime('16:30', '%H:%M').time()
     }
 
 

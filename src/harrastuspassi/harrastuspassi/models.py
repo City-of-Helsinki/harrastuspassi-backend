@@ -197,3 +197,14 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
             return f'{self.hobby.name} {self.start_date} - {self.end_date}'
         else:
             return f'{self.hobby.name} {self.start_date}'
+
+
+class Promotion(TimestampedModel):
+    hobby = models.ForeignKey(Hobby, on_delete=models.CASCADE)
+    name = models.CharField(max_length=1024)
+    description = models.TextField()
+    start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
+    start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
+    end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
+    end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
+    cover_image = models.ImageField(upload_to='promo_images', null=True, blank=True)
