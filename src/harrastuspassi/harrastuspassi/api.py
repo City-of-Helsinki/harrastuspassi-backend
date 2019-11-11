@@ -253,7 +253,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))
     serializer_class = HobbyEventSerializer
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 class OrganizerViewSet(viewsets.ModelViewSet):
     queryset = Organizer.objects.all()
