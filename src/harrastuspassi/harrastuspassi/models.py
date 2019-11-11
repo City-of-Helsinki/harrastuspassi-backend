@@ -109,6 +109,14 @@ class Organizer(ExternalDataModel, TimestampedModel):
         return self.name
 
 
+class Municipality(TimestampedModel):
+    name = models.CharField(max_length=256)
+    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
+
+    def __str__(self):
+        return self.name
+
+
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
@@ -133,6 +141,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
     categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
