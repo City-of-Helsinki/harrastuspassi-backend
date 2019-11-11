@@ -198,4 +198,4 @@ class Promotion(TimestampedModel):
     start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
     end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
     end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
-    cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
+    cover_image = models.ImageField(upload_to='promo_images', null=True, blank=True)
