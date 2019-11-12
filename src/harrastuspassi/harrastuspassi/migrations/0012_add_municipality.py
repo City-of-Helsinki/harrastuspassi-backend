@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('harrastuspassi', '0010_category_name_not_unique'),
+        ('harrastuspassi', '0011_create_promotion_model'),
     ]
 
     operations = [
