@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from rest_framework.test import APIClient
 
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer, Municipality
 
 FROZEN_DATE = '2022-2-22'
 
@@ -34,6 +34,12 @@ def user2():
         last_name='Jones',
         email='athelney.jones@met.police.uk',
     )
+
+
+@pytest.mark.django_db
+@pytest.fixture
+def guardian_anonymous_user():
+    return get_user_model().get_anonymous()
 
 
 @pytest.fixture
@@ -67,8 +73,14 @@ def organizer():
 
 
 @pytest.fixture
-def hobby(location, organizer):
-    return Hobby.objects.create(name='Test Hobby', location=location, organizer=organizer)
+def municipality():
+    return Municipality.objects.create(name='Municipality')
+
+
+@pytest.fixture
+def hobby(location, organizer, municipality):
+    return Hobby.objects.create(name='Test Hobby', location=location, organizer=organizer, municipality=municipality)
+
 
 @pytest.fixture
 def hobbyevent(hobby):
@@ -81,8 +93,8 @@ def hobbyevent(hobby):
     )
 
 @pytest.fixture
-def hobby2(location, organizer):
-    return Hobby.objects.create(name='Test Hobby 2', location=location, organizer=organizer)
+def hobby2(location, organizer, municipality):
+    return Hobby.objects.create(name='Test Hobby 2', location=location, organizer=organizer, municipality=municipality)
 
 
 @pytest.fixture

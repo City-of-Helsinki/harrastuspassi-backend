@@ -91,9 +91,10 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
         return fields
 
     def get_permissions(self, instance):
-        if 'request' in self.context:
+        if 'prefetched_permission_checker' in self.context:
+            checker = self.context['prefetched_permission_checker']
             return {
-                'can_edit': instance.created_by == self.context['request'].user
+                'can_edit': checker.has_perm('change_hobby', instance)
             }
         return {}
 

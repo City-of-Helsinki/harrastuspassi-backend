@@ -8,6 +8,9 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
 from django_filters.constants import EMPTY_VALUES
+from guardian.core import ObjectPermissionChecker
+from guardian.ctypes import get_content_type
+from guardian.shortcuts import get_objects_for_user
 from rest_framework import permissions, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -17,7 +20,8 @@ from harrastuspassi.models import (
     HobbyCategory,
     HobbyEvent,
     Organizer,
-    Location
+    Location,
+    Municipality
 )
 
 from harrastuspassi.serializers import (
@@ -41,16 +45,23 @@ def dummy_filter(filter_callable):
     return wraps(filter_callable)(wrapped_filter)
 
 
-class IsCreatorOrReadOnly(permissions.BasePermission):
-    """
-    Object-level permission to only allow owners of an object to edit it.
-    Assumes the model instance has a `created_by` attribute.
-    """
+class HasPermOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        # Instance must have an attribute named `created_by`.
-        return obj.created_by == request.user
+        ctype = get_content_type(obj)
+        change_perm_name = f'change_{ctype}'
+        return request.user.has_perm(change_perm_name, obj)
+
+
+class PermissionPrefetchMixin:
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        if self.queryset:
+            prefetched_permission_checker = ObjectPermissionChecker(self.request.user)
+            prefetched_permission_checker.prefetch_perms(self.queryset)
+            context['prefetched_permission_checker'] = prefetched_permission_checker
+        return context
 
 
 class ExtraDataSchema(AutoSchema):
@@ -155,6 +166,7 @@ class HobbyFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
         field_name='categories', queryset=HobbyCategory.objects.all(),
     )
+    editable_only = filters.BooleanFilter(method='filter_editable', label=_('Show editable only'))
     ordering = NearestOrderingFilter(
         fields=(
             # (field name, param name)
@@ -172,11 +184,20 @@ class HobbyFilter(filters.FilterSet):
         model = Hobby
         fields = ['category']
 
+    def filter_editable(self, queryset, name, value):
+        is_filtering_requested = value
+        if not is_filtering_requested:
+            return queryset
+        if self.request.user.is_authenticated:
+            return get_objects_for_user(self.request.user, 'change_hobby', self.queryset)
+        else:
+            return self.queryset.none()
 
-class HobbyViewSet(viewsets.ModelViewSet):
+
+class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyFilter
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, HasPermOrReadOnly)
     queryset = Hobby.objects.all().select_related('location', 'organizer')
     schema = ExtraDataSchema(
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
@@ -190,7 +211,8 @@ class HobbyViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+        serializer.save(created_by=self.request.user, municipality=municipality)
 
     def retrieve(self, request, *args, pk=None, **kwargs):
         # TODO: DEPRECATE VERSION pre1
