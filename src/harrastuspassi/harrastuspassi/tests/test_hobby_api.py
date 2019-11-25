@@ -98,6 +98,15 @@ def test_hobby_create(user_api_client, valid_hobby_data):
 
 
 @pytest.mark.django_db
+def test_hobby_create_as_municipality_moderator(user_api_client, valid_hobby_data, user, municipality):
+    url = reverse('hobby-list')
+    municipality.moderators.add(user)
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    latest_hobby = Hobby.objects.latest()
+    assert latest_hobby.municipality_id == municipality.pk
+
+
+@pytest.mark.django_db
 def test_hobby_unauthenticated_create(api_client, valid_hobby_data):
     """ Unauthenticated user should not be able to create a new hobby """
     url = reverse('hobby-list')

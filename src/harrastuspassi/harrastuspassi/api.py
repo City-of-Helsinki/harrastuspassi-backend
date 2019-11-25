@@ -20,7 +20,8 @@ from harrastuspassi.models import (
     HobbyCategory,
     HobbyEvent,
     Organizer,
-    Location
+    Location,
+    Municipality
 )
 
 from harrastuspassi.serializers import (
@@ -210,7 +211,8 @@ class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+        serializer.save(created_by=self.request.user, municipality=municipality)
 
     def retrieve(self, request, *args, pk=None, **kwargs):
         # TODO: DEPRECATE VERSION pre1

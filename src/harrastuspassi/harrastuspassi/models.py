@@ -113,6 +113,10 @@ class Municipality(TimestampedModel):
     name = models.CharField(max_length=256)
     moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
 
+    @classmethod
+    def get_current_municipality_for_moderator(self, user):
+        return user.municipalities_where_moderator.first()
+
     def __str__(self):
         return self.name
 
