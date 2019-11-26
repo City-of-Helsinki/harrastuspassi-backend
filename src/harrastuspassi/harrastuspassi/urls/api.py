@@ -4,11 +4,13 @@
 from django.urls import include, path, re_path
 from rest_framework import routers
 from harrastuspassi.api import (
+    BenefitViewSet,
     HobbyViewSet,
     HobbyCategoryViewSet,
     HobbyEventViewSet,
     OrganizerViewSet,
-    LocationViewSet
+    LocationViewSet,
+    PromotionViewSet,
 )
 
 router = routers.DefaultRouter()
@@ -17,6 +19,8 @@ router.register(r'hobbycategories', HobbyCategoryViewSet)
 router.register(r'hobbyevents', HobbyEventViewSet)
 router.register(r'organizers', OrganizerViewSet)
 router.register(r'locations', LocationViewSet)
+router.register(r'promotions', PromotionViewSet)
+router.register(r'benefits', BenefitViewSet)
 
 
 public_urlpatterns = [

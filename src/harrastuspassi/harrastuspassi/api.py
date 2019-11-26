@@ -4,6 +4,7 @@ import logging
 from collections import defaultdict
 from functools import wraps
 from itertools import chain
+
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
@@ -15,18 +16,30 @@ from rest_framework import permissions, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
+
 from harrastuspassi.models import (
+    Benefit,
     Hobby,
     HobbyCategory,
     HobbyEvent,
-    Organizer,
     Location,
-    Municipality
+    Municipality,
+    Organizer,
+    Promotion,
 )
 
 from harrastuspassi.serializers import (
-    HobbySerializer, HobbyCategorySerializer, HobbyDetailSerializer, HobbyDetailSerializerPre1,
-    HobbyEventSerializer, HobbySerializerPre1, LocationSerializer, LocationSerializerPre1, OrganizerSerializer
+    BenefitSerializer,
+    HobbyCategorySerializer,
+    HobbyDetailSerializer,
+    HobbyDetailSerializerPre1,
+    HobbyEventSerializer,
+    HobbySerializer,
+    HobbySerializerPre1,
+    LocationSerializer,
+    LocationSerializerPre1,
+    OrganizerSerializer,
+    PromotionSerializer
 )
 
 LOG = logging.getLogger(__name__)
@@ -293,3 +306,18 @@ class LocationViewSet(viewsets.ModelViewSet):
         if self.request.version == 'pre1':
             return LocationSerializerPre1
         return self.serializer_class
+
+
+class PromotionViewSet(viewsets.ModelViewSet):
+    queryset = Promotion.objects.all()
+    serializer_class = PromotionSerializer
+
+    def perform_create(self, serializer):
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+        serializer.save(municipality=municipality)
+
+
+class BenefitViewSet(viewsets.ModelViewSet):
+    queryset = Benefit.objects.all()
+    serializer_class = BenefitSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

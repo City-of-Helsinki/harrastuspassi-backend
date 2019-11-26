@@ -1,10 +1,19 @@
 import datetime
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from rest_framework.test import APIClient
 
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer, Municipality
+from harrastuspassi.models import (
+    Hobby,
+    HobbyCategory,
+    HobbyEvent,
+    Location,
+    Municipality,
+    Organizer,
+    Promotion,
+)
 
 FROZEN_DATE = '2022-2-22'
 
@@ -154,6 +163,47 @@ def valid_hobbyevent_data(hobby_far):
     }
 
 
+@pytest.fixture
+def valid_benefit_data(promotion):
+    """ Valid JSON data for creating a new Benefit object """
+    return {
+        'promotion': promotion.pk
+    }
+
+
+@pytest.fixture
+def valid_promotion_data(frozen_date, organizer, location):
+    return {
+        'name': 'Test promotion',
+        'description': 'Hello this is valid test promotion',
+        'start_date': frozen_date,
+        'start_time': '15:00',
+        'end_date': frozen_date,
+        'end_time': '17:00',
+        'organizer': organizer.pk,
+        'available_count': 10,
+        'used_count': 0,
+        'location': location.pk
+    }
+
+
+@pytest.fixture
+def promotion(frozen_date, municipality, organizer, location):
+    return Promotion.objects.create(
+        name='Test promotion',
+        description='Hello this is test promotion',
+        start_date=frozen_date,
+        start_time='14:00',
+        end_date=frozen_date,
+        end_time='16:00',
+        municipality=municipality,
+        organizer=organizer,
+        available_count=10,
+        used_count=0,
+        location=location
+    )
+
+
 #
 # Geo fixtures
 #
@@ -236,5 +286,3 @@ def hobby_near_with_events(hobby_near, frozen_date):
     HobbyEvent.objects.create(hobby=hobby_near, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
     return hobby_near
-
-
