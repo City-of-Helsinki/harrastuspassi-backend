@@ -6,7 +6,7 @@ from django.contrib.gis.db.models.functions import GeoFunc
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import F, When
+from django.db.models import F
 from django.db.models.expressions import Func
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
