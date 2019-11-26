@@ -1,6 +1,15 @@
-from rest_framework import serializers
-from harrastuspassi.models import Hobby, Hobby, HobbyCategory, HobbyEvent, Location, Organizer
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
+
+from harrastuspassi.models import (
+    Benefit,
+    Hobby,
+    HobbyCategory,
+    HobbyEvent,
+    Location,
+    Organizer,
+    Promotion,
+)
 
 
 class ExtraDataMixin():
@@ -183,3 +192,23 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         model = HobbyEvent
         fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday')
         read_only_fields = ('start_weekday',)
+
+
+class PromotionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Promotion
+        fields = '__all__'
+
+
+class BenefitSerializer(serializers.ModelSerializer):
+
+    def validate(self, data):
+        promotion = data['promotion']
+        promotion = Promotion.objects.get(pk=promotion.pk)
+        if promotion.used_count >= promotion.available_count:
+            raise serializers.ValidationError('All available promotions have been used')
+        return data
+
+    class Meta:
+        model = Benefit
+        fields = '__all__'
