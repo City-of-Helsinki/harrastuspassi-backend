@@ -205,6 +205,10 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
 
 
 class Promotion(TimestampedModel):
+    """
+    Promotion is an offer to users from service providers,
+    for example -30% discount on sneakers.
+    """
     name = models.CharField(max_length=1024)
     description = models.TextField()
     start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
@@ -223,6 +227,9 @@ class Promotion(TimestampedModel):
 
 
 class Benefit(TimestampedModel):
+    """
+    Benefit represents a single use of a Promotion, and serves as a log entry.
+    """
     promotion = models.ForeignKey(Promotion, on_delete=models.CASCADE)
 
     def clean(self):
