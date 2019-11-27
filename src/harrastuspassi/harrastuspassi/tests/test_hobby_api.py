@@ -98,6 +98,15 @@ def test_hobby_create(user_api_client, valid_hobby_data):
 
 
 @pytest.mark.django_db
+def test_hobby_create_as_municipality_moderator(user_api_client, valid_hobby_data, user, municipality):
+    url = reverse('hobby-list')
+    municipality.moderators.add(user)
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    latest_hobby = Hobby.objects.latest()
+    assert latest_hobby.municipality_id == municipality.pk
+
+
+@pytest.mark.django_db
 def test_hobby_unauthenticated_create(api_client, valid_hobby_data):
     """ Unauthenticated user should not be able to create a new hobby """
     url = reverse('hobby-list')
@@ -130,6 +139,12 @@ def test_hobby_update(user_api_client, valid_hobby_data):
     assert response.status_code == 200
     hobby_obj = Hobby.objects.get(id=response.data['id'])
     assert hobby_obj.name == hobby_data['name']
+    # test put without cover_image in hobby data
+    # due to Base64ImageField causing unwanted behaviour
+    # when used without required=False, allow_null=True
+    hobby_data.pop('cover_image')
+    response = user_api_client.put(update_url, data=hobby_data, format='json')
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db

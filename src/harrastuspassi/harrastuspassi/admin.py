@@ -2,8 +2,19 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from guardian.admin import GuardedModelAdmin
 from mptt.admin import DraggableMPTTAdmin
+
+from harrastuspassi.models import (
+    Benefit,
+    Hobby,
+    HobbyCategory,
+    HobbyEvent,
+    Location,
+    Municipality,
+    Organizer,
+    Promotion,
+)
 
 
 class SysAdminSite(admin.AdminSite):
@@ -17,11 +28,12 @@ class HobbyCategoryAdmin(DraggableMPTTAdmin):
 
 class HobbyEventInline(admin.TabularInline):
     model = HobbyEvent
-    extra = 1
+    extra = 0
 
 
-class HobbyAdmin(admin.ModelAdmin):
+class HobbyAdmin(GuardedModelAdmin):
     inlines = (HobbyEventInline,)
+    filter_horizontal = ('categories',)
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -32,8 +44,23 @@ class OrganizerAdmin(admin.ModelAdmin):
     pass
 
 
+class MunicipalityAdmin(admin.ModelAdmin):
+    filter_horizontal = ('moderators',)
+
+
+class PromotionAdmin(admin.ModelAdmin):
+    pass
+
+
+class BenefitAdmin(admin.ModelAdmin):
+    pass
+
+
 site = SysAdminSite()
 admin.site.register(Hobby, HobbyAdmin)
 admin.site.register(HobbyCategory, HobbyCategoryAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
+admin.site.register(Municipality, MunicipalityAdmin)
+admin.site.register(Promotion, PromotionAdmin)
+admin.site.register(Benefit, BenefitAdmin)

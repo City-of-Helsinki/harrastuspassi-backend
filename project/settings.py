@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     'health_check.storage',
 
     'django_filters',
+    'guardian',
     'mptt',
     'rest_framework',
+    'rest_framework_gis',
     'rest_framework.authtoken',
 
     'django.contrib.admin',
@@ -79,7 +81,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 #
-# Password validation
+# Auth
 #
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -97,6 +99,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 #
 # Internationalization

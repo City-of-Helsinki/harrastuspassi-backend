@@ -6,6 +6,7 @@ from django.contrib.gis.db.models.functions import GeoFunc
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import F
 from django.db.models.expressions import Func
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -109,6 +110,18 @@ class Organizer(ExternalDataModel, TimestampedModel):
         return self.name
 
 
+class Municipality(TimestampedModel):
+    name = models.CharField(max_length=256)
+    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
+
+    @classmethod
+    def get_current_municipality_for_moderator(self, user):
+        return user.municipalities_where_moderator.first()
+
+    def __str__(self):
+        return self.name
+
+
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
@@ -133,6 +146,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
     categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -188,3 +202,44 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
             return f'{self.hobby.name} {self.start_date} - {self.end_date}'
         else:
             return f'{self.hobby.name} {self.start_date}'
+
+
+class Promotion(TimestampedModel):
+    """
+    Promotion is an offer to users from service providers,
+    for example -30% discount on sneakers.
+    """
+    name = models.CharField(max_length=1024)
+    description = models.TextField()
+    start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
+    start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
+    end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
+    end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
+    cover_image = models.ImageField(upload_to='promo_images', null=True, blank=True)
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(Organizer, on_delete=models.CASCADE)
+    available_count = models.PositiveIntegerField()
+    used_count = models.PositiveIntegerField(default=0)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Benefit(TimestampedModel):
+    """
+    Benefit represents a single use of a Promotion, and serves as a log entry.
+    """
+    promotion = models.ForeignKey(Promotion, on_delete=models.CASCADE)
+
+    def clean(self):
+        promotion = Promotion.objects.get(pk=self.promotion.pk)
+        if promotion.used_count >= promotion.available_count:
+            raise ValidationError('All available promotions have been used')
+
+    def save(self, *args, **kwargs):
+        Promotion.objects.filter(pk=self.promotion.pk).update(used_count=F('used_count') + 1)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.created_at)

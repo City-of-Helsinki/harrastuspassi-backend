@@ -1,5 +1,15 @@
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
-from harrastuspassi.models import Hobby, Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+
+from harrastuspassi.models import (
+    Benefit,
+    Hobby,
+    HobbyCategory,
+    HobbyEvent,
+    Location,
+    Organizer,
+    Promotion,
+)
 
 
 class ExtraDataMixin():
@@ -50,7 +60,7 @@ class HobbyCategoryTreeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'tree_id', 'level', 'parent']
 
 
-class LocationSerializer(serializers.ModelSerializer):
+class LocationSerializerPre1(serializers.ModelSerializer):
     lat = serializers.SerializerMethodField
     lon = serializers.SerializerMethodField
 
@@ -64,6 +74,12 @@ class LocationSerializer(serializers.ModelSerializer):
         model = Location
         fields = ['id', 'name', 'address', 'zip_code', 'city', 'lat', 'lon']
 
+class LocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Location
+        fields = ['id', 'name', 'address', 'zip_code', 'city', 'coordinates']
+
 
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -73,6 +89,7 @@ class OrganizerSerializer(serializers.ModelSerializer):
 
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
+    cover_image = Base64ImageField(required=False, allow_null=True)
 
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
@@ -83,9 +100,10 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
         return fields
 
     def get_permissions(self, instance):
-        if 'request' in self.context:
+        if 'prefetched_permission_checker' in self.context:
+            checker = self.context['prefetched_permission_checker']
             return {
-                'can_edit': instance.created_by == self.context['request'].user
+                'can_edit': checker.has_perm('change_hobby', instance)
             }
         return {}
 
@@ -127,7 +145,6 @@ class HobbySerializerPre1(HobbySerializer):
 
 
 class HobbyDetailSerializer(HobbySerializer):
-    organizer = serializers.StringRelatedField()
 
     class Meta:
         model = Hobby
@@ -175,3 +192,23 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         model = HobbyEvent
         fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday')
         read_only_fields = ('start_weekday',)
+
+
+class PromotionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Promotion
+        fields = '__all__'
+
+
+class BenefitSerializer(serializers.ModelSerializer):
+
+    def validate(self, data):
+        promotion = data['promotion']
+        promotion = Promotion.objects.get(pk=promotion.pk)
+        if promotion.used_count >= promotion.available_count:
+            raise serializers.ValidationError('All available promotions have been used')
+        return data
+
+    class Meta:
+        model = Benefit
+        fields = '__all__'
