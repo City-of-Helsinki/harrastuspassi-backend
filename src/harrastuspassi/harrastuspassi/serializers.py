@@ -195,6 +195,8 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
 
 
 class PromotionSerializer(serializers.ModelSerializer):
+    cover_image = Base64ImageField(required=False, allow_null=True)
+
     class Meta:
         model = Promotion
         fields = '__all__'
