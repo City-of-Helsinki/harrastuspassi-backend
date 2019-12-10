@@ -194,8 +194,16 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         read_only_fields = ('start_weekday',)
 
 
-class PromotionSerializer(serializers.ModelSerializer):
+class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):
     cover_image = Base64ImageField(required=False, allow_null=True)
+
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'location_detail' in includes:
+            fields['location'] = LocationSerializer(read_only=True, context=context)
+        if 'organizer_detail' in includes:
+            fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
+        return fields
 
     class Meta:
         model = Promotion
