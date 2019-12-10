@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from harrastuspassi.models import Hobby
+from rest_framework.exceptions import ErrorDetail
 
 
 @pytest.mark.django_db
@@ -231,3 +232,39 @@ def test_hobby_list_near_point(
     assert hobby_near.pk == hobbies[2]['id']
     assert hobby_midway.pk == hobbies[1]['id']
     assert hobby_far.pk == hobbies[0]['id']
+
+
+@pytest.mark.django_db
+def test_hobby_price_validation(user_api_client, valid_hobby_data):
+    # valid_hobby_data had valid price information as the name suggests
+    url = reverse('hobby-list')
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 201
+
+    # Change price to something else than 0, which shouldn't be allowed for free hobbies
+    valid_hobby_data['price_amount'] = 808
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 400
+    assert response.data['non_field_errors'][0] == ErrorDetail('Price amount has to be 0 if price type is free', code='invalid')
+
+    # hobby_types other than free should not allow price of 0
+    valid_hobby_data['price_type'] = 'ANNUAL'
+    valid_hobby_data['price_amount'] = 0
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 400
+    assert response.data['non_field_errors'][0] == ErrorDetail('Price amount can not be 0 if price type is something else than free', code='invalid')
+
+
+@pytest.mark.django_db
+def test_hobby_default_price(user_api_client, valid_hobby_data):
+    # by default, hobbies should be created with price_type free,
+    # with the price_amount of 0
+    url = reverse('hobby-list')
+    if 'price_type' in valid_hobby_data:
+        del valid_hobby_data['price_type']
+    if 'price_amount' in valid_hobby_data:
+        del valid_hobby_data['price_amount']
+    assert 'price_type' not in valid_hobby_data and 'price_amount' not in valid_hobby_data
+
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.data['price_type'] == 'FREE' and response.data['price_amount'] == '0.00'

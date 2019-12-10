@@ -118,7 +118,19 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             'name',
             'organizer',
             'permissions',
+            'price_type',
+            'price_amount'
         ]
+
+    def validate(self, data):
+        if 'price_type' in data and 'price_amount' in data:
+            price_type = data['price_type']
+            price_amount = data['price_amount']
+            if price_type == 'FREE' and price_amount != 0:
+                raise serializers.ValidationError('Price amount has to be 0 if price type is free')
+            if price_type != 'FREE' and price_amount == 0:
+                raise serializers.ValidationError('Price amount can not be 0 if price type is something else than free')
+        return data
 
 
 class HobbySerializerPre1(HobbySerializer):

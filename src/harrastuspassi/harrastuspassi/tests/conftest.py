@@ -149,6 +149,8 @@ def valid_hobby_data(hobby_category, location, organizer):
         'location': location.id,
         'name': 'New Hobby',
         'organizer': organizer.id,
+        'price_type': 'FREE',
+        'price_amount': 0
     }
 
 
