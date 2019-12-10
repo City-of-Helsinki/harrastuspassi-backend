@@ -3,7 +3,7 @@ import pytest
 from freezegun import freeze_time
 from django.urls import reverse
 from harrastuspassi.models import HobbyEvent
-from harrastuspassi.tests.conftest import FROZEN_DATE
+from harrastuspassi.tests.conftest import FROZEN_DATE, FROZEN_DATETIME
 
 
 @freeze_time(FROZEN_DATE)
@@ -206,3 +206,38 @@ def test_hobbyevent_update_unauthenticated_user(user_api_client, api_client, val
     assert response.status_code == 401
     hobbyevent_obj = HobbyEvent.objects.get(id=hobbyevent_data['id'])
     assert hobbyevent_obj.end_time == valid_hobbyevent_data['end_time']
+
+
+@freeze_time(FROZEN_DATETIME)
+@pytest.mark.django_db
+def test_list_events_exclude_past_events(api_client, hobby):
+    api_url = reverse('hobbyevent-list')
+    url = f'{api_url}?exclude_past_events=true'
+    date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
+
+    # event ends after a week from now, should be returned from API
+    test_event = HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date=datetime.datetime.strptime('2022-1-1', '%Y-%m-%d').date(),
+        end_date=date_today + datetime.timedelta(days=7),
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('14:59', '%H:%M').time()
+    )
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 1
+
+    # event ended a minute ago, should not be returned from API
+    test_event.end_date = date_today
+    test_event.save()
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 0
+
+    # event's end_time is after time now, but date is before
+    test_event.end_date = date_today - datetime.timedelta(days=1)
+    test_event.end_time = datetime.datetime.strptime('20:00', '%H:%M').time()
+    test_event.save()
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 0
