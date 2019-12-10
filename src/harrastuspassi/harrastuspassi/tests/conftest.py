@@ -16,6 +16,7 @@ from harrastuspassi.models import (
 )
 
 FROZEN_DATE = '2022-2-22'
+FROZEN_DATETIME = '2022-2-22 16:00:00'
 
 
 @pytest.fixture
