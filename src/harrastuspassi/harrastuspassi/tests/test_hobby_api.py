@@ -248,7 +248,7 @@ def test_hobby_price_validation(user_api_client, valid_hobby_data):
     assert response.data['non_field_errors'][0] == ErrorDetail('Price amount has to be 0 if price type is free', code='invalid')
 
     # hobby_types other than free should not allow price of 0
-    valid_hobby_data['price_type'] = 'ANNUAL'
+    valid_hobby_data['price_type'] = Hobby.TYPE_ANNUAL
     valid_hobby_data['price_amount'] = 0
     response = user_api_client.post(url, data=valid_hobby_data, format='json')
     assert response.status_code == 400
@@ -267,4 +267,4 @@ def test_hobby_default_price(user_api_client, valid_hobby_data):
     assert 'price_type' not in valid_hobby_data and 'price_amount' not in valid_hobby_data
 
     response = user_api_client.post(url, data=valid_hobby_data, format='json')
-    assert response.data['price_type'] == 'FREE' and response.data['price_amount'] == '0.00'
+    assert response.data['price_type'] == Hobby.TYPE_FREE and response.data['price_amount'] == '0.00'
