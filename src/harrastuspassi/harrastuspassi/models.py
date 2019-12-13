@@ -141,6 +141,18 @@ class HobbyQuerySet(DistanceMixin, models.QuerySet):
 
 
 class Hobby(ExternalDataModel, TimestampedModel):
+    TYPE_FREE = 'free'
+    TYPE_ANNUAL = 'annual'
+    TYPE_SEASONAL = 'seasonal'
+    TYPE_ONE_TIME = 'one_time'
+
+    PRICE_TYPE_CHOICES = (
+        (TYPE_FREE, _('Free')),
+        (TYPE_ANNUAL, _('Annual')),
+        (TYPE_SEASONAL, _('Seasonal')),
+        (TYPE_ONE_TIME, _('One time')),
+    )
+
     name = models.CharField(max_length=1024)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
@@ -149,6 +161,8 @@ class Hobby(ExternalDataModel, TimestampedModel):
     municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
     categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE)
+    price_amount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True)
 
     objects = HobbyQuerySet.as_manager()
 
@@ -159,6 +173,15 @@ class Hobby(ExternalDataModel, TimestampedModel):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        super().clean()
+        if self.price_type == self.TYPE_FREE and self.price_amount != 0:
+            raise ValidationError('Price amount has to be 0 if price type is free')
+        if self.price_type != self.TYPE_FREE and self.price_amount == 0:
+            raise ValidationError('Price amount can not be 0 if price type is something else than free')
+        if self.price_amount < 0:
+            raise ValidationError('Price amount can not be negative')
 
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
