@@ -130,6 +130,8 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
                 raise serializers.ValidationError('Price amount has to be 0 if price type is free')
             if price_type != Hobby.TYPE_FREE and price_amount == 0:
                 raise serializers.ValidationError('Price amount can not be 0 if price type is something else than free')
+            if price_amount < 0:
+                raise serializers.ValidationError('Price amount can not be negative')
         return data
 
 

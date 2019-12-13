@@ -268,3 +268,14 @@ def test_hobby_default_price(user_api_client, valid_hobby_data):
 
     response = user_api_client.post(url, data=valid_hobby_data, format='json')
     assert response.data['price_type'] == Hobby.TYPE_FREE and response.data['price_amount'] == '0.00'
+
+
+@pytest.mark.django_db
+def test_hobby_positive_price(user_api_client, valid_hobby_data):
+    # Negative hobby prices are not allowed
+    url = reverse('hobby-list')
+    valid_hobby_data['price_type'] = Hobby.TYPE_ANNUAL
+    valid_hobby_data['price_amount'] = -1
+    response = user_api_client.post(url, data=valid_hobby_data, format='json')
+    assert response.status_code == 400
+    assert response.data['non_field_errors'][0] == ErrorDetail('Price amount can not be negative', code='invalid')

@@ -180,6 +180,8 @@ class Hobby(ExternalDataModel, TimestampedModel):
             raise ValidationError('Price amount has to be 0 if price type is free')
         if self.price_type != self.TYPE_FREE and self.price_amount == 0:
             raise ValidationError('Price amount can not be 0 if price type is something else than free')
+        if self.price_amount < 0:
+            raise ValidationError('Price amount can not be negative')
 
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
