@@ -102,3 +102,35 @@ def test_list_promotions_exclude_past_events(api_client, organizer, location):
     response = api_client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 0
+
+
+@pytest.mark.django_db
+def test_list_promotions_usable_only(api_client, organizer, location):
+    date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
+    api_url = reverse('promotion-list')
+    url = f'{api_url}?usable_only=true'
+    Promotion.objects.all().delete()
+
+    test_event = Promotion.objects.create(
+        name='Test promotion',
+        description='Hello this is valid test promotion',
+        start_date=FROZEN_DATE,
+        start_time='10:00',
+        end_date=date_today + datetime.timedelta(days=7),
+        end_time='15:59',
+        organizer=organizer,
+        available_count=10,
+        used_count=9,
+        location=location
+    )
+
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 1
+
+    test_event.used_count = 10
+    test_event.save()
+
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 0
