@@ -6,7 +6,7 @@ from collections import defaultdict
 from functools import wraps
 from itertools import chain
 
-from django.db.models import Q
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
@@ -322,6 +322,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 
 class PromotionFilter(filters.FilterSet):
     exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
+    usable_only = filters.BooleanFilter(method='filter_used_promotions', label=_('Show only usable promotions'))
 
     def filter_past_events(self, queryset, name, value):
         is_filtering_requested = value
@@ -331,6 +332,12 @@ class PromotionFilter(filters.FilterSet):
             return queryset.exclude(date_is_before_today | date_is_today_but_time_is_in_past)
         else:
             return queryset
+
+    def filter_used_promotions(self, queryset, name, value):
+        is_filtering_requested = value
+        if is_filtering_requested:
+            return queryset.filter(available_count__gt=F('used_count'))
+        return queryset
 
 
 class PromotionViewSet(viewsets.ModelViewSet):
