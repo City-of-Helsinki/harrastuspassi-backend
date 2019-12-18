@@ -98,7 +98,7 @@ class MunicipalitySerializer(serializers.ModelSerializer):
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
     cover_image = Base64ImageField(required=False, allow_null=True)
-    municipality = MunicipalitySerializer()
+    municipality = MunicipalitySerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
