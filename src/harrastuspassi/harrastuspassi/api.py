@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import logging
 from collections import defaultdict
 from functools import wraps
 from itertools import chain
 
+from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
 from django_filters import rest_framework as filters
@@ -273,11 +275,21 @@ class HobbyEventFilter(filters.FilterSet):
                                                  label=_(f'Return results with starting date in given weekday.'
                                                          f' Enter a number from 1 to 7. Use ISO 8601 weekdays:'
                                                          f' 1=Monday, 7=Sunday.'))
+    exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
 
     class Meta:
         model = HobbyEvent
         fields = ['category', 'hobby', 'start_date_from', 'start_date_to',
                   'start_time_from', 'start_time_to', 'start_weekday']
+
+    def filter_past_events(self, queryset, name, value):
+        is_filtering_requested = value
+        date_is_before_today = Q(end_date__lt=datetime.date.today())
+        date_is_today_but_time_is_in_past = Q(end_date=datetime.date.today()) & Q(end_time__lt=datetime.datetime.now().time())
+        if is_filtering_requested:
+            return queryset.exclude(date_is_before_today | date_is_today_but_time_is_in_past)
+        else:
+            return queryset
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
@@ -308,9 +320,31 @@ class LocationViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
+class PromotionFilter(filters.FilterSet):
+    exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
+    usable_only = filters.BooleanFilter(method='filter_used_promotions', label=_('Show only usable promotions'))
+
+    def filter_past_events(self, queryset, name, value):
+        is_filtering_requested = value
+        date_is_before_today = Q(end_date__lt=datetime.date.today())
+        date_is_today_but_time_is_in_past = Q(end_date=datetime.date.today()) & Q(end_time__lt=datetime.datetime.now().time())
+        if is_filtering_requested:
+            return queryset.exclude(date_is_before_today | date_is_today_but_time_is_in_past)
+        else:
+            return queryset
+
+    def filter_used_promotions(self, queryset, name, value):
+        is_filtering_requested = value
+        if is_filtering_requested:
+            return queryset.filter(available_count__gt=F('used_count'))
+        return queryset
+
+
 class PromotionViewSet(viewsets.ModelViewSet):
     queryset = Promotion.objects.all()
     serializer_class = PromotionSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = PromotionFilter
 
     def perform_create(self, serializer):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)

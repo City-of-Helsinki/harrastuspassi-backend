@@ -7,6 +7,7 @@ from harrastuspassi.models import (
     HobbyCategory,
     HobbyEvent,
     Location,
+    Municipality,
     Organizer,
     Promotion,
 )
@@ -87,9 +88,17 @@ class OrganizerSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class MunicipalitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Municipality
+        fields = ['id', 'name']
+
+
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
     cover_image = Base64ImageField(required=False, allow_null=True)
+    municipality = MunicipalitySerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
@@ -118,7 +127,22 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             'name',
             'organizer',
             'permissions',
+            'price_type',
+            'price_amount',
+            'municipality'
         ]
+
+    def validate(self, data):
+        if 'price_type' in data and 'price_amount' in data:
+            price_type = data['price_type']
+            price_amount = data['price_amount']
+            if price_type == Hobby.TYPE_FREE and price_amount != 0:
+                raise serializers.ValidationError('Price amount has to be 0 if price type is free')
+            if price_type != Hobby.TYPE_FREE and price_amount == 0:
+                raise serializers.ValidationError('Price amount can not be 0 if price type is something else than free')
+            if price_amount < 0:
+                raise serializers.ValidationError('Price amount can not be negative')
+        return data
 
 
 class HobbySerializerPre1(HobbySerializer):
@@ -194,7 +218,17 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         read_only_fields = ('start_weekday',)
 
 
-class PromotionSerializer(serializers.ModelSerializer):
+class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):
+    cover_image = Base64ImageField(required=False, allow_null=True)
+
+    def get_extra_fields(self, includes, context):
+        fields = super().get_extra_fields(includes, context)
+        if 'location_detail' in includes:
+            fields['location'] = LocationSerializer(read_only=True, context=context)
+        if 'organizer_detail' in includes:
+            fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
+        return fields
+
     class Meta:
         model = Promotion
         fields = '__all__'

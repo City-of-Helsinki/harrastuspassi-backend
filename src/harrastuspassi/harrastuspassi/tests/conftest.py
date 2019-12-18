@@ -16,6 +16,7 @@ from harrastuspassi.models import (
 )
 
 FROZEN_DATE = '2022-2-22'
+FROZEN_DATETIME = '2022-2-22 16:00:00'
 
 
 @pytest.fixture
@@ -148,6 +149,8 @@ def valid_hobby_data(hobby_category, location, organizer):
         'location': location.id,
         'name': 'New Hobby',
         'organizer': organizer.id,
+        'price_type': Hobby.TYPE_FREE,
+        'price_amount': 0
     }
 
 
