@@ -33,6 +33,7 @@ class HobbyEventInline(admin.TabularInline):
 
 class HobbyAdmin(GuardedModelAdmin):
     inlines = (HobbyEventInline,)
+    raw_id_fields = ('location',)
     filter_horizontal = ('categories',)
 
 
