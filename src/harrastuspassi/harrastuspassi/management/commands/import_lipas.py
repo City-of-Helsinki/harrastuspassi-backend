@@ -79,7 +79,7 @@ class Command(BaseCommand):
                 response_json = response.json()
                 for sports_place in response_json:
                     cleaned_postal_code = sports_place['location'].get('postalCode', '').strip()
-                    zip_code_is_valid = 'postalCode' in sports_place['location'] and len(cleaned_postal_code) == 5
+                    zip_code_is_valid = len(cleaned_postal_code) == 5
                     is_free = 'freeUse' in sports_place and sports_place['freeUse']
 
                     if not 'coordinates' in sports_place['location']:
