@@ -72,9 +72,10 @@ class HasPermOrReadOnly(permissions.BasePermission):
 class PermissionPrefetchMixin:
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        if self.queryset:
+        queryset = self.get_queryset()
+        if queryset:
             prefetched_permission_checker = ObjectPermissionChecker(self.request.user)
-            prefetched_permission_checker.prefetch_perms(self.queryset)
+            prefetched_permission_checker.prefetch_perms(queryset)
             context['prefetched_permission_checker'] = prefetched_permission_checker
         return context
 
