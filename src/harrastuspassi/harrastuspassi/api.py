@@ -324,6 +324,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 class PromotionFilter(filters.FilterSet):
     exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
     usable_only = filters.BooleanFilter(method='filter_used_promotions', label=_('Show only usable promotions'))
+    editable_only = filters.BooleanFilter(method='filter_editable', label=_('Show editable only'))
 
     def filter_past_events(self, queryset, name, value):
         is_filtering_requested = value
@@ -339,6 +340,15 @@ class PromotionFilter(filters.FilterSet):
         if is_filtering_requested:
             return queryset.filter(available_count__gt=F('used_count'))
         return queryset
+
+    def filter_editable(self, queryset, name, value):
+        is_filtering_requested = value
+        if not is_filtering_requested:
+            return queryset
+        if self.request.user.is_authenticated:
+            return get_objects_for_user(self.request.user, 'change_promotion', self.queryset)
+        else:
+            return self.queryset.none()
 
 
 class PromotionViewSet(viewsets.ModelViewSet):
