@@ -229,6 +229,14 @@ class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):
             fields['organizer'] = OrganizerSerializer(read_only=True, context=context)
         return fields
 
+    def get_permissions(self, instance):
+        if 'prefetched_permission_checker' in self.context:
+            checker = self.context['prefetched_permission_checker']
+            return {
+                'can_edit': checker.has_perm('change_promotion', instance)
+            }
+        return {}
+
     class Meta:
         model = Promotion
         fields = '__all__'

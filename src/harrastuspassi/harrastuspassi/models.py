@@ -244,6 +244,7 @@ class Promotion(TimestampedModel):
     available_count = models.PositiveIntegerField()
     used_count = models.PositiveIntegerField(default=0)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
