@@ -75,6 +75,7 @@ nosetests.xml
 .project
 .pydevproject
 .venv
+venv
 
 # Sphinx
 docs/_build
