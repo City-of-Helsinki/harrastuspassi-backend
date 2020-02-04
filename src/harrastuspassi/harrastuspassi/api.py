@@ -44,6 +44,8 @@ from harrastuspassi.serializers import (
     PromotionSerializer
 )
 
+from project.pagination import DefaultPagination
+
 LOG = logging.getLogger(__name__)
 
 
@@ -219,12 +221,20 @@ class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: location_detail, organizer_detail'))
     serializer_class = HobbySerializer
+    pagination_class = DefaultPagination
 
     def get_serializer_class(self):
         # TODO: DEPRECATE VERSION pre1
         if self.request.version == 'pre1':
             return HobbySerializerPre1
         return self.serializer_class
+
+    @property
+    def paginator(self):
+        if self.request.version in ['pre1', 'pre2']:
+            return None
+        else:
+            return super().paginator
 
     def perform_create(self, serializer):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
@@ -302,6 +312,15 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
                              ' Possible options: hobby_detail'))
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    pagination_class = DefaultPagination
+
+    @property
+    def paginator(self):
+        if self.request.version in ['pre1', 'pre2']:
+            return None
+        else:
+            return super().paginator
+
 
 class OrganizerViewSet(viewsets.ModelViewSet):
     queryset = Organizer.objects.all()
