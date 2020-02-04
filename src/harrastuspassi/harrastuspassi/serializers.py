@@ -220,7 +220,6 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
 
 class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):
     cover_image = Base64ImageField(required=False, allow_null=True)
-    location = LocationSerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
