@@ -18,7 +18,7 @@ router.register(r'hobbies', HobbyViewSet, 'hobby')
 router.register(r'hobbycategories', HobbyCategoryViewSet)
 router.register(r'hobbyevents', HobbyEventViewSet)
 router.register(r'organizers', OrganizerViewSet)
-router.register(r'locations', LocationViewSet)
+router.register(r'locations', LocationViewSet, 'location')
 router.register(r'promotions', PromotionViewSet)
 router.register(r'benefits', BenefitViewSet)
 

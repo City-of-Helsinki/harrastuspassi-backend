@@ -73,8 +73,8 @@ def frozen_date():
 
 
 @pytest.fixture
-def location():
-    return Location.objects.create(name='Tampere')
+def location(municipality):
+    return Location.objects.create(name='Tampere', municipality=municipality)
 
 
 @pytest.fixture

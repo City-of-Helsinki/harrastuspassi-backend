@@ -329,15 +329,24 @@ class OrganizerViewSet(viewsets.ModelViewSet):
 
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.all()
     serializer_class = LocationSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        qs = Location.objects.all()
+        if self.request.user.is_authenticated:
+            return get_objects_for_user(self.request.user, 'change_location', qs)
+        return qs
 
     def get_serializer_class(self):
         # TODO: DEPRECATE VERSION pre1
         if self.request.version == 'pre1':
             return LocationSerializerPre1
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+        serializer.save(created_by=self.request.user, municipality=municipality)
 
 
 class PromotionFilter(filters.FilterSet):

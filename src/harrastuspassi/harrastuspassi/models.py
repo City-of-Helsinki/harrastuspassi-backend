@@ -76,12 +76,26 @@ class LocationQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'coordinates'
 
 
+class Municipality(TimestampedModel):
+    name = models.CharField(max_length=256)
+    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
+
+    @classmethod
+    def get_current_municipality_for_moderator(self, user):
+        return user.municipalities_where_moderator.first()
+
+    def __str__(self):
+        return self.name
+
+
 class Location(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, blank=True)
     address = models.CharField(max_length=256, blank=True)
     zip_code = models.CharField(max_length=5, blank=True)
     city = models.CharField(max_length=64, blank=True)
     coordinates = gis_models.PointField(null=True, blank=True, srid=COORDINATE_SYSTEM_ID)
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = LocationQuerySet.as_manager()
 
@@ -105,18 +119,6 @@ class Location(ExternalDataModel, TimestampedModel):
 
 class Organizer(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256)
-
-    def __str__(self):
-        return self.name
-
-
-class Municipality(TimestampedModel):
-    name = models.CharField(max_length=256)
-    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
-
-    @classmethod
-    def get_current_municipality_for_moderator(self, user):
-        return user.municipalities_where_moderator.first()
 
     def __str__(self):
         return self.name
