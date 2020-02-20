@@ -1,7 +1,7 @@
 
 from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
-from harrastuspassi.models import Hobby, Municipality, Promotion
+from harrastuspassi.models import Hobby, Municipality, Promotion, Location
 from harrastuspassi import tasks
 
 
@@ -15,6 +15,11 @@ def promotion_post_save(sender, instance, **kwargs):
     tasks.update_promotion_permissions(instance.pk)
 
 
+@receiver(post_save, sender=Location)
+def location_post_save(sender, instance, **kwargs):
+    tasks.update_location_permissions(instance.pk)
+
+
 @receiver(m2m_changed, sender=Municipality.moderators.through)
 def municipality_moderators_change(sender, instance, action, reverse, pk_set, **kwargs):
     if action == 'post_add' or action == 'post_remove':
@@ -24,3 +29,4 @@ def municipality_moderators_change(sender, instance, action, reverse, pk_set, **
             user_ids = list(pk_set)
         tasks.update_user_hobby_permissions(user_ids)
         tasks.update_user_promotion_permissions(user_ids)
+        tasks.update_user_location_permissions(user_ids)

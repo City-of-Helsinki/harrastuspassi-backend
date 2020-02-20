@@ -93,7 +93,7 @@ class Command(BaseCommand):
                     location, location_created = Location.objects.update_or_create(
                         data_source=self.source,
                         name=sports_place.get('name'),
-                        zip_code= cleaned_postal_code,
+                        zip_code=cleaned_postal_code,
                         defaults={
                             'address': sports_place['location'].get('address', ''),
                             'city': sports_place['location']['city'].get('name'),
