@@ -2,7 +2,7 @@ import datetime
 import pytest
 from freezegun import freeze_time
 from django.urls import reverse
-from harrastuspassi.models import HobbyEvent
+from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent
 from harrastuspassi.tests.conftest import FROZEN_DATE, FROZEN_DATETIME
 
 
@@ -241,3 +241,56 @@ def test_list_events_exclude_past_events(api_client, hobby):
     response = api_client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 0
+
+
+@freeze_time(FROZEN_DATETIME)
+@pytest.mark.django_db
+def test_hobby_event_text_search(
+    api_client,
+    hobby,
+    hobby_with_events,
+    hobby_with_events2,
+    municipality,
+    organizer,
+    location
+):
+    date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
+    api_url = reverse('hobbyevent-list')
+    test_hobby_category = HobbyCategory.objects.create(
+        name='Saappaanheitto'
+    )
+    test_hobby = Hobby.objects.create(
+        name='Lorem ipsum dolor sit amet',
+        description='Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+    )
+    test_hobby.categories.set([test_hobby_category])
+    test_event = HobbyEvent.objects.create(
+        hobby=test_hobby,
+        start_date=datetime.datetime.strptime('2022-1-1', '%Y-%m-%d').date(),
+        end_date=date_today + datetime.timedelta(days=7),
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('14:59', '%H:%M').time()
+    )
+    # Test searching by name
+    url = f'{api_url}?search=lorem ipsum'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert test_hobby.id == response.data[0]['hobby']
+    assert test_event.id == response.data[0]['id']
+
+    # Test searching by description
+    url = f'{api_url}?search=eiusmod tempor'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert test_hobby.id == response.data[0]['hobby']
+    assert test_event.id == response.data[0]['id']
+
+    # Test searching by category
+    url = f'{api_url}?search=saappaan'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert test_hobby.id == response.data[0]['hobby']
+    assert test_event.id == response.data[0]['id']

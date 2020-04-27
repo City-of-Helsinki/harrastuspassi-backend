@@ -15,6 +15,7 @@ from guardian.core import ObjectPermissionChecker
 from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import permissions, viewsets
+from rest_framework import filters as drf_filters
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
@@ -304,7 +305,7 @@ class HobbyEventFilter(filters.FilterSet):
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
@@ -313,6 +314,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
+    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name']
 
     @property
     def paginator(self):
