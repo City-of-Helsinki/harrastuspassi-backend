@@ -349,6 +349,7 @@ class LocationViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
         if 'coordinates' not in self.request.data:
             address = self.request.data.get('address', '')
             zip_code = self.request.data.get('zip_code', '')
@@ -358,10 +359,8 @@ class LocationViewSet(viewsets.ModelViewSet):
                 coordinates = get_coordinates_from_address(formatted_address)
             except APIException:
                 raise serializers.ValidationError('This address could not be geocoded. Please confirm your address is right, or try again later.')
-            municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
             serializer.save(created_by=self.request.user, municipality=municipality, coordinates=coordinates)
         else:
-            municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
             serializer.save(created_by=self.request.user, municipality=municipality)
 
 
