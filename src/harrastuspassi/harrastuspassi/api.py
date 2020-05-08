@@ -354,7 +354,7 @@ class LocationViewSet(viewsets.ModelViewSet):
             address = self.request.data.get('address', '')
             zip_code = self.request.data.get('zip_code', '')
             city = self.request.data.get('city', '')
-            formatted_address = f"{address},+{zip_code}+{city}"
+            formatted_address = f'{address},+{zip_code}+{city}'
             try:
                 coordinates = get_coordinates_from_address(formatted_address)
             except APIException:
