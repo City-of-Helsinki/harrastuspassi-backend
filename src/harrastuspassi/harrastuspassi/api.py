@@ -14,11 +14,13 @@ from django_filters.constants import EMPTY_VALUES
 from guardian.core import ObjectPermissionChecker
 from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, serializers
 from rest_framework import filters as drf_filters
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
+
+from harrastuspassi.geocoding import get_coordinates_from_address
 
 from harrastuspassi.models import (
     Benefit,
@@ -347,8 +349,20 @@ class LocationViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
-        serializer.save(created_by=self.request.user, municipality=municipality)
+        if 'coordinates' not in self.request.data:
+            address = self.request.data.get('address', '')
+            zip_code = self.request.data.get('zip_code', '')
+            city = self.request.data.get('city', '')
+            formatted_address = f"{address},+{zip_code}+{city}"
+            try:
+                coordinates = get_coordinates_from_address(formatted_address)
+            except APIException:
+                raise serializers.ValidationError('This address could not be geocoded. Please confirm your address is right, or try again later.')
+            municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+            serializer.save(created_by=self.request.user, municipality=municipality, coordinates=coordinates)
+        else:
+            municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
+            serializer.save(created_by=self.request.user, municipality=municipality)
 
 
 class PromotionFilter(filters.FilterSet):

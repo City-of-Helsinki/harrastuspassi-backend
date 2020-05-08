@@ -75,6 +75,7 @@ class LocationSerializerPre1(serializers.ModelSerializer):
         model = Location
         fields = ['id', 'name', 'address', 'zip_code', 'city', 'lat', 'lon']
 
+
 class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
