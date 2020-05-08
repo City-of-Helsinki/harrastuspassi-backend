@@ -20,6 +20,7 @@ from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
 
+from harrastuspassi import settings
 from harrastuspassi.geocoding import get_coordinates_from_address
 
 from harrastuspassi.models import (
@@ -350,7 +351,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
-        if 'coordinates' not in self.request.data:
+        if settings.GOOGLE_GEOCODING_API_KEY and 'coordinates' not in self.request.data:
             address = self.request.data.get('address', '')
             zip_code = self.request.data.get('zip_code', '')
             city = self.request.data.get('city', '')

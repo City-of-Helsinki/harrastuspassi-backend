@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
+from harrastuspassi import settings
 from harrastuspassi.models import Location
 
 
@@ -35,6 +36,7 @@ def test_location_list_returns_only_editable_for_authenticated_user(user_api_cli
     assert len(response.data) == 2
 
 
+@pytest.mark.skipif(not settings.GOOGLE_GEOCODING_API_KEY, reason="GOOGLE_GEOCODING_API_KEY not provided!")
 @pytest.mark.django_db
 def test_geocoding_functionality(user_api_client, user2_api_client, api_client, location_data_without_coordinates):
     """ Posting a location to API without coordinates should fetch the coordinates from Google Geolocoding API """
