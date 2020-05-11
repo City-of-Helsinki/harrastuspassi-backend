@@ -232,6 +232,16 @@ def point_home():
 
 
 @pytest.fixture
+def location_data_without_coordinates():
+    return {
+        'name': 'Kalevan uimahalli',
+        'address': 'Sammonkatu 64',
+        'zip_code': '33540',
+        'city': 'Tampere'
+    }
+
+
+@pytest.fixture
 def location_far(point_far):
     return Location.objects.create(name='Farland', coordinates=point_far)
 
