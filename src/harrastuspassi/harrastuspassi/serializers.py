@@ -38,6 +38,20 @@ class ExtraDataMixin():
 
 
 class HobbyCategorySerializer(ExtraDataMixin, serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    def get_name(self, obj):
+        request = self.context['request']
+        language = request.query_params.get('lang', None)
+        if language:
+            if language == 'fi':
+                return obj.name_fi
+            elif language == 'en':
+                return obj.name_en
+            elif language == 'sv':
+                return obj.name_sv
+        return obj.name
+
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
         if 'child_categories' in includes:
@@ -46,7 +60,7 @@ class HobbyCategorySerializer(ExtraDataMixin, serializers.ModelSerializer):
 
     class Meta:
         model = HobbyCategory
-        fields = ['id', 'name', 'tree_id', 'level', 'parent']
+        fields = ['id', 'name', 'name_fi', 'name_en', 'name_sv', 'tree_id', 'level', 'parent']
 
 
 class HobbyCategoryTreeSerializer(serializers.ModelSerializer):

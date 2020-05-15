@@ -45,3 +45,33 @@ def test_hobby_category_parent_filter_pk(api_client, hobbycategory_hierarchy_roo
     assert len(response.data) == hobbycategory_hierarchy_root.get_children().count()
     response_category_ids = set([c['id'] for c in response.data])
     assert response_category_ids == set([c.pk for c in hobbycategory_hierarchy_root.get_children()])
+
+
+@pytest.mark.django_db
+def test_hobby_category_translations(api_client):
+    """ Category name should be changed to translated versions based on query param """
+    api_url = reverse('hobbycategory-list')
+    api_url_en = f'{api_url}?lang=en'
+    api_url_fi = f'{api_url}?lang=fi'
+    api_url_sv = f'{api_url}?lang=sv'
+
+    assert HobbyCategory.objects.count() == 0
+
+    category = HobbyCategory.objects.create(
+        name='Jalkapallo',
+        name_fi='Jalkapallo suomeksi',
+        name_en='Jalkapallo englanniksi',
+        name_sv='Jalkapallo ruotsiksi'
+    )
+
+    response = api_client.get(api_url)
+    assert response.data[0]['name'] == category.name
+
+    response = api_client.get(api_url_fi)
+    assert response.data[0]['name'] == category.name_fi
+
+    response = api_client.get(api_url_en)
+    assert response.data[0]['name'] == category.name_en
+
+    response = api_client.get(api_url_sv)
+    assert response.data[0]['name'] == category.name_sv
