@@ -44,7 +44,6 @@ class Command(BaseCommand):
           'name_fi': name_fi,
           'name_sv': name_sv,
           'name_en': name_en,
-          'parent': parent_hobby_category,
           'data_source': data_source,
           'origin_id': origin_id
         }
