@@ -26,10 +26,31 @@ class Command(BaseCommand):
         data_source = ''
       else:
         data_source = 'yso'
-      [label] = subclass.label
-      hobby_category = HobbyCategory.objects.create(name=label, parent=parent_hobby_category, data_source=data_source, origin_id=origin_id)
+      labels = subclass.label
+
+      name_fi, name_sv, name_en = '', '', ''
+      for label in labels:
+        label_lang = getattr(label, 'lang', 'fi')
+        if label_lang == 'fi':
+          name_fi = label
+        elif label_lang == 'sv':
+          name_sv = label
+        elif label_lang == 'en':
+          name_en = label
+      hobby_category, created = HobbyCategory.objects.update_or_create(
+        name=name_fi,
+        parent=parent_hobby_category,
+        defaults={
+          'name_fi': name_fi,
+          'name_sv': name_sv,
+          'name_en': name_en,
+          'parent': parent_hobby_category,
+          'data_source': data_source,
+          'origin_id': origin_id
+        }
+      )
       indent = '--' * self.depth
-      self.stdout.write(f'{indent}{label}')
+      self.stdout.write(f'{indent}fi_{name_fi}, sv_{name_sv}, en_{name_en}')
       self.depth += 1
       self.add_subclasses_as_categories(subclass, hobby_category)
       self.depth -= 1
