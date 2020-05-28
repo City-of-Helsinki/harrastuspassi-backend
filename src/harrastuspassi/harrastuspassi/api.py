@@ -14,10 +14,14 @@ from django_filters.constants import EMPTY_VALUES
 from guardian.core import ObjectPermissionChecker
 from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
-from rest_framework import permissions, viewsets
-from rest_framework.exceptions import ValidationError
+from rest_framework import permissions, viewsets, serializers
+from rest_framework import filters as drf_filters
+from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
+
+from harrastuspassi import settings
+from harrastuspassi.geocoding import get_coordinates_from_address
 
 from harrastuspassi.models import (
     Benefit,
@@ -304,7 +308,7 @@ class HobbyEventFilter(filters.FilterSet):
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
@@ -313,6 +317,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
+    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name']
 
     @property
     def paginator(self):
@@ -346,7 +351,18 @@ class LocationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
-        serializer.save(created_by=self.request.user, municipality=municipality)
+        if settings.GOOGLE_GEOCODING_API_KEY and 'coordinates' not in self.request.data:
+            address = self.request.data.get('address', '')
+            zip_code = self.request.data.get('zip_code', '')
+            city = self.request.data.get('city', '')
+            formatted_address = f'{address},+{zip_code}+{city}'
+            try:
+                coordinates = get_coordinates_from_address(formatted_address)
+            except APIException:
+                raise serializers.ValidationError('This address could not be geocoded. Please confirm your address is right, or try again later.')
+            serializer.save(created_by=self.request.user, municipality=municipality, coordinates=coordinates)
+        else:
+            serializer.save(created_by=self.request.user, municipality=municipality)
 
 
 class PromotionFilter(filters.FilterSet):
