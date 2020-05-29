@@ -9,7 +9,6 @@ from django.db import transaction
 from harrastuspassi import settings
 from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location
 
-
 LOG = logging.getLogger(__name__)
 REQUESTS_TIMEOUT = 15
 
@@ -36,8 +35,11 @@ class Command(BaseCommand):
     }
 
     def add_arguments(self, parser):
+
         parser.add_argument('--url', action='store', dest='url', default=settings.LIPAS_URL,
                             help='Import from a given URL')
+        parser.add_argument('--non_hp', action='store_false', dest='import_only_hp', default=True,
+                            help='Import also the places that have Harrastuspassi flag set to False')
 
     def handle(self, *args, **options):
         page_number = 1
@@ -66,6 +68,7 @@ class Command(BaseCommand):
                         'type.typeCode',
                     ],
                     'page': page_number,
+                    'harrastuspassi': 'true' if options['import_only_hp'] else 'false',
                 }
                 response = self.session.get(
                     options['url'],
