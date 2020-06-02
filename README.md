@@ -25,6 +25,7 @@ Backend for Harrastuspassi. Built with Django, uses PostgreSQL as a database.
     \c <database_name>
     CREATE EXTENSION postgis;
     CREATE USER <user> WITH PASSWORD '<password>';
+    ALTER USER <user> WITH SUPERUSER;
     GRANT ALL PRIVILEGES ON DATABASE <database_name> TO <user>;
 
 ### 5. Configure `local_settings.py`'s `DATABASES` section based on previous step
