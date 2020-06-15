@@ -217,7 +217,7 @@ class HobbyFilter(filters.FilterSet):
             return self.queryset.none()
 
     def filter_price_type(self, queryset, name, value):
-        value_in_price_type_choices = any(value in type[0] for type in Hobby.PRICE_TYPE_CHOICES)
+        value_in_price_type_choices = any(value == price_type for price_type, label in Hobby.PRICE_TYPE_CHOICES)
         if value_in_price_type_choices:
             queryset = queryset.filter(price_type=value)
         return queryset
@@ -315,7 +315,7 @@ class HobbyEventFilter(filters.FilterSet):
             return queryset
 
     def filter_price_type(self, queryset, name, value):
-        value_in_price_type_choices = any(value in type[0] for type in Hobby.PRICE_TYPE_CHOICES)
+        value_in_price_type_choices = any(value == price_type for price_type, label in Hobby.PRICE_TYPE_CHOICES)
         if value_in_price_type_choices:
             queryset = queryset.filter(hobby__price_type=value)
         return queryset
