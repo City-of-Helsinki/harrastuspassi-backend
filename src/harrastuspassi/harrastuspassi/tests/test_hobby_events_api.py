@@ -294,3 +294,95 @@ def test_hobby_event_text_search(
     assert len(response.data) == 1
     assert test_hobby.id == response.data[0]['hobby']
     assert test_event.id == response.data[0]['id']
+
+
+@pytest.mark.django_db
+def test_price_type_filter(user_api_client, location, organizer, municipality):
+    url = reverse('hobbyevent-list')
+    free_type_hobby = Hobby.objects.create(
+        name='Free type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_FREE
+    )
+    HobbyEvent.objects.create(
+        hobby=free_type_hobby,
+        start_date=datetime.datetime(2020, 5, 17),
+        end_date=datetime.datetime(2020, 5, 17),
+        start_time=datetime.datetime.now(),
+        end_time=datetime.datetime.now()
+    )
+    annual_type_hobby = Hobby.objects.create(
+        name='Annual type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_ANNUAL
+    )
+    HobbyEvent.objects.create(
+        hobby=annual_type_hobby,
+        start_date=datetime.datetime(2020, 5, 17),
+        end_date=datetime.datetime(2020, 5, 17),
+        start_time=datetime.datetime.now(),
+        end_time=datetime.datetime.now()
+    )
+    seasonal_type_hobby = Hobby.objects.create(
+        name='Seasonal type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_SEASONAL
+    )
+    HobbyEvent.objects.create(
+        hobby=seasonal_type_hobby,
+        start_date=datetime.datetime(2020, 5, 17),
+        end_date=datetime.datetime(2020, 5, 17),
+        start_time=datetime.datetime.now(),
+        end_time=datetime.datetime.now()
+    )
+    one_time_type_hobby = Hobby.objects.create(
+        name='One time type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_ONE_TIME
+    )
+    HobbyEvent.objects.create(
+        hobby=one_time_type_hobby,
+        start_date=datetime.datetime(2020, 5, 17),
+        end_date=datetime.datetime(2020, 5, 17),
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.now()
+    )
+    response = user_api_client.get(url, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 4
+
+    # Filter for hobby events with price type of free
+    url_with_free_filter = f'{url}?price_type={Hobby.TYPE_FREE}'
+    response = user_api_client.get(url_with_free_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['hobby'] == free_type_hobby.id
+
+    # Filter for hobby events with price type of annual
+    url_with_annual_filter = f'{url}?price_type={Hobby.TYPE_ANNUAL}'
+    response = user_api_client.get(url_with_annual_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['hobby'] == annual_type_hobby.id
+
+    # Filter for hobby events with price type of seasonal
+    url_with_seasonal_filter = f'{url}?price_type={Hobby.TYPE_SEASONAL}'
+    response = user_api_client.get(url_with_seasonal_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['hobby'] == seasonal_type_hobby.id
+
+    # Filter for hobby events with price type of one_time
+    url_with_one_time_filter = f'{url}?price_type={Hobby.TYPE_ONE_TIME}'
+    response = user_api_client.get(url_with_one_time_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['hobby'] == one_time_type_hobby.id

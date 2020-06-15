@@ -201,6 +201,7 @@ class HobbyFilter(filters.FilterSet):
     )
     near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
     near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
+    price_type = filters.CharFilter(method='filter_price_type', label=_('Filter Hobbies by price type'))
 
     class Meta:
         model = Hobby
@@ -214,6 +215,12 @@ class HobbyFilter(filters.FilterSet):
             return get_objects_for_user(self.request.user, 'change_hobby', self.queryset)
         else:
             return self.queryset.none()
+
+    def filter_price_type(self, queryset, name, value):
+        value_in_price_type_choices = any(value in type[0] for type in Hobby.PRICE_TYPE_CHOICES)
+        if value_in_price_type_choices:
+            queryset = queryset.filter(price_type=value)
+        return queryset
 
 
 class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
@@ -291,6 +298,7 @@ class HobbyEventFilter(filters.FilterSet):
                                                          f' Enter a number from 1 to 7. Use ISO 8601 weekdays:'
                                                          f' 1=Monday, 7=Sunday.'))
     exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
+    price_type = filters.CharFilter(method='filter_price_type', label=_('Filter HobbyEvents by price type'))
 
     class Meta:
         model = HobbyEvent
@@ -305,6 +313,12 @@ class HobbyEventFilter(filters.FilterSet):
             return queryset.exclude(date_is_before_today | date_is_today_but_time_is_in_past)
         else:
             return queryset
+
+    def filter_price_type(self, queryset, name, value):
+        value_in_price_type_choices = any(value in type[0] for type in Hobby.PRICE_TYPE_CHOICES)
+        if value_in_price_type_choices:
+            queryset = queryset.filter(hobby__price_type=value)
+        return queryset
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
