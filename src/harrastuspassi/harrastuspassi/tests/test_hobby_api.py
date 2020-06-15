@@ -279,3 +279,67 @@ def test_hobby_positive_price(user_api_client, valid_hobby_data):
     response = user_api_client.post(url, data=valid_hobby_data, format='json')
     assert response.status_code == 400
     assert response.data['non_field_errors'][0] == ErrorDetail('Price amount can not be negative', code='invalid')
+
+
+@pytest.mark.django_db
+def test_price_type_filter(user_api_client, location, organizer, municipality):
+    url = reverse('hobby-list')
+    free_type_hobby = Hobby.objects.create(
+        name='Free type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_FREE
+    )
+    annual_type_hobby = Hobby.objects.create(
+        name='Annual type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_ANNUAL
+    )
+    seasonal_type_hobby = Hobby.objects.create(
+        name='Seasonal type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_SEASONAL
+    )
+    one_time_type_hobby = Hobby.objects.create(
+        name='One time type hobby',
+        location=location,
+        organizer=organizer,
+        municipality=municipality,
+        price_type=Hobby.TYPE_ONE_TIME
+    )
+    response = user_api_client.get(url, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 4
+
+    # Filter for hobbies with price type of free
+    url_with_free_filter = f'{url}?price_type={Hobby.TYPE_FREE}'
+    response = user_api_client.get(url_with_free_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['name'] == free_type_hobby.name
+
+    # Filter for hobbies with price type of annual
+    url_with_annual_filter = f'{url}?price_type={Hobby.TYPE_ANNUAL}'
+    response = user_api_client.get(url_with_annual_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['name'] == annual_type_hobby.name
+
+    # Filter for hobbies with price type of seasonal
+    url_with_seasonal_filter = f'{url}?price_type={Hobby.TYPE_SEASONAL}'
+    response = user_api_client.get(url_with_seasonal_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['name'] == seasonal_type_hobby.name
+
+    # Filter for hobbies with price type of one_time
+    url_with_one_time_filter = f'{url}?price_type={Hobby.TYPE_ONE_TIME}'
+    response = user_api_client.get(url_with_one_time_filter, format='json')
+    assert response.status_code == 200
+    assert len(response.data) == 1
+    assert response.data[0]['name'] == one_time_type_hobby.name
