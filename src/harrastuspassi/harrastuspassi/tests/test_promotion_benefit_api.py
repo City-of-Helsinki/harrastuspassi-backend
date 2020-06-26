@@ -134,3 +134,40 @@ def test_list_promotions_usable_only(api_client, organizer, location):
     response = api_client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 0
+
+
+@pytest.mark.django_db
+def test_promotion_search_filter(api_client, organizer, location):
+    api_url = reverse('promotion-list')
+    date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
+    test_promotion = Promotion.objects.create(
+        name='Lorem ipsum',
+        description='Dolor sit amet',
+        start_date=FROZEN_DATE,
+        start_time='10:00',
+        end_date=date_today + datetime.timedelta(days=7),
+        end_time='15:59',
+        organizer=organizer,
+        available_count=10,
+        used_count=9,
+        location=location
+    )
+    # Searching with non-matching param should return 0 results
+    search_url = f'{api_url}?search=aivan jotain muuta'
+    response = api_client.get(search_url)
+    assert response.status_code == 200
+    assert len(response.data) == 0
+
+    # Test searching by name
+    search_url = f'{api_url}?search=lore'
+    response = api_client.get(search_url)
+    assert response.status_code == 200
+    assert test_promotion.id == response.data[0]['id']
+    assert len(response.data) == 1
+
+    # Test searching by description
+    search_url = f'{api_url}?search=dolo'
+    response = api_client.get(search_url)
+    assert response.status_code == 200
+    assert test_promotion.id == response.data[0]['id']
+    assert len(response.data) == 1

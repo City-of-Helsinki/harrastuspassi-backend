@@ -35,6 +35,17 @@ class HobbyAdmin(GuardedModelAdmin):
     inlines = (HobbyEventInline,)
     raw_id_fields = ('location',)
     filter_horizontal = ('categories',)
+    list_display = ('name', 'location', 'created_at', 'updated_at')
+    list_filter = ('price_type',
+                   'municipality__name',
+                   'organizer__name',
+                   'location__name')
+    search_fields = ('name',
+                     'location__name',
+                     'municipality__name',
+                     'description',
+                     'organizer__name',
+                     'categories__name')
 
 
 class LocationAdmin(admin.ModelAdmin):

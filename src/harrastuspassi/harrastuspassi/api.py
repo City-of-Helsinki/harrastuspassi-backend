@@ -412,8 +412,9 @@ class PromotionFilter(filters.FilterSet):
 class PromotionViewSet(viewsets.ModelViewSet):
     queryset = Promotion.objects.all()
     serializer_class = PromotionSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
     filterset_class = PromotionFilter
+    search_fields = ['name', 'description']
 
     def perform_create(self, serializer):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)

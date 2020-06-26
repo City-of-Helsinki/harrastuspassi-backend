@@ -77,7 +77,7 @@ class LocationQuerySet(DistanceMixin, models.QuerySet):
 
 
 class Municipality(TimestampedModel):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, verbose_name='Municipality')
     moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
 
     @classmethod
@@ -89,7 +89,7 @@ class Municipality(TimestampedModel):
 
 
 class Location(ExternalDataModel, TimestampedModel):
-    name = models.CharField(max_length=256, blank=True)
+    name = models.CharField(max_length=256, blank=True, verbose_name='Location')
     address = models.CharField(max_length=256, blank=True)
     zip_code = models.CharField(max_length=5, blank=True)
     city = models.CharField(max_length=64, blank=True)
@@ -118,14 +118,14 @@ class Location(ExternalDataModel, TimestampedModel):
 
 
 class Organizer(ExternalDataModel, TimestampedModel):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, verbose_name='Organizer')
 
     def __str__(self):
         return self.name
 
 
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, verbose_name='Hobby Category')
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     class MPTTMeta:
@@ -155,7 +155,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
         (TYPE_ONE_TIME, _('One time')),
     )
 
-    name = models.CharField(max_length=1024)
+    name = models.CharField(max_length=1024, verbose_name='Hobby')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
     description = models.TextField(blank=True)
@@ -163,7 +163,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
     categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE)
+    price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE, verbose_name='Price type')
     price_amount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True)
 
     objects = HobbyQuerySet.as_manager()
