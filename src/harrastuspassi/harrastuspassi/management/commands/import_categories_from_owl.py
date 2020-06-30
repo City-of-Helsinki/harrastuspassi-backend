@@ -38,10 +38,9 @@ class Command(BaseCommand):
         elif label_lang == 'en':
           name_en = label
       hobby_category, created = HobbyCategory.objects.update_or_create(
-        name=name_fi,
+        name_fi=name_fi,
         parent=parent_hobby_category,
         defaults={
-          'name_fi': name_fi,
           'name_sv': name_sv,
           'name_en': name_en,
           'data_source': data_source,
