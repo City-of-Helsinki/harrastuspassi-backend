@@ -257,7 +257,9 @@ def test_hobby_event_text_search(
     date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
     api_url = reverse('hobbyevent-list')
     test_hobby_category = HobbyCategory.objects.create(
-        name='Saappaanheitto'
+        name_fi='Saappaanheitto',
+        name_en='Boot throwing',
+        name_sv='Startkast'
     )
     test_hobby = Hobby.objects.create(
         name='Lorem ipsum dolor sit amet',
@@ -288,8 +290,22 @@ def test_hobby_event_text_search(
     assert test_hobby.id == response.data[0]['hobby']
     assert test_event.id == response.data[0]['id']
 
-    # Test searching by category
+    # Test searching by category name_fi
     url = f'{api_url}?search=saappaan'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert test_hobby.id == response.data[0]['hobby']
+    assert test_event.id == response.data[0]['id']
+
+    # Test searching by category name_en
+    url = f'{api_url}?search=boot'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert test_hobby.id == response.data[0]['hobby']
+    assert test_event.id == response.data[0]['id']
+
+    # Test searching by category name_sv
+    url = f'{api_url}?search=star'
     response = api_client.get(url)
     assert len(response.data) == 1
     assert test_hobby.id == response.data[0]['hobby']

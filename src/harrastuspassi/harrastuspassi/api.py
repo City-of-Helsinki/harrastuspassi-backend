@@ -331,7 +331,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
-    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name']
+    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name_fi', 'hobby__categories__name_en', 'hobby__categories__name_sv']
 
     @property
     def paginator(self):
