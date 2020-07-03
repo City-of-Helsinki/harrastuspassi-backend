@@ -73,6 +73,12 @@ def frozen_date():
 
 
 @pytest.fixture
+def frozen_date_plus_year():
+    year, month, day = map(int, FROZEN_DATE.split('-'))
+    return datetime.date(year=year, month=month, day=day) + datetime.timedelta(365)
+
+
+@pytest.fixture
 def location(municipality):
     return Location.objects.create(name='Tampere', municipality=municipality)
 
@@ -101,6 +107,7 @@ def hobbyevent(hobby):
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
     )
+
 
 @pytest.fixture
 def hobby2(location, organizer, municipality):
@@ -299,3 +306,39 @@ def hobby_near_with_events(hobby_near, frozen_date):
     HobbyEvent.objects.create(hobby=hobby_near, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
     return hobby_near
+
+
+@pytest.fixture
+def promotion_far(location_far, organizer, frozen_date):
+    return Promotion.objects.create(name='Test Promotion at farland',
+                                    available_count=100,
+                                    location=location_far,
+                                    organizer=organizer,
+                                    start_date=frozen_date,
+                                    start_time='00:00',
+                                    end_date=frozen_date + datetime.timedelta(365),
+                                    end_time='00:00')
+
+
+@pytest.fixture
+def promotion_midway(location_midway, organizer, frozen_date):
+    return Promotion.objects.create(name='Test Promotion at midland',
+                                    available_count=100,
+                                    location=location_midway,
+                                    organizer=organizer,
+                                    start_date=frozen_date,
+                                    start_time='00:00',
+                                    end_date=frozen_date + datetime.timedelta(365),
+                                    end_time='00:00')
+
+
+@pytest.fixture
+def promotion_near(location_near, organizer, frozen_date):
+    return Promotion.objects.create(name='Test Promotion at nearland',
+                                    available_count=100,
+                                    location=location_near,
+                                    organizer=organizer,
+                                    start_date=frozen_date,
+                                    start_time='00:00',
+                                    end_date=frozen_date + datetime.timedelta(365),
+                                    end_time='00:00')

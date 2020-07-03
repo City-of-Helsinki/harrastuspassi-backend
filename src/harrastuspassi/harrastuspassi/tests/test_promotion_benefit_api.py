@@ -1,6 +1,5 @@
 import datetime
 import pytest
-from django.core.exceptions import ValidationError
 from django.urls import reverse
 from freezegun import freeze_time
 from harrastuspassi.models import Benefit, Promotion
@@ -171,3 +170,20 @@ def test_promotion_search_filter(api_client, organizer, location):
     assert response.status_code == 200
     assert test_promotion.id == response.data[0]['id']
     assert len(response.data) == 1
+
+
+@pytest.mark.django_db
+def test_promotions_location(api_client,
+                             promotion_far,
+                             promotion_midway,
+                             promotion_near):
+
+    """ Promotions should be orderable by distance to a point """
+    api_url = reverse('promotion-list')
+    url = f'{api_url}?ordering=nearest&near_latitude=1.00000&near_longitude=1.00000'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    promotions = response.json()
+    assert promotion_near.pk == promotions[0]['id']
+    assert promotion_midway.pk == promotions[1]['id']
+    assert promotion_far.pk == promotions[2]['id']

@@ -383,6 +383,18 @@ class PromotionFilter(filters.FilterSet):
     exclude_past_events = filters.BooleanFilter(method='filter_past_events', label=_('Show upcoming only'))
     usable_only = filters.BooleanFilter(method='filter_used_promotions', label=_('Show only usable promotions'))
     editable_only = filters.BooleanFilter(method='filter_editable', label=_('Show editable only'))
+    ordering = NearestOrderingFilter(
+        fields=(
+            # (field name, param name)
+            ('distance_to_point', 'nearest'),
+        ),
+        field_labels={
+            'distance_to_point': _('Nearest'),
+        },
+        label=_('Ordering. Choices: `nearest`')
+    )
+    near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
+    near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
 
     def filter_past_events(self, queryset, name, value):
         is_filtering_requested = value
