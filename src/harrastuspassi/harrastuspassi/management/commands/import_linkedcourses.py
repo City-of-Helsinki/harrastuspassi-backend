@@ -270,7 +270,7 @@ class Command(BaseCommand):
             'address': location_data['street_address'].get('fi', ''),
             'coordinates': None
         }
-        if location_data['position'].get('type') == 'Point':
+        if location_data['position'] and location_data['position'].get('type') == 'Point':
             # Are these the right way?
             lon = location_data['position']['coordinates'][0]
             lat = location_data['position']['coordinates'][1]
