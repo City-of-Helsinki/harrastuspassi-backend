@@ -190,6 +190,10 @@ class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'
 
 
+class PromotionQuerySet(DistanceMixin, models.QuerySet):
+    coordinates_field = 'location__coordinates'
+
+
 class HobbyEvent(ExternalDataModel, TimestampedModel):
     """ An event in time when a hobby takes place """
     DAY_OF_WEEK_CHOICES = (
@@ -247,6 +251,8 @@ class Promotion(TimestampedModel):
     used_count = models.PositiveIntegerField(default=0)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    
+    objects = PromotionQuerySet.as_manager()
 
     def __str__(self):
         return self.name
