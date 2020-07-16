@@ -72,7 +72,7 @@ class HobbyCategoryTreeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = HobbyCategory
-        fields = ['id', 'name', 'tree_id', 'level', 'parent']
+        fields = ['id', 'name', 'name_fi', 'name_en', 'name_sv', 'tree_id', 'level', 'parent']
 
 
 class LocationSerializerPre1(serializers.ModelSerializer):
