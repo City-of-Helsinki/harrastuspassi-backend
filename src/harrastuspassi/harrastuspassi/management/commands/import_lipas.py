@@ -95,6 +95,7 @@ class Command(BaseCommand):
                         continue
                     location, location_created = Location.objects.update_or_create(
                         data_source=self.source,
+                        origin_id=sports_place.get('sportsPlaceId'),
                         name=sports_place.get('name'),
                         zip_code=cleaned_postal_code,
                         defaults={
@@ -118,6 +119,7 @@ class Command(BaseCommand):
 
                     hobby, hobby_created = Hobby.objects.update_or_create(
                         data_source=self.source,
+                        origin_id=sports_place.get('sportsPlaceId'),
                         name=sports_place['name'],
                         price_type=Hobby.TYPE_FREE,
                         defaults={
@@ -128,6 +130,7 @@ class Command(BaseCommand):
 
                     hobbyevent, hobbyevent_created = HobbyEvent.objects.update_or_create(
                         data_source=self.source,
+                        origin_id=sports_place.get('sportsPlaceId'),
                         hobby=hobby,
                         defaults={
                             'start_date': datetime.date.today(),
