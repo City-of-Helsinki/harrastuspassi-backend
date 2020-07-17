@@ -15,6 +15,7 @@ has changed or not. we don't want to download the full image file every time to
 see if it has changed or not.
 """
 
+import pdb
 import iso8601
 import json
 import logging
@@ -67,7 +68,7 @@ class Command(BaseCommand):
                 for event in page:
                     objects = self.handle_event(event)
                     for obj in objects:
-                        if isinstance(obj, HobbyEvent) and not obj.hobby:
+                        if isinstance(obj, HobbyEvent) and not hasattr(obj, 'hobby'):
                             # we might have created HobbyEvents which could not determine
                             # a Hobby instance. these are not yet persisted to db.
                             orphaned_hobby_events.append(obj)
