@@ -7,6 +7,8 @@ from datetime import timedelta
 # Core configuration
 #
 
+DEBUG = os.environ.get('DEBUG', False)
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
@@ -24,12 +26,12 @@ INSTALLED_APPS = [
     'health_check.storage',
 
     'django_filters',
+    'django_extensions',
     'guardian',
     'mptt',
     'rest_framework',
     'rest_framework_gis',
     'rest_framework.authtoken',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.insert(2, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = ['127.0.0.1']
 
 TEMPLATES = [
     {
