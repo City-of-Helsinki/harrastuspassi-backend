@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 for event in page:
                     objects = self.handle_event(event)
                     for obj in objects:
-                        if isinstance(obj, HobbyEvent) and not obj.hobby:
+                        if isinstance(obj, HobbyEvent) and not hasattr(obj, 'hobby'):
                             # we might have created HobbyEvents which could not determine
                             # a Hobby instance. these are not yet persisted to db.
                             orphaned_hobby_events.append(obj)
@@ -265,11 +265,14 @@ class Command(BaseCommand):
             return None
         data = {
             'name': location_data['name'].get('fi'),  # TODO: language support
-            'zip_code': location_data['postal_code'],
-            'city': location_data['address_locality'].get('fi', ''),
-            'address': location_data['street_address'].get('fi', ''),
+            'zip_code': location_data.get('postal_code', ''),
             'coordinates': None
         }
+        if location_data['address_locality']:
+            data['city'] = location_data['address_locality'].get('fi', '')
+        if location_data['street_address']:
+            data['address'] = location_data['street_address'].get('fi', '')
+
         if location_data['position'] and location_data['position'].get('type') == 'Point':
             # Are these the right way?
             lon = location_data['position']['coordinates'][0]
