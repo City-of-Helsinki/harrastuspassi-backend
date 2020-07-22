@@ -120,10 +120,10 @@ class Command(BaseCommand):
                     hobby, hobby_created = Hobby.objects.update_or_create(
                         data_source=self.source,
                         origin_id=sports_place.get('sportsPlaceId'),
-                        name=sports_place['name'],
-                        price_type=Hobby.TYPE_FREE,
                         defaults={
                             'location': location,
+                            'name': sports_place['name'],
+                            'price_type': Hobby.TYPE_FREE
                         }
                     )
                     hobby.categories.set([category])
