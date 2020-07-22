@@ -97,16 +97,16 @@ class Command(BaseCommand):
                     location, location_created = Location.objects.update_or_create(
                         data_source=self.source,
                         origin_id=sports_place.get('sportsPlaceId'),
-                        name=sports_place.get('name'),
-                        zip_code=cleaned_postal_code,
                         defaults={
                             'address': sports_place['location'].get('address', ''),
                             'city': sports_place['location']['city'].get('name'),
                             'coordinates': Point(
                                 sports_place['location']['coordinates']['wgs84'].get('lon', ''),
                                 sports_place['location']['coordinates']['wgs84'].get('lat', '')
-                            )
-                        }
+                            ),
+                            'name': sports_place.get('name'),
+                            'zip_code': cleaned_postal_code
+                        },
                     )
 
                     if location_created:
