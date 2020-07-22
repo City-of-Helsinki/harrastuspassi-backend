@@ -96,16 +96,17 @@ class Command(BaseCommand):
                         continue
                     location, location_created = Location.objects.update_or_create(
                         data_source=self.source,
-                        name=sports_place.get('name'),
-                        zip_code=cleaned_postal_code,
+                        origin_id=sports_place.get('sportsPlaceId'),
                         defaults={
                             'address': sports_place['location'].get('address', ''),
                             'city': sports_place['location']['city'].get('name'),
                             'coordinates': Point(
                                 sports_place['location']['coordinates']['wgs84'].get('lon', ''),
                                 sports_place['location']['coordinates']['wgs84'].get('lat', '')
-                            )
-                        }
+                            ),
+                            'name': sports_place.get('name'),
+                            'zip_code': cleaned_postal_code
+                        },
                     )
 
                     if location_created:
@@ -119,19 +120,21 @@ class Command(BaseCommand):
 
                     hobby, hobby_created = Hobby.objects.update_or_create(
                         data_source=self.source,
-                        name=sports_place['name'],
-                        price_type=Hobby.TYPE_FREE,
-                        description=sports_place['properties'].get('infoFi', ''),
+                        origin_id=sports_place.get('sportsPlaceId'),
                         defaults={
                             'location': location,
+                            'name': sports_place['name'],
+                            'price_type': Hobby.TYPE_FREE,
+                            'description': sports_place['properties'].get('infoFi', ''),
                         }
                     )
                     hobby.categories.set([category])
 
                     hobbyevent, hobbyevent_created = HobbyEvent.objects.update_or_create(
                         data_source=self.source,
-                        hobby=hobby,
+                        origin_id=sports_place.get('sportsPlaceId'),
                         defaults={
+                            'hobby': hobby,
                             'start_date': datetime.date.today(),
                             'end_date': datetime.date.today() + datetime.timedelta(days=365),
                             'start_time': datetime.datetime.strptime('00:00', '%H:%M').time(),
