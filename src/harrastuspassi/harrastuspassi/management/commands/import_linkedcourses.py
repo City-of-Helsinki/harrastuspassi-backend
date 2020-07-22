@@ -14,7 +14,6 @@ from the linked courses image data structure so we can determine whether the ima
 has changed or not. we don't want to download the full image file every time to
 see if it has changed or not.
 """
-
 import iso8601
 import json
 import logging
@@ -67,7 +66,7 @@ class Command(BaseCommand):
                 for event in page:
                     objects = self.handle_event(event)
                     for obj in objects:
-                        if isinstance(obj, HobbyEvent) and not obj.hobby:
+                        if isinstance(obj, HobbyEvent) and not hasattr(obj, 'hobby'):
                             # we might have created HobbyEvents which could not determine
                             # a Hobby instance. these are not yet persisted to db.
                             orphaned_hobby_events.append(obj)
@@ -265,11 +264,16 @@ class Command(BaseCommand):
             return None
         data = {
             'name': location_data['name'].get('fi'),  # TODO: language support
-            'zip_code': location_data['postal_code'],
-            'city': location_data['address_locality'].get('fi', ''),
-            'address': location_data['street_address'].get('fi', ''),
+            #  not using plain location_data.get('postal_code', '') to avoid None values if 
+            #  location_data['postal__code'] == None
+            'zip_code': location_data.get('postal_code') if location_data.get('postal_code') else '',
             'coordinates': None
         }
+        if location_data['address_locality']:
+            data['city'] = location_data['address_locality'].get('fi', '')
+        if location_data['street_address']:
+            data['address'] = location_data['street_address'].get('fi', '')
+
         if location_data['position'] and location_data['position'].get('type') == 'Point':
             # Are these the right way?
             lon = location_data['position']['coordinates'][0]
@@ -278,8 +282,7 @@ class Command(BaseCommand):
         location, created = Location.objects.get_or_create(
             data_source=self.source,
             origin_id=location_data['@id'],
-            defaults=data
-        )
+            defaults=data)
         if not created:
             is_dirty = False
             for field, value in data.items():
