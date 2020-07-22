@@ -66,6 +66,7 @@ class Command(BaseCommand):
                         'location.coordinates.wgs84',
                         'location.address',
                         'type.typeCode',
+                        'properties'
                     ],
                     'page': page_number,
                     'harrastuspassi': 'true' if options['import_only_hp'] else 'false',
@@ -120,6 +121,7 @@ class Command(BaseCommand):
                         data_source=self.source,
                         name=sports_place['name'],
                         price_type=Hobby.TYPE_FREE,
+                        description=sports_place['properties'].get('infoFi', ''),
                         defaults={
                             'location': location,
                         }
