@@ -133,8 +133,8 @@ class Command(BaseCommand):
                     hobbyevent, hobbyevent_created = HobbyEvent.objects.update_or_create(
                         data_source=self.source,
                         origin_id=sports_place.get('sportsPlaceId'),
-                        hobby=hobby,
                         defaults={
+                            'hobby': hobby,
                             'start_date': datetime.date.today(),
                             'end_date': datetime.date.today() + datetime.timedelta(days=365),
                             'start_time': datetime.datetime.strptime('00:00', '%H:%M').time(),
