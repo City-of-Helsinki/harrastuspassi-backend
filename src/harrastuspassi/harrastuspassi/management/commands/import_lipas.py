@@ -66,6 +66,7 @@ class Command(BaseCommand):
                         'location.coordinates.wgs84',
                         'location.address',
                         'type.typeCode',
+                        'properties'
                     ],
                     'page': page_number,
                     'harrastuspassi': 'true' if options['import_only_hp'] else 'false',
@@ -123,7 +124,8 @@ class Command(BaseCommand):
                         defaults={
                             'location': location,
                             'name': sports_place['name'],
-                            'price_type': Hobby.TYPE_FREE
+                            'price_type': Hobby.TYPE_FREE,
+                            'description': sports_place['properties'].get('infoFi', ''),
                         }
                     )
                     hobby.categories.set([category])
