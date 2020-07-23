@@ -1,5 +1,6 @@
 
 # -*- coding: utf-8 -*-
+import os
 from django.urls import include, path, re_path
 from rest_framework import routers
 from harrastuspassi.api import (
