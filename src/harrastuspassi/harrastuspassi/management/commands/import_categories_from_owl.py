@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
-# there must be a better way
+# TODO: there must be a better way
 app_label = settings.INSTALLED_APPS[0]
 
 Root = namedtuple('Root', ['label', 'model_name'])

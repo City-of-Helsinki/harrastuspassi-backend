@@ -7,8 +7,6 @@ from datetime import timedelta
 # Core configuration
 #
 
-DEBUG = os.environ.get('DEBUG', False)
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
