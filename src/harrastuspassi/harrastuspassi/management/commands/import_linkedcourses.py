@@ -14,7 +14,6 @@ from the linked courses image data structure so we can determine whether the ima
 has changed or not. we don't want to download the full image file every time to
 see if it has changed or not.
 """
-
 import iso8601
 import json
 import logging

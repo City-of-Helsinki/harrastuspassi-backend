@@ -32,7 +32,6 @@ public_urlpatterns = [
 internal_urlpatterns = [
     re_path('mobile-api/(?P<version>(pre1|pre2|v1))/', include(router.urls)),
     path('mobile-api/', include(router.urls)),  # DEPRECATED, used by mobile v0.2.0
-    path('__debug__/', include(debug_toolbar.urls))
 ]
 
 if DEBUG:
