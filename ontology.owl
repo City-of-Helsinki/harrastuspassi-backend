@@ -1,0 +1,2892 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://webprotege.stanford.edu/project/DEowkYh4m8afIf6YWuQtz2#"
+     xml:base="http://webprotege.stanford.edu/project/DEowkYh4m8afIf6YWuQtz2"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://webprotege.stanford.edu/project/DEowkYh4m8afIf6YWuQtz2"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/elements/1.1/identifier -->
+
+    <owl:AnnotationProperty rdf:about="http://purl.org/dc/elements/1.1/identifier"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://webprotege.stanford.edu/R04fglldFKjOLQ20vQqPB0 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R04fglldFKjOLQ20vQqPB0">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8tABfMwP6EVv1TIspLqcUZ"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14344</dc:identifier>
+        <rdfs:label xml:lang="en">BMX</rdfs:label>
+        <rdfs:label xml:lang="sv">BMX</rdfs:label>
+        <rdfs:label xml:lang="fi">BMX-pyöräily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R0yJd5nUpk4DEf97ClaN2i -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R0yJd5nUpk4DEf97ClaN2i">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1979</dc:identifier>
+        <rdfs:label xml:lang="sv">Fotografi</rdfs:label>
+        <rdfs:label xml:lang="en">Photography</rdfs:label>
+        <rdfs:label xml:lang="fi">Valokuvaus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R1ipKCn36wQAyxa8vJjxaM -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R1ipKCn36wQAyxa8vJjxaM">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16210</dc:identifier>
+        <rdfs:label xml:lang="en">Badminton</rdfs:label>
+        <rdfs:label xml:lang="sv">Badminton</rdfs:label>
+        <rdfs:label xml:lang="fi">Sulkapallo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R56vh4HSRvTNOpNWMRC2Je -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R56vh4HSRvTNOpNWMRC2Je">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19863</dc:identifier>
+        <rdfs:label xml:lang="en">DJ</rdfs:label>
+        <rdfs:label xml:lang="sv">DJ</rdfs:label>
+        <rdfs:label xml:lang="fi">DJ:t</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R5DSn7o2nkk4fFt2ioghSl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R5DSn7o2nkk4fFt2ioghSl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <rdfs:label xml:lang="en">Padel</rdfs:label>
+        <rdfs:label xml:lang="fi">Padel</rdfs:label>
+        <rdfs:label xml:lang="sv">Padel</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R5f0w6G1kk0HJ7HPppn59u -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R5f0w6G1kk0HJ7HPppn59u">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p22086</dc:identifier>
+        <rdfs:label xml:lang="en">Krav Maga</rdfs:label>
+        <rdfs:label xml:lang="fi">Krav Maga</rdfs:label>
+        <rdfs:label xml:lang="sv">Krav Maga</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R70ZTBZw8pMPvYKCVRUwohC -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R70ZTBZw8pMPvYKCVRUwohC">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p28086</dc:identifier>
+        <rdfs:label xml:lang="en">Parlour games</rdfs:label>
+        <rdfs:label xml:lang="fi">Seurapelit</rdfs:label>
+        <rdfs:label xml:lang="sv">Sällskapspel</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R725URgta4FI3NlkwmkvEKf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R725URgta4FI3NlkwmkvEKf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17521</dc:identifier>
+        <rdfs:label xml:lang="sv">Miniatyrmodeller</rdfs:label>
+        <rdfs:label xml:lang="fi">Pienoismallit</rdfs:label>
+        <rdfs:label xml:lang="en">Scale models</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R72DtlWF4iJQIm9HN5wIvDi -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R72DtlWF4iJQIm9HN5wIvDi">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7qnNBUv3emRrjXL4ATjoQ9"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2666</dc:identifier>
+        <rdfs:label xml:lang="en">Bass guitar</rdfs:label>
+        <rdfs:label xml:lang="fi">Bassokitara</rdfs:label>
+        <rdfs:label xml:lang="sv">Elbas</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R73szzFiF4SWEuT4TVs2Cgw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R73szzFiF4SWEuT4TVs2Cgw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p454</dc:identifier>
+        <rdfs:label xml:lang="en">Politics</rdfs:label>
+        <rdfs:label xml:lang="fi">Politiikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Politik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R77qdBZXwjkBVQTpeoxw9m8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R77qdBZXwjkBVQTpeoxw9m8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8tABfMwP6EVv1TIspLqcUZ"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10408</dc:identifier>
+        <rdfs:label xml:lang="sv">Landvägscykling</rdfs:label>
+        <rdfs:label xml:lang="fi">Maantiepyöräily</rdfs:label>
+        <rdfs:label xml:lang="en">Road bicycle racing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R78ot2WI183e7yXLM5aRcar -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R78ot2WI183e7yXLM5aRcar">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4329</dc:identifier>
+        <rdfs:label xml:lang="en">Diving</rdfs:label>
+        <rdfs:label xml:lang="sv">Simhoppning</rdfs:label>
+        <rdfs:label xml:lang="fi">Uimahypyt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7NYJxksQMwYHN5gIPfbtkY -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7NYJxksQMwYHN5gIPfbtkY">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3910</dc:identifier>
+        <rdfs:label xml:lang="fi">Ompelu</rdfs:label>
+        <rdfs:label xml:lang="en">Sewing</rdfs:label>
+        <rdfs:label xml:lang="sv">Sömnad</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7NYeYUo8Za2jYgpiEO7loy -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7NYeYUo8Za2jYgpiEO7loy">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8780</dc:identifier>
+        <rdfs:label xml:lang="fi">Kudonta</rdfs:label>
+        <rdfs:label xml:lang="sv">Vävning</rdfs:label>
+        <rdfs:label xml:lang="en">Weaving</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7O6Z9zV4VbWELf0nMmQA1H -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7O6Z9zV4VbWELf0nMmQA1H">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBsIwI8iD69q5LXda2iCdww"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p20158</dc:identifier>
+        <rdfs:label xml:lang="en">Animal shows</rdfs:label>
+        <rdfs:label xml:lang="sv">Djurutställningar</rdfs:label>
+        <rdfs:label xml:lang="fi">Eläinnäyttelyt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6227</dc:identifier>
+        <rdfs:label xml:lang="fi">Luonnontieteet</rdfs:label>
+        <rdfs:label xml:lang="en">Natural sciences</rdfs:label>
+        <rdfs:label xml:lang="sv">Naturvetenskaper</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7PcDVdzrB4Dpr0VHvbAoAG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7PcDVdzrB4Dpr0VHvbAoAG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2625</dc:identifier>
+        <rdfs:label xml:lang="sv">Teater</rdfs:label>
+        <rdfs:label xml:lang="fi">Teatteri</rdfs:label>
+        <rdfs:label xml:lang="en">Theatre</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7R2css5W5bVNcql96sQVNw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7R2css5W5bVNcql96sQVNw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p898</dc:identifier>
+        <rdfs:label xml:lang="en">Discus throw</rdfs:label>
+        <rdfs:label xml:lang="sv">Diskus</rdfs:label>
+        <rdfs:label xml:lang="fi">Kiekonheitto</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7S4LKmziCYzRlRQMxKKixP -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7S4LKmziCYzRlRQMxKKixP">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBaHHlDPfi17X1h128qFVFF"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p27323</dc:identifier>
+        <rdfs:label xml:lang="en">Roller derby</rdfs:label>
+        <rdfs:label xml:lang="fi">Roller derby</rdfs:label>
+        <rdfs:label xml:lang="sv">Roller derby</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p13925</dc:identifier>
+        <rdfs:label xml:lang="sv">Kraftsport</rdfs:label>
+        <rdfs:label xml:lang="en">Power sports</rdfs:label>
+        <rdfs:label xml:lang="fi">Voimailu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7ZXUJkwegJEwkuIDlw5ZV3 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7ZXUJkwegJEwkuIDlw5ZV3">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RlDYghwLagz10h6w6bUGQn"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p24029</dc:identifier>
+        <rdfs:label xml:lang="fi">Jongleeraus</rdfs:label>
+        <rdfs:label xml:lang="sv">Jonglering</rdfs:label>
+        <rdfs:label xml:lang="en">Juggling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7bHdMQchybXJJGqVHYsQ8y -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7bHdMQchybXJJGqVHYsQ8y">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18596</dc:identifier>
+        <rdfs:label xml:lang="en">Bowling</rdfs:label>
+        <rdfs:label xml:lang="sv">Bowling</rdfs:label>
+        <rdfs:label xml:lang="fi">Keilailu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7eHQ06JUMTCa5Ax95E2Zpx -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7eHQ06JUMTCa5Ax95E2Zpx">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RoaERCcPEM1apQrjnsf2m"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11406</dc:identifier>
+        <rdfs:label xml:lang="fi">Lukeminen</rdfs:label>
+        <rdfs:label xml:lang="sv">Läsning</rdfs:label>
+        <rdfs:label xml:lang="en">Reading</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7eqzUCmeB4jAZ1p4CjxwkP -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7eqzUCmeB4jAZ1p4CjxwkP">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p15293</dc:identifier>
+        <rdfs:label xml:lang="en">Congregation life</rdfs:label>
+        <rdfs:label xml:lang="sv">Församlingliv</rdfs:label>
+        <rdfs:label xml:lang="fi">Seurakuntaelämä</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7fTNFjfvlP6b14stv0lqQY -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7fTNFjfvlP6b14stv0lqQY">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p25200</dc:identifier>
+        <rdfs:label xml:lang="en">Disc golf</rdfs:label>
+        <rdfs:label xml:lang="fi">Frisbeegolf</rdfs:label>
+        <rdfs:label xml:lang="sv">Frisbeegolf</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7fTRO07k0qiGCsqGH3Ltqf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7fTRO07k0qiGCsqGH3Ltqf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4354</dc:identifier>
+        <rdfs:label xml:lang="sv">Barn</rdfs:label>
+        <rdfs:label xml:lang="en">Children</rdfs:label>
+        <rdfs:label xml:lang="fi">Lapset</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7jnEkUCzcZwWCyEWiNZLbe -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7jnEkUCzcZwWCyEWiNZLbe">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1801</dc:identifier>
+        <rdfs:label xml:lang="en">Chemistry</rdfs:label>
+        <rdfs:label xml:lang="sv">Kemi</rdfs:label>
+        <rdfs:label xml:lang="fi">Kemia</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1808</dc:identifier>
+        <rdfs:label xml:lang="en">Music</rdfs:label>
+        <rdfs:label xml:lang="fi">Musiikki</rdfs:label>
+        <rdfs:label xml:lang="sv">Musik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7maoal5baPNUrabrQDLR60 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7maoal5baPNUrabrQDLR60">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5826</dc:identifier>
+        <rdfs:label xml:lang="sv">Metallarbete</rdfs:label>
+        <rdfs:label xml:lang="fi">Metallityöt</rdfs:label>
+        <rdfs:label xml:lang="en">Metalwork</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7mwqyMHIupIrLrZUoJ3f2Q -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7mwqyMHIupIrLrZUoJ3f2Q">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14113</dc:identifier>
+        <rdfs:label xml:lang="fi">Rullalautailu</rdfs:label>
+        <rdfs:label xml:lang="en">Skateboarding</rdfs:label>
+        <rdfs:label xml:lang="sv">Skejtning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7n7WgxLiHoP5i2eGpVqj1j -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7n7WgxLiHoP5i2eGpVqj1j">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4615</dc:identifier>
+        <rdfs:label xml:lang="en">Crocheting</rdfs:label>
+        <rdfs:label xml:lang="fi">Virkkaus</rdfs:label>
+        <rdfs:label xml:lang="sv">Virkning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7nXmOQAS2y4klLg7X0AnS0 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7nXmOQAS2y4klLg7X0AnS0">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1420</dc:identifier>
+        <rdfs:label xml:lang="en">Ceramics</rdfs:label>
+        <rdfs:label xml:lang="fi">Keramiikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Keramik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7nelOSghKMk0qJxFiebt4m -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7nelOSghKMk0qJxFiebt4m">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RB26xSdSIIZKcUjNdKUKmtf"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2757</dc:identifier>
+        <rdfs:label xml:lang="en">Chess</rdfs:label>
+        <rdfs:label xml:lang="sv">Schack</rdfs:label>
+        <rdfs:label xml:lang="fi">Shakki</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7p9oxrv1DdpoMM7axZXqw8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7p9oxrv1DdpoMM7axZXqw8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16555</dc:identifier>
+        <rdfs:label xml:lang="en">Floorball</rdfs:label>
+        <rdfs:label xml:lang="sv">Innebandy</rdfs:label>
+        <rdfs:label xml:lang="fi">Salibandy</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7qnNBUv3emRrjXL4ATjoQ9 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7qnNBUv3emRrjXL4ATjoQ9">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2667</dc:identifier>
+        <rdfs:label xml:lang="sv">Gitarr</rdfs:label>
+        <rdfs:label xml:lang="en">Guitar</rdfs:label>
+        <rdfs:label xml:lang="fi">Kitara</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7rQDJTYROAll7McVmLuTMe -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7rQDJTYROAll7McVmLuTMe">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p21244</dc:identifier>
+        <rdfs:label xml:lang="en">Geocaching</rdfs:label>
+        <rdfs:label xml:lang="sv">Geocaching</rdfs:label>
+        <rdfs:label xml:lang="fi">Geokätköily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7xFogTtgILuK7gqpzN646 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7xFogTtgILuK7gqpzN646">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12398</dc:identifier>
+        <rdfs:label xml:lang="fi">Espanja</rdfs:label>
+        <rdfs:label xml:lang="en">Spanish</rdfs:label>
+        <rdfs:label xml:lang="sv">Spanska</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R7xsUbybJJ8Uf9d9sWk2xSm -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R7xsUbybJJ8Uf9d9sWk2xSm">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12469</dc:identifier>
+        <rdfs:label xml:lang="fi">Ruotsi</rdfs:label>
+        <rdfs:label xml:lang="sv">Svenska</rdfs:label>
+        <rdfs:label xml:lang="en">Swedish</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R81IYP1Gt3lpCAsFqPQRtJG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R81IYP1Gt3lpCAsFqPQRtJG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <rdfs:label xml:lang="fi">Kieli ja kielet</rdfs:label>
+        <rdfs:label xml:lang="en">Languages</rdfs:label>
+        <rdfs:label xml:lang="sv">Språk</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R84Gm8JPiJG6xXPCN1zar3O -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R84Gm8JPiJG6xXPCN1zar3O">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p13034</dc:identifier>
+        <rdfs:label xml:lang="en">Camping</rdfs:label>
+        <rdfs:label xml:lang="sv">Camping</rdfs:label>
+        <rdfs:label xml:lang="fi">Leirintä</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R85sh6EHiSzvl3orhGyB20Z -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R85sh6EHiSzvl3orhGyB20Z">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16327</dc:identifier>
+        <rdfs:label xml:lang="en">Cinema</rdfs:label>
+        <rdfs:label xml:lang="fi">Elokuvataide</rdfs:label>
+        <rdfs:label xml:lang="sv">Film</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8BYPoJgGYPNghMW8HB9OmE -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8BYPoJgGYPNghMW8HB9OmE">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8tABfMwP6EVv1TIspLqcUZ"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11650</dc:identifier>
+        <rdfs:label xml:lang="fi">Maastopyöräily</rdfs:label>
+        <rdfs:label xml:lang="sv">Mountainbikeåkning</rdfs:label>
+        <rdfs:label xml:lang="en">Mountainbiking</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8Dm5KA4JSplaNPl7tNVrtq -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8Dm5KA4JSplaNPl7tNVrtq">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12148</dc:identifier>
+        <rdfs:label xml:lang="en">German</rdfs:label>
+        <rdfs:label xml:lang="fi">Saksa</rdfs:label>
+        <rdfs:label xml:lang="sv">Tyska</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <rdfs:label xml:lang="fi">Luonto ja eläimet</rdfs:label>
+        <rdfs:label xml:lang="sv">Natur och djuren</rdfs:label>
+        <rdfs:label xml:lang="en">Nature and animals</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8HfCooiksTvP3sy17XtWID -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8HfCooiksTvP3sy17XtWID">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p566</dc:identifier>
+        <rdfs:label xml:lang="en">Drama</rdfs:label>
+        <rdfs:label xml:lang="fi">Ilmaisutaito</rdfs:label>
+        <rdfs:label xml:lang="sv">Scenkonst</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8Hs09iKakJD94TCfeKx1jr -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8Hs09iKakJD94TCfeKx1jr">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4295</dc:identifier>
+        <rdfs:label xml:lang="en">Role plays</rdfs:label>
+        <rdfs:label xml:lang="sv">Rollspel</rdfs:label>
+        <rdfs:label xml:lang="fi">Roolipelit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8INzH9m9NidNOIKZwSHewQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8INzH9m9NidNOIKZwSHewQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6408</dc:identifier>
+        <rdfs:label xml:lang="en">Futsal</rdfs:label>
+        <rdfs:label xml:lang="fi">Futsal</rdfs:label>
+        <rdfs:label xml:lang="sv">Futsal</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <rdfs:label xml:lang="fi">Muu urheilu ja liikunta</rdfs:label>
+        <rdfs:label xml:lang="en">Other sports and exercise</rdfs:label>
+        <rdfs:label xml:lang="sv">Övriga idrott och motion</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8NfU2oVvO0cZFQMtUNava4 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8NfU2oVvO0cZFQMtUNava4">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11094</dc:identifier>
+        <rdfs:label xml:lang="fi">Hiihto</rdfs:label>
+        <rdfs:label xml:lang="sv">Längdåkning</rdfs:label>
+        <rdfs:label xml:lang="en">Skiing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8O7nv0D5a8XBWzzM6tUwlv -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8O7nv0D5a8XBWzzM6tUwlv">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19872</dc:identifier>
+        <rdfs:label xml:lang="en">Bodybuilding</rdfs:label>
+        <rdfs:label xml:lang="sv">Bodybuilding</rdfs:label>
+        <rdfs:label xml:lang="fi">Kehonrakennus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8RCMco1ulFWVIRmE7nAyxl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8RCMco1ulFWVIRmE7nAyxl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17050</dc:identifier>
+        <rdfs:label xml:lang="sv">Backhoppning</rdfs:label>
+        <rdfs:label xml:lang="fi">Mäkihyppy</rdfs:label>
+        <rdfs:label xml:lang="en">Ski jumping</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8SPrO7NxFcDzimnHXFjngj -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8SPrO7NxFcDzimnHXFjngj">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16905</dc:identifier>
+        <rdfs:label xml:lang="en">Bandy</rdfs:label>
+        <rdfs:label xml:lang="sv">Bandy</rdfs:label>
+        <rdfs:label xml:lang="fi">Jääpallo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8W54rknrb5GJKWjwlSMzp9 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8W54rknrb5GJKWjwlSMzp9">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <rdfs:label xml:lang="fi">Muut käsityöt</rdfs:label>
+        <rdfs:label xml:lang="en">Other handicraft</rdfs:label>
+        <rdfs:label xml:lang="sv">Övriga handarbete</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8WmpKj5AUSDjRFER6nOKJQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8WmpKj5AUSDjRFER6nOKJQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RlDYghwLagz10h6w6bUGQn"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14386</dc:identifier>
+        <rdfs:label xml:lang="en">Diabolo</rdfs:label>
+        <rdfs:label xml:lang="fi">Diabolo</rdfs:label>
+        <rdfs:label xml:lang="sv">Diabolo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8883</dc:identifier>
+        <rdfs:label xml:lang="fi">Maalaustaide</rdfs:label>
+        <rdfs:label xml:lang="sv">Målarkonst</rdfs:label>
+        <rdfs:label xml:lang="en">Painting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8a38tdQJKcShPPxobQTDww -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8a38tdQJKcShPPxobQTDww">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3160</dc:identifier>
+        <rdfs:label xml:lang="fi">Matematiikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Matematik</rdfs:label>
+        <rdfs:label xml:lang="en">Mathematics</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8b9vWSSzrkngyj6ZVZhidF -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8b9vWSSzrkngyj6ZVZhidF">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p20513</dc:identifier>
+        <rdfs:label xml:lang="en">Families with babies</rdfs:label>
+        <rdfs:label xml:lang="sv">Småbarnsfamiljer</rdfs:label>
+        <rdfs:label xml:lang="fi">Vauvaperheet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8fXa6iUPf7vBZq7RpzKgqn -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8fXa6iUPf7vBZq7RpzKgqn">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11690</dc:identifier>
+        <rdfs:label xml:lang="en">Piano</rdfs:label>
+        <rdfs:label xml:lang="fi">Piano</rdfs:label>
+        <rdfs:label xml:lang="sv">Piano</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8krejSmlM9k8KHQY8ml0i5 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8krejSmlM9k8KHQY8ml0i5">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1290</dc:identifier>
+        <rdfs:label xml:lang="en">Magic tricks</rdfs:label>
+        <rdfs:label xml:lang="fi">Taikatemput</rdfs:label>
+        <rdfs:label xml:lang="sv">Trolleri tricken</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p372</dc:identifier>
+        <rdfs:label xml:lang="en">Culture</rdfs:label>
+        <rdfs:label xml:lang="fi">Kulttuuri</rdfs:label>
+        <rdfs:label xml:lang="sv">Kultur</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8tABfMwP6EVv1TIspLqcUZ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8tABfMwP6EVv1TIspLqcUZ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10409</dc:identifier>
+        <rdfs:label xml:lang="en">Cycling</rdfs:label>
+        <rdfs:label xml:lang="sv">Cykling</rdfs:label>
+        <rdfs:label xml:lang="fi">Pyöräily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8tX0W1vJo7wbHHsE47v6Ax -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8tX0W1vJo7wbHHsE47v6Ax">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7qnNBUv3emRrjXL4ATjoQ9"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10953</dc:identifier>
+        <rdfs:label xml:lang="en">Electric guitar</rdfs:label>
+        <rdfs:label xml:lang="sv">Elgitarr</rdfs:label>
+        <rdfs:label xml:lang="fi">Sähkökitara</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8vUcBQc5fFvIrHLJBpWR7F -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8vUcBQc5fFvIrHLJBpWR7F">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1120</dc:identifier>
+        <rdfs:label xml:lang="en">Orienteering</rdfs:label>
+        <rdfs:label xml:lang="sv">Orientering</rdfs:label>
+        <rdfs:label xml:lang="fi">Suunnistus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p963</dc:identifier>
+        <rdfs:label xml:lang="en">Gymnastics</rdfs:label>
+        <rdfs:label xml:lang="sv">Gymnastik</rdfs:label>
+        <rdfs:label xml:lang="fi">Voimistelu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8yag7cHut9vx8arNvOv6uk -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8yag7cHut9vx8arNvOv6uk">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9106</dc:identifier>
+        <rdfs:label xml:lang="en">Listening to music</rdfs:label>
+        <rdfs:label xml:lang="sv">Lyssnar på musik</rdfs:label>
+        <rdfs:label xml:lang="fi">Musiikin kuunteleminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R8zmKnPZA8BHUgLWzJpCknr -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R8zmKnPZA8BHUgLWzJpCknr">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8781</dc:identifier>
+        <rdfs:label xml:lang="en">Basketball</rdfs:label>
+        <rdfs:label xml:lang="sv">Korgboll</rdfs:label>
+        <rdfs:label xml:lang="fi">Koripallo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R91rKaH9JhWibYAOKNu0gIi -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R91rKaH9JhWibYAOKNu0gIi">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCibfXcXvjmJdzchnlVAZHp"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2651</dc:identifier>
+        <rdfs:label xml:lang="en">Calligraphy</rdfs:label>
+        <rdfs:label xml:lang="sv">Kalligrafi</rdfs:label>
+        <rdfs:label xml:lang="fi">Kalligrafia</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R92jIVbs3E1ZEo47SF158Or -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R92jIVbs3E1ZEo47SF158Or">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <rdfs:label xml:lang="fi">Muut taidemuodot</rdfs:label>
+        <rdfs:label xml:lang="en">Other arts</rdfs:label>
+        <rdfs:label xml:lang="sv">Övriga konster</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R95xtltv3TpdTzQGe3yAh79 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R95xtltv3TpdTzQGe3yAh79">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4887</dc:identifier>
+        <rdfs:label xml:lang="fi">Ohjelmointi</rdfs:label>
+        <rdfs:label xml:lang="sv">Programmering</rdfs:label>
+        <rdfs:label xml:lang="en">Programming</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R96kZ7DRpJpYuQy7ksB48ck -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R96kZ7DRpJpYuQy7ksB48ck">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <rdfs:label xml:lang="fi">Muu harrastus</rdfs:label>
+        <rdfs:label xml:lang="en">Other hobbies</rdfs:label>
+        <rdfs:label xml:lang="sv">Övriga hobbyer</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R97og39JCEwpIjRFVoLMuZJ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R97og39JCEwpIjRFVoLMuZJ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p13050</dc:identifier>
+        <rdfs:label xml:lang="sv">Barnfamiljer</rdfs:label>
+        <rdfs:label xml:lang="en">Families with children</rdfs:label>
+        <rdfs:label xml:lang="fi">Lapsiperheet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p917</dc:identifier>
+        <rdfs:label xml:lang="fi">Talviurheilu</rdfs:label>
+        <rdfs:label xml:lang="sv">Vintersport</rdfs:label>
+        <rdfs:label xml:lang="en">Winter sports</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R98YG63RFJCy3hHwFMw41bw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R98YG63RFJCy3hHwFMw41bw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R92jIVbs3E1ZEo47SF158Or"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6451</dc:identifier>
+        <rdfs:label xml:lang="en">Computer graphics</rdfs:label>
+        <rdfs:label xml:lang="sv">Datorgrafik</rdfs:label>
+        <rdfs:label xml:lang="fi">Tietokonegrafiikka</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9CUGOyxLvaeoJbiJyVcnQx -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9CUGOyxLvaeoJbiJyVcnQx">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8Hs09iKakJD94TCfeKx1jr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19001</dc:identifier>
+        <rdfs:label xml:lang="sv">Levande rollspel</rdfs:label>
+        <rdfs:label xml:lang="en">Live action role-playing</rdfs:label>
+        <rdfs:label xml:lang="fi">Liveroolipelit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9DNOFFKHBbnPGwpL8IN08X -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9DNOFFKHBbnPGwpL8IN08X">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9426</dc:identifier>
+        <rdfs:label xml:lang="sv">Inredning</rdfs:label>
+        <rdfs:label xml:lang="en">Interior decoration</rdfs:label>
+        <rdfs:label xml:lang="fi">Sisustus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9JOLDAbXzfGbqvHq6Q32Lc -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9JOLDAbXzfGbqvHq6Q32Lc">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8W54rknrb5GJKWjwlSMzp9"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p21871</dc:identifier>
+        <rdfs:label xml:lang="en">Scraping</rdfs:label>
+        <rdfs:label xml:lang="sv">Skrapning</rdfs:label>
+        <rdfs:label xml:lang="fi">Skräppäys</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9M3adJiqMPF3RkhaW2USui -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9M3adJiqMPF3RkhaW2USui">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12077</dc:identifier>
+        <rdfs:label xml:lang="sv">Rodd</rdfs:label>
+        <rdfs:label xml:lang="en">Rowing</rdfs:label>
+        <rdfs:label xml:lang="fi">Soutu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9Ol2XKtPGZNOaPOvLT6Zb -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9Ol2XKtPGZNOaPOvLT6Zb">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5759</dc:identifier>
+        <rdfs:label xml:lang="fi">Televisio</rdfs:label>
+        <rdfs:label xml:lang="en">Television</rdfs:label>
+        <rdfs:label xml:lang="sv">Television</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9PPyV4zxigqTsFCzkuw80x -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9PPyV4zxigqTsFCzkuw80x">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p900</dc:identifier>
+        <rdfs:label xml:lang="fi">Fysiikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Fysik</rdfs:label>
+        <rdfs:label xml:lang="en">Physics</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9PrRD2HGLYq8lIPWMThMeO -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9PrRD2HGLYq8lIPWMThMeO">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8596</dc:identifier>
+        <rdfs:label xml:lang="sv">Akvarell</rdfs:label>
+        <rdfs:label xml:lang="fi">Vesivärimaalaus</rdfs:label>
+        <rdfs:label xml:lang="en">Watercolor painting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p7596</dc:identifier>
+        <rdfs:label xml:lang="fi">Moottoriurheilu</rdfs:label>
+        <rdfs:label xml:lang="en">Motor sports</rdfs:label>
+        <rdfs:label xml:lang="sv">Motorsport</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p15302</dc:identifier>
+        <rdfs:label xml:lang="fi">Ammunta</rdfs:label>
+        <rdfs:label xml:lang="en">Shooting</rdfs:label>
+        <rdfs:label xml:lang="sv">Skytte</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9bJpHhanyPYiQcBsnVhx7w -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9bJpHhanyPYiQcBsnVhx7w">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3111</dc:identifier>
+        <rdfs:label xml:lang="fi">Jooga</rdfs:label>
+        <rdfs:label xml:lang="en">Yoga</rdfs:label>
+        <rdfs:label xml:lang="sv">Yoga</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9ciDG7UMYfbGIu6m8Tlvix -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9ciDG7UMYfbGIu6m8Tlvix">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4758</dc:identifier>
+        <rdfs:label xml:lang="en">Long jump</rdfs:label>
+        <rdfs:label xml:lang="sv">Längdhopp</rdfs:label>
+        <rdfs:label xml:lang="fi">Pituushyppy</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9cn5QjBQt1ZICXGhPWqoff -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9cn5QjBQt1ZICXGhPWqoff">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3754</dc:identifier>
+        <rdfs:label xml:lang="sv">Astronomi</rdfs:label>
+        <rdfs:label xml:lang="en">Astronomy</rdfs:label>
+        <rdfs:label xml:lang="fi">Tähtitiede</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9d36QH2HVd7IUaUZGt0uWg -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9d36QH2HVd7IUaUZGt0uWg">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p21238</dc:identifier>
+        <rdfs:label xml:lang="en">Airsoft</rdfs:label>
+        <rdfs:label xml:lang="fi">Airsoft</rdfs:label>
+        <rdfs:label xml:lang="sv">Airsoft</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9d3Ii0HUgdAj9G2JODc87q -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9d3Ii0HUgdAj9G2JODc87q">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p26739</dc:identifier>
+        <rdfs:label xml:lang="en">3D computer graphics</rdfs:label>
+        <rdfs:label xml:lang="sv">3D-grafik</rdfs:label>
+        <rdfs:label xml:lang="fi">3D-mallinnus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9dfHo0Hyb0uryz1uNQGcnw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9dfHo0Hyb0uryz1uNQGcnw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10256</dc:identifier>
+        <rdfs:label xml:lang="sv">Biljard</rdfs:label>
+        <rdfs:label xml:lang="fi">Biljardi</rdfs:label>
+        <rdfs:label xml:lang="en">Billiards</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9eOWTjca56XmJEtn6da5PB -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9eOWTjca56XmJEtn6da5PB">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3050</dc:identifier>
+        <rdfs:label xml:lang="sv">Frivilligsarbete</rdfs:label>
+        <rdfs:label xml:lang="fi">Vapaaehtoistyö</rdfs:label>
+        <rdfs:label xml:lang="en">Volunteering</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <rdfs:label xml:lang="en">Games, plays and entertainment</rdfs:label>
+        <rdfs:label xml:lang="fi">Pelit, leikit ja huvit</rdfs:label>
+        <rdfs:label xml:lang="sv">Spel, lekar och underhållning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9mcRe3eD4064m04hW9aMrW -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9mcRe3eD4064m04hW9aMrW">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16648</dc:identifier>
+        <rdfs:label xml:lang="en">Gardening</rdfs:label>
+        <rdfs:label xml:lang="fi">Puutarhanhoito</rdfs:label>
+        <rdfs:label xml:lang="sv">Trädgårdsskötsel</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9oxJhITYiZotN9tW9oTPt -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9oxJhITYiZotN9tW9oTPt">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6409</dc:identifier>
+        <rdfs:label xml:lang="en">Football</rdfs:label>
+        <rdfs:label xml:lang="sv">Fotboll</rdfs:label>
+        <rdfs:label xml:lang="fi">Jalkapallo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9qU9JOSSN0L0pBsF2kPUmc -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9qU9JOSSN0L0pBsF2kPUmc">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p24447</dc:identifier>
+        <rdfs:label xml:lang="en">Fitness boxing</rdfs:label>
+        <rdfs:label xml:lang="sv">Fitness boxning</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuntonyrkkeily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9r53DVtq0Ty4EYKqZ9qdnK -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9r53DVtq0Ty4EYKqZ9qdnK">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3706</dc:identifier>
+        <rdfs:label xml:lang="sv">Gång</rdfs:label>
+        <rdfs:label xml:lang="fi">Kävely</rdfs:label>
+        <rdfs:label xml:lang="en">Walking</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9saubYE7FBPV7eHGqFlPKk -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9saubYE7FBPV7eHGqFlPKk">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBfwQtfmWC17tYV5lZL5jJx"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1653</dc:identifier>
+        <rdfs:label xml:lang="fi">Ratsastus</rdfs:label>
+        <rdfs:label xml:lang="en">Riding</rdfs:label>
+        <rdfs:label xml:lang="sv">Ritt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9wLCd3nYktCd6t5mvwfTST -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9wLCd3nYktCd6t5mvwfTST">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4757</dc:identifier>
+        <rdfs:label xml:lang="en">Pole vault</rdfs:label>
+        <rdfs:label xml:lang="fi">Seiväshyppy</rdfs:label>
+        <rdfs:label xml:lang="sv">Stavhopp</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9wcqold046cfBsQwIqVxgJ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9wcqold046cfBsQwIqVxgJ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p27211</dc:identifier>
+        <rdfs:label xml:lang="en">Bands</rdfs:label>
+        <rdfs:label xml:lang="sv">Musikgrupper</rdfs:label>
+        <rdfs:label xml:lang="fi">Soitinyhtyeet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9wmlw6mFhe8DcIZStnClUQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9wmlw6mFhe8DcIZStnClUQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19088</dc:identifier>
+        <rdfs:label xml:lang="fi">Lumilautailu</rdfs:label>
+        <rdfs:label xml:lang="sv">Snowboard</rdfs:label>
+        <rdfs:label xml:lang="en">Snowboarding</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9xk9WwYaqW9f9MPQA3Fk9Z -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9xk9WwYaqW9f9MPQA3Fk9Z">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1928</dc:identifier>
+        <rdfs:label xml:lang="en">Tennis</rdfs:label>
+        <rdfs:label xml:lang="fi">Tennis</rdfs:label>
+        <rdfs:label xml:lang="sv">Tennis</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/R9yCyyXbO5gyogg7pfQRwIl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/R9yCyyXbO5gyogg7pfQRwIl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4759</dc:identifier>
+        <rdfs:label xml:lang="en">High jump</rdfs:label>
+        <rdfs:label xml:lang="sv">Höjdhopp</rdfs:label>
+        <rdfs:label xml:lang="fi">Korkeushyppy</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RB26xSdSIIZKcUjNdKUKmtf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RB26xSdSIIZKcUjNdKUKmtf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2758</dc:identifier>
+        <rdfs:label xml:lang="en">Boardgames</rdfs:label>
+        <rdfs:label xml:lang="sv">Brädspel</rdfs:label>
+        <rdfs:label xml:lang="fi">Lautapelit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RB2hgF7sTyH2GA4Yjf3CNaG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RB2hgF7sTyH2GA4Yjf3CNaG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18923</dc:identifier>
+        <rdfs:label xml:lang="en">American football</rdfs:label>
+        <rdfs:label xml:lang="sv">Amerikansk fotboll</rdfs:label>
+        <rdfs:label xml:lang="fi">Amerikkalainen jalkapallo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RB2woGQ5sfwCKppPVHxhW2b -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RB2woGQ5sfwCKppPVHxhW2b">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8575</dc:identifier>
+        <rdfs:label xml:lang="fi">Shoppailu</rdfs:label>
+        <rdfs:label xml:lang="en">Shopping</rdfs:label>
+        <rdfs:label xml:lang="sv">Shopping</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RB6eJuhcDFCawQ9fWmzqVkW -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RB6eJuhcDFCawQ9fWmzqVkW">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBnMfgLVJ2lNUD5e2U8f7Bf"/>
+        <rdfs:label xml:lang="en">Drifting</rdfs:label>
+        <rdfs:label xml:lang="fi">Drifting</rdfs:label>
+        <rdfs:label xml:lang="sv">Drifting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBB6jfG9Y0qGaFlxIHyqqzZ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBB6jfG9Y0qGaFlxIHyqqzZ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1278</dc:identifier>
+        <rdfs:label xml:lang="en">Dance</rdfs:label>
+        <rdfs:label xml:lang="sv">Dans</rdfs:label>
+        <rdfs:label xml:lang="fi">Tanssi</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBCWX7ccusz8i5YwpnRadIp -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBCWX7ccusz8i5YwpnRadIp">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RoaERCcPEM1apQrjnsf2m"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2512</dc:identifier>
+        <rdfs:label xml:lang="fi">Kirjoittaminen</rdfs:label>
+        <rdfs:label xml:lang="sv">Skrift</rdfs:label>
+        <rdfs:label xml:lang="en">Writing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBHwtQiRzDJlIw6RA2fEnLu -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBHwtQiRzDJlIw6RA2fEnLu">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p23373</dc:identifier>
+        <rdfs:label xml:lang="en">Paintball</rdfs:label>
+        <rdfs:label xml:lang="fi">Paintball</rdfs:label>
+        <rdfs:label xml:lang="sv">Paintball</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2239</dc:identifier>
+        <rdfs:label xml:lang="sv">Vattensport</rdfs:label>
+        <rdfs:label xml:lang="fi">Vesiurheilu</rdfs:label>
+        <rdfs:label xml:lang="en">Water sports</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBIxl1FEN523n8tpL1Qo5m7 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBIxl1FEN523n8tpL1Qo5m7">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16702</dc:identifier>
+        <rdfs:label xml:lang="en">Cheerleading</rdfs:label>
+        <rdfs:label xml:lang="fi">Cheerleading</rdfs:label>
+        <rdfs:label xml:lang="sv">Cheerleading</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBKFEMmy2k8PoLp6qN7TYLX -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBKFEMmy2k8PoLp6qN7TYLX">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBnMfgLVJ2lNUD5e2U8f7Bf"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p7813</dc:identifier>
+        <rdfs:label xml:lang="en">Kart racing</rdfs:label>
+        <rdfs:label xml:lang="fi">Karting</rdfs:label>
+        <rdfs:label xml:lang="sv">Karting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBKUNdXIuTyE5uwG5Ha0qGu -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBKUNdXIuTyE5uwG5Ha0qGu">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RV75LrYifFBluIAYlqFApq"/>
+        <rdfs:label xml:lang="sv">Fix mopeder</rdfs:label>
+        <rdfs:label xml:lang="en">Fixing mopeds</rdfs:label>
+        <rdfs:label xml:lang="fi">Mopojen korjaaminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBMTj46RauGGCJzT0PfB3jC -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBMTj46RauGGCJzT0PfB3jC">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1245</dc:identifier>
+        <rdfs:label xml:lang="en">Ice skating</rdfs:label>
+        <rdfs:label xml:lang="fi">Luistelu</rdfs:label>
+        <rdfs:label xml:lang="sv">Skridskoåkning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBSqUEuu7DwF78I6e17RwGf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBSqUEuu7DwF78I6e17RwGf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18405</dc:identifier>
+        <rdfs:label xml:lang="en">Archery</rdfs:label>
+        <rdfs:label xml:lang="sv">Bågskytte</rdfs:label>
+        <rdfs:label xml:lang="fi">Jousiammunta</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBTV5ym4o5rfBbqy89zPWg0 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBTV5ym4o5rfBbqy89zPWg0">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p7118</dc:identifier>
+        <rdfs:label xml:lang="en">Paper work</rdfs:label>
+        <rdfs:label xml:lang="fi">Paperityöt</rdfs:label>
+        <rdfs:label xml:lang="sv">Pappersarbeten</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBYqe264aKLaRzJBKfR721d -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBYqe264aKLaRzJBKfR721d">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p571</dc:identifier>
+        <rdfs:label xml:lang="en">Oil painting</rdfs:label>
+        <rdfs:label xml:lang="sv">Oljemåleri</rdfs:label>
+        <rdfs:label xml:lang="fi">Öljymaalaus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBaHHlDPfi17X1h128qFVFF -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBaHHlDPfi17X1h128qFVFF">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9718</dc:identifier>
+        <rdfs:label xml:lang="en">Rollerblading</rdfs:label>
+        <rdfs:label xml:lang="fi">Rullaluistelu</rdfs:label>
+        <rdfs:label xml:lang="sv">Rullskridskoåkning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBbpMTd5UhcsUMuU8Cy48lT -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBbpMTd5UhcsUMuU8Cy48lT">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p22509</dc:identifier>
+        <rdfs:label xml:lang="en">Parkour</rdfs:label>
+        <rdfs:label xml:lang="fi">Parkour</rdfs:label>
+        <rdfs:label xml:lang="sv">Parkour</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p935</dc:identifier>
+        <rdfs:label xml:lang="en">Athletics</rdfs:label>
+        <rdfs:label xml:lang="sv">Friidrott</rdfs:label>
+        <rdfs:label xml:lang="fi">Yleisurheilu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBdrv6qvx4SIpONMSqvtKh9 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBdrv6qvx4SIpONMSqvtKh9">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10325</dc:identifier>
+        <rdfs:label xml:lang="sv">Franska</rdfs:label>
+        <rdfs:label xml:lang="en">French</rdfs:label>
+        <rdfs:label xml:lang="fi">Ranska</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBfwQtfmWC17tYV5lZL5jJx -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBfwQtfmWC17tYV5lZL5jJx">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6963</dc:identifier>
+        <rdfs:label xml:lang="en">Equestrian sports</rdfs:label>
+        <rdfs:label xml:lang="fi">Hevosurheilu</rdfs:label>
+        <rdfs:label xml:lang="sv">Hästsport</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBi6afwnwtYdtU1OT4zZYbS -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBi6afwnwtYdtU1OT4zZYbS">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1235</dc:identifier>
+        <rdfs:label xml:lang="fi">Elokuvat</rdfs:label>
+        <rdfs:label xml:lang="sv">Film</rdfs:label>
+        <rdfs:label xml:lang="en">Movies</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBl0qTlJ5JZVQKLKfNDZFBA -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBl0qTlJ5JZVQKLKfNDZFBA">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18411</dc:identifier>
+        <rdfs:label xml:lang="en">Karate</rdfs:label>
+        <rdfs:label xml:lang="fi">Karate</rdfs:label>
+        <rdfs:label xml:lang="sv">Karate</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBlAeHwA39hrTFVdInGEMOb -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBlAeHwA39hrTFVdInGEMOb">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p23896</dc:identifier>
+        <rdfs:label xml:lang="fi">Kahvakuulaurheilu</rdfs:label>
+        <rdfs:label xml:lang="en">Kettlebell</rdfs:label>
+        <rdfs:label xml:lang="sv">Kettlebell</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBnMfgLVJ2lNUD5e2U8f7Bf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBnMfgLVJ2lNUD5e2U8f7Bf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1121</dc:identifier>
+        <rdfs:label xml:lang="fi">Autourheilu</rdfs:label>
+        <rdfs:label xml:lang="sv">Bilsport</rdfs:label>
+        <rdfs:label xml:lang="en">Motor car sports</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBnY5FHoZl13VlollHuREXK -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBnY5FHoZl13VlollHuREXK">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7qnNBUv3emRrjXL4ATjoQ9"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p22040</dc:identifier>
+        <rdfs:label xml:lang="en">Acoustic guitar</rdfs:label>
+        <rdfs:label xml:lang="fi">Akustinen kitara</rdfs:label>
+        <rdfs:label xml:lang="sv">Akustisk gitarr</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBncU4gNQg1iveRJIwTqfJ8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBncU4gNQg1iveRJIwTqfJ8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1102</dc:identifier>
+        <rdfs:label xml:lang="en">Hiking</rdfs:label>
+        <rdfs:label xml:lang="fi">Vaellus</rdfs:label>
+        <rdfs:label xml:lang="sv">Vandring</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBpf5BfUSsqt0LX4BAKvs3a -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBpf5BfUSsqt0LX4BAKvs3a">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12425</dc:identifier>
+        <rdfs:label xml:lang="sv">Dykning</rdfs:label>
+        <rdfs:label xml:lang="en">Underwater diving</rdfs:label>
+        <rdfs:label xml:lang="fi">Urheilusukellus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBqperV85aOLx2HmNDAQYQM -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBqperV85aOLx2HmNDAQYQM">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R0yJd5nUpk4DEf97ClaN2i"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6449</dc:identifier>
+        <rdfs:label xml:lang="sv">Bildmanipulering</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuvankäsittely</rdfs:label>
+        <rdfs:label xml:lang="en">Photo manipulation</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBr2VEHI3ZycMjYoNvgZchQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBr2VEHI3ZycMjYoNvgZchQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10066</dc:identifier>
+        <rdfs:label xml:lang="en">Knitting</rdfs:label>
+        <rdfs:label xml:lang="fi">Neulonta</rdfs:label>
+        <rdfs:label xml:lang="sv">Stickning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2445</dc:identifier>
+        <rdfs:label xml:lang="en">Media</rdfs:label>
+        <rdfs:label xml:lang="fi">Media</rdfs:label>
+        <rdfs:label xml:lang="sv">Medium</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBsIwI8iD69q5LXda2iCdww -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBsIwI8iD69q5LXda2iCdww">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <rdfs:label xml:lang="en">Animal care</rdfs:label>
+        <rdfs:label xml:lang="sv">Djurvård</rdfs:label>
+        <rdfs:label xml:lang="fi">Eläinten hoitaminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RBwIVwpfEUd0G69a1kObFgS -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RBwIVwpfEUd0G69a1kObFgS">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p316</dc:identifier>
+        <rdfs:label xml:lang="fi">Leikkiminen</rdfs:label>
+        <rdfs:label xml:lang="sv">Lekning</rdfs:label>
+        <rdfs:label xml:lang="en">Playing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RC12LsBnw1iAZtWgdXYMK3Y -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RC12LsBnw1iAZtWgdXYMK3Y">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18297</dc:identifier>
+        <rdfs:label xml:lang="en">Rhythmic gymnastics</rdfs:label>
+        <rdfs:label xml:lang="fi">Rytminen kilpavoimistelu</rdfs:label>
+        <rdfs:label xml:lang="sv">Rytmisk gymnastik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RC14RADrdxoaFdVy1X6sI7E -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RC14RADrdxoaFdVy1X6sI7E">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2698</dc:identifier>
+        <rdfs:label xml:lang="fi">Grafiikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Grafik</rdfs:label>
+        <rdfs:label xml:lang="en">Graphic art</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RC65xObK6IwYz7DSkyR7EXq -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RC65xObK6IwYz7DSkyR7EXq">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8025</dc:identifier>
+        <rdfs:label xml:lang="en">Architecture</rdfs:label>
+        <rdfs:label xml:lang="sv">Arkitektur</rdfs:label>
+        <rdfs:label xml:lang="fi">Arkkitehtuuri</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RC7euvRJhGv2wcvJXZcyn97 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RC7euvRJhGv2wcvJXZcyn97">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBfwQtfmWC17tYV5lZL5jJx"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p503</dc:identifier>
+        <rdfs:label xml:lang="en">Harness racing</rdfs:label>
+        <rdfs:label xml:lang="fi">Raviurheilu</rdfs:label>
+        <rdfs:label xml:lang="sv">Travsport</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RC7sQY75nduNhVhwvcj3e3y -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RC7sQY75nduNhVhwvcj3e3y">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17159</dc:identifier>
+        <rdfs:label xml:lang="en">Judo</rdfs:label>
+        <rdfs:label xml:lang="fi">Judo</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCADhYNjrsLNSyi8xPJDAo7 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCADhYNjrsLNSyi8xPJDAo7">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9034</dc:identifier>
+        <rdfs:label xml:lang="en">Boxing</rdfs:label>
+        <rdfs:label xml:lang="sv">Boxning</rdfs:label>
+        <rdfs:label xml:lang="fi">Nyrkkeily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCBogsEwAgGq9FpiHrkEBJP -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCBogsEwAgGq9FpiHrkEBJP">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7eHQ06JUMTCa5Ax95E2Zpx"/>
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBCWX7ccusz8i5YwpnRadIp"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1148</dc:identifier>
+        <rdfs:label xml:lang="en">Comics</rdfs:label>
+        <rdfs:label xml:lang="fi">Sarjakuvat</rdfs:label>
+        <rdfs:label xml:lang="sv">Tecknad serie</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCED2dUe49gqnQoReEWD6sS -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCED2dUe49gqnQoReEWD6sS">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8856</dc:identifier>
+        <rdfs:label xml:lang="en">Finnish</rdfs:label>
+        <rdfs:label xml:lang="sv">Finska</rdfs:label>
+        <rdfs:label xml:lang="fi">Suomi</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCEWdoTL57n6HKgTUqmVkUp -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCEWdoTL57n6HKgTUqmVkUp">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11185</dc:identifier>
+        <rdfs:label xml:lang="en">Concerts</rdfs:label>
+        <rdfs:label xml:lang="sv">Konserter</rdfs:label>
+        <rdfs:label xml:lang="fi">Konsertit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6854</dc:identifier>
+        <rdfs:label xml:lang="fi">Kamppailulajit</rdfs:label>
+        <rdfs:label xml:lang="sv">Kampsporter</rdfs:label>
+        <rdfs:label xml:lang="en">Martial arts</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW">
+        <rdfs:label xml:lang="fi">Harrastusmuoto</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCNPi4S5h66MRUJ5YRyFgh9 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCNPi4S5h66MRUJ5YRyFgh9">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17731</dc:identifier>
+        <rdfs:label xml:lang="en">Leatherwork</rdfs:label>
+        <rdfs:label xml:lang="sv">Läderarbete</rdfs:label>
+        <rdfs:label xml:lang="fi">Nahkatyöt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCQFmJ26TPOgzkzlrbmv2AT -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCQFmJ26TPOgzkzlrbmv2AT">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16485</dc:identifier>
+        <rdfs:label xml:lang="fi">Koululaiset</rdfs:label>
+        <rdfs:label xml:lang="en">Pupils</rdfs:label>
+        <rdfs:label xml:lang="sv">Skolelever</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCXdThxHmFSh88xSIsCM9HL -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCXdThxHmFSh88xSIsCM9HL">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5268</dc:identifier>
+        <rdfs:label xml:lang="fi">Kierrätys</rdfs:label>
+        <rdfs:label xml:lang="en">Recycling</rdfs:label>
+        <rdfs:label xml:lang="sv">Återvinning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCgQFw2NRrOYqSrrDfZXUyd -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCgQFw2NRrOYqSrrDfZXUyd">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p24076</dc:identifier>
+        <rdfs:label xml:lang="en">Cottages</rdfs:label>
+        <rdfs:label xml:lang="fi">Mökkeily</rdfs:label>
+        <rdfs:label xml:lang="sv">Stugor</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCgeXpmGrJ2Ydk8ybyz5KbJ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCgeXpmGrJ2Ydk8ybyz5KbJ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7Pc6dpTC6yBNeRgKYMTk07"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4890</dc:identifier>
+        <rdfs:label xml:lang="en">Electronics</rdfs:label>
+        <rdfs:label xml:lang="fi">Elektroniikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Elektronik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCibfXcXvjmJdzchnlVAZHp -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCibfXcXvjmJdzchnlVAZHp">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p695</dc:identifier>
+        <rdfs:label xml:lang="en">Drawing</rdfs:label>
+        <rdfs:label xml:lang="fi">Piirustus</rdfs:label>
+        <rdfs:label xml:lang="sv">Tecking</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1103</dc:identifier>
+        <rdfs:label xml:lang="en">Hiking</rdfs:label>
+        <rdfs:label xml:lang="sv">Lägerliv</rdfs:label>
+        <rdfs:label xml:lang="fi">Retkeily</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p916</dc:identifier>
+        <rdfs:label xml:lang="sv">Idrott och motion</rdfs:label>
+        <rdfs:label xml:lang="en">Sports and exercise</rdfs:label>
+        <rdfs:label xml:lang="fi">Urheilu ja liikunta</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCpTVRUp3CRNmXC8YZn5qpn -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCpTVRUp3CRNmXC8YZn5qpn">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p13638</dc:identifier>
+        <rdfs:label xml:lang="en">Golf</rdfs:label>
+        <rdfs:label xml:lang="fi">Golf</rdfs:label>
+        <rdfs:label xml:lang="sv">Golf</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCrFwFnHLI0ABTQzgJaWngr -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCrFwFnHLI0ABTQzgJaWngr">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8504</dc:identifier>
+        <rdfs:label xml:lang="en">Gym</rdfs:label>
+        <rdfs:label xml:lang="sv">Gym</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuntosalit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R81IYP1Gt3lpCAsFqPQRtJG"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p38117</dc:identifier>
+        <rdfs:label xml:lang="fi">Kieltenopetus</rdfs:label>
+        <rdfs:label xml:lang="en">Language studies</rdfs:label>
+        <rdfs:label xml:lang="sv">Språkundervisning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCrrrDVE87sdYPpzlePIALp -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCrrrDVE87sdYPpzlePIALp">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7eHQ06JUMTCa5Ax95E2Zpx"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12202</dc:identifier>
+        <rdfs:label xml:lang="sv">Facklitteratur</rdfs:label>
+        <rdfs:label xml:lang="en">Non-fiction</rdfs:label>
+        <rdfs:label xml:lang="fi">Tietokirjallisuus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCuXOwH22O0riii8E2ytDPG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCuXOwH22O0riii8E2ytDPG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4934</dc:identifier>
+        <rdfs:label xml:lang="sv">Museer</rdfs:label>
+        <rdfs:label xml:lang="fi">Museot</rdfs:label>
+        <rdfs:label xml:lang="en">Museums</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCvv5SBC1WXk2iV59dJHmmA -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCvv5SBC1WXk2iV59dJHmmA">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p10688</dc:identifier>
+        <rdfs:label xml:lang="sv">Bordtennis</rdfs:label>
+        <rdfs:label xml:lang="fi">Pöytätennis</rdfs:label>
+        <rdfs:label xml:lang="en">Table tennis</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCxgvt00ZWE38Y00hWw57az -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCxgvt00ZWE38Y00hWw57az">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5560</dc:identifier>
+        <rdfs:label xml:lang="fi">Puutyöt</rdfs:label>
+        <rdfs:label xml:lang="sv">Träarbete</rdfs:label>
+        <rdfs:label xml:lang="en">Woodwork</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCxpu69vvBG2B22yCDbq0Jx -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCxpu69vvBG2B22yCDbq0Jx">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12697</dc:identifier>
+        <rdfs:label xml:lang="en">Ice Hockey</rdfs:label>
+        <rdfs:label xml:lang="sv">Ishockey</rdfs:label>
+        <rdfs:label xml:lang="fi">Jääkiekko</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RCy7POcJS6kKQl6EfE5tgEy -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RCy7POcJS6kKQl6EfE5tgEy">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8600</dc:identifier>
+        <rdfs:label xml:lang="en">Aerobic</rdfs:label>
+        <rdfs:label xml:lang="fi">Aerobic</rdfs:label>
+        <rdfs:label xml:lang="sv">Aerobic</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1930</dc:identifier>
+        <rdfs:label xml:lang="en">Ball games</rdfs:label>
+        <rdfs:label xml:lang="sv">Bollsport</rdfs:label>
+        <rdfs:label xml:lang="fi">Palloilu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDD42I3j9BBo7dBNQrP4fUL -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDD42I3j9BBo7dBNQrP4fUL">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p7116</dc:identifier>
+        <rdfs:label xml:lang="en">Domestic science</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Domestic science</rdfs:label>
+        <rdfs:label xml:lang="sv">Hushåll</rdfs:label>
+        <rdfs:label xml:lang="fi">Kotitalous</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDEysogagheY5mhYfOEYFEh -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDEysogagheY5mhYfOEYFEh">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4330</dc:identifier>
+        <rdfs:label xml:lang="sv">Simning</rdfs:label>
+        <rdfs:label xml:lang="en">Swimming</rdfs:label>
+        <rdfs:label xml:lang="fi">Uinti</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDHQOxXa4OhXHD07Q7eeqJX -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDHQOxXa4OhXHD07Q7eeqJX">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCojow3BUimqeOpeYH2Daik"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14139</dc:identifier>
+        <rdfs:label xml:lang="en">Climbing</rdfs:label>
+        <rdfs:label xml:lang="fi">Kiipeily</rdfs:label>
+        <rdfs:label xml:lang="sv">Klättring</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDHlVInxmt0C1uayDvLAeBi -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDHlVInxmt0C1uayDvLAeBi">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RxegWlLlHyxQscin4zaBuP"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p29813</dc:identifier>
+        <rdfs:label xml:lang="en">Solo singing</rdfs:label>
+        <rdfs:label xml:lang="sv">Solo sång</rdfs:label>
+        <rdfs:label xml:lang="fi">Yksinlaulu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDHlqKXgzwk8NrNDlvqsxZ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDHlqKXgzwk8NrNDlvqsxZ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7eHQ06JUMTCa5Ax95E2Zpx"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4</dc:identifier>
+        <rdfs:label xml:lang="en">Fiction</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fiction</rdfs:label>
+        <rdfs:label xml:lang="fi">Kaunokirjallisuus</rdfs:label>
+        <rdfs:label xml:lang="sv">Skönlitteratur</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDILfzRrdnxAKxFIFBRzJiQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDILfzRrdnxAKxFIFBRzJiQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8596</dc:identifier>
+        <rdfs:label xml:lang="sv">Akvarell</rdfs:label>
+        <rdfs:label xml:lang="fi">Akvarellimaalaus</rdfs:label>
+        <rdfs:label xml:lang="en">Watercolor painting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDJTMlgP6e3rM5ZWI7LyF6g -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDJTMlgP6e3rM5ZWI7LyF6g">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p21628</dc:identifier>
+        <rdfs:label xml:lang="en">Console games</rdfs:label>
+        <rdfs:label xml:lang="fi">Konsolipelit</rdfs:label>
+        <rdfs:label xml:lang="sv">Konsolspel</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDK4itzwuAGUnMO2dzXK64u -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDK4itzwuAGUnMO2dzXK64u">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R97qgDGDykCHci6iPLSWn3f"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11029</dc:identifier>
+        <rdfs:label xml:lang="en">Downhill skiing</rdfs:label>
+        <rdfs:label xml:lang="fi">Laskettelu</rdfs:label>
+        <rdfs:label xml:lang="sv">Utförsåkning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDMPwLZmcOeTQSkR2QhiEhm">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12881</dc:identifier>
+        <rdfs:label xml:lang="fi">Tekstiilityö</rdfs:label>
+        <rdfs:label xml:lang="en">Textiles</rdfs:label>
+        <rdfs:label xml:lang="sv">Textilslöjd</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDN8O3wWscYKKE8WMdDn8Bf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDN8O3wWscYKKE8WMdDn8Bf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yag7cHut9vx8arNvOv6uk"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11185</dc:identifier>
+        <rdfs:label xml:lang="en">Conserts and gigs</rdfs:label>
+        <rdfs:label xml:lang="sv">Konserter och giger</rdfs:label>
+        <rdfs:label xml:lang="fi">Konsertit ja keikat</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDODaWc4SG0KgKuS8d4L2wa -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDODaWc4SG0KgKuS8d4L2wa">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p895</dc:identifier>
+        <rdfs:label xml:lang="en">Javelin throw</rdfs:label>
+        <rdfs:label xml:lang="fi">Keihäänheitto</rdfs:label>
+        <rdfs:label xml:lang="sv">Spjutkastning</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDOegBsfLLHtysDvNEixM3S -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDOegBsfLLHtysDvNEixM3S">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDD42I3j9BBo7dBNQrP4fUL"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2846</dc:identifier>
+        <rdfs:label xml:lang="sv">Cooking</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Matlagning</rdfs:label>
+        <rdfs:label xml:lang="fi">Ruoanvalmistus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDPGTFVvNJKNW0mee826haw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDPGTFVvNJKNW0mee826haw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7TU8HNjgFQLmNZWtBOQ129"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9716</dc:identifier>
+        <rdfs:label xml:lang="sv">Brottning</rdfs:label>
+        <rdfs:label xml:lang="fi">Paini</rdfs:label>
+        <rdfs:label xml:lang="en">Wrestling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDSCgbmY6stwh3DVmwwSRBl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDSCgbmY6stwh3DVmwwSRBl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p13639</dc:identifier>
+        <rdfs:label xml:lang="en">Miniature golf</rdfs:label>
+        <rdfs:label xml:lang="sv">Minigolf</rdfs:label>
+        <rdfs:label xml:lang="fi">Ratagolf</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDTvRbQnAZaKwe3ZcImYBG1 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDTvRbQnAZaKwe3ZcImYBG1">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16486</dc:identifier>
+        <rdfs:label xml:lang="fi">Opiskelijat</rdfs:label>
+        <rdfs:label xml:lang="en">Students</rdfs:label>
+        <rdfs:label xml:lang="sv">Studerande</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDVQUWkThxgb5BYv5XfYIvS -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDVQUWkThxgb5BYv5XfYIvS">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p15472</dc:identifier>
+        <rdfs:label xml:lang="en">Acrylic painting</rdfs:label>
+        <rdfs:label xml:lang="sv">Akrylmålning</rdfs:label>
+        <rdfs:label xml:lang="fi">Akryylimaalaus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDVc2hc2CYqsUp02dGgVas7 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDVc2hc2CYqsUp02dGgVas7">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBsIwI8iD69q5LXda2iCdww"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p30161</dc:identifier>
+        <rdfs:label xml:lang="sv">Lydnad träning</rdfs:label>
+        <rdfs:label xml:lang="en">Obedience training</rdfs:label>
+        <rdfs:label xml:lang="fi">Tottelevaisuuskoulutus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDb5Don2cPZLkrO8DyAa4fS -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDb5Don2cPZLkrO8DyAa4fS">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8Hs09iKakJD94TCfeKx1jr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p20742</dc:identifier>
+        <rdfs:label xml:lang="en">Cosplay</rdfs:label>
+        <rdfs:label xml:lang="fi">Cosplay</rdfs:label>
+        <rdfs:label xml:lang="sv">Cosplay</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDhlCOoj6D2jtdr7yxvVuTV -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDhlCOoj6D2jtdr7yxvVuTV">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2897</dc:identifier>
+        <rdfs:label xml:lang="en">Collecting</rdfs:label>
+        <rdfs:label xml:lang="fi">Keräily</rdfs:label>
+        <rdfs:label xml:lang="sv">Samlarverksamhet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDiTPkJttZRqXzRphafk1V7 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDiTPkJttZRqXzRphafk1V7">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14232</dc:identifier>
+        <rdfs:label xml:lang="en">Birdwatching</rdfs:label>
+        <rdfs:label xml:lang="sv">Fågelskådning</rdfs:label>
+        <rdfs:label xml:lang="fi">Lintuharrastus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDj5s3W3esXGMZLZXNgVDVf -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDj5s3W3esXGMZLZXNgVDVf">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R92jIVbs3E1ZEo47SF158Or"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p16512</dc:identifier>
+        <rdfs:label xml:lang="en">Graffiti</rdfs:label>
+        <rdfs:label xml:lang="sv">Graffiti</rdfs:label>
+        <rdfs:label xml:lang="fi">Graffitit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2739</dc:identifier>
+        <rdfs:label xml:lang="en">Art</rdfs:label>
+        <rdfs:label xml:lang="sv">Konst</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuvataide</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDjEir8RnlmEWV9eIQgBKGw -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDjEir8RnlmEWV9eIQgBKGw">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RxegWlLlHyxQscin4zaBuP"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2170</dc:identifier>
+        <rdfs:label xml:lang="en">Choirs</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuorot</rdfs:label>
+        <rdfs:label xml:lang="sv">Körer</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDnE0OU0ROlYuCZgdb0fmqE -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDnE0OU0ROlYuCZgdb0fmqE">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDHQOxXa4OhXHD07Q7eeqJX"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18523</dc:identifier>
+        <rdfs:label xml:lang="sv">Bergstigning</rdfs:label>
+        <rdfs:label xml:lang="fi">Kalliokiipeily</rdfs:label>
+        <rdfs:label xml:lang="en">Rock climbing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDnUKPltMlaqwo4LwPZocC8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDnUKPltMlaqwo4LwPZocC8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20"/>
+        <rdfs:label xml:lang="sv">Producerande</rdfs:label>
+        <rdfs:label xml:lang="en">Producing</rdfs:label>
+        <rdfs:label xml:lang="fi">Tuottaminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDoYM52lg8uhcWg62SWXQHb -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDoYM52lg8uhcWg62SWXQHb">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12800</dc:identifier>
+        <rdfs:label xml:lang="sv">Vattenskidåking</rdfs:label>
+        <rdfs:label xml:lang="fi">Vesihiihto</rdfs:label>
+        <rdfs:label xml:lang="en">Water skiing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDuQSGR7Pg9M8wKcyrBg06G -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDuQSGR7Pg9M8wKcyrBg06G">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9eOWTjca56XmJEtn6da5PB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p38191</dc:identifier>
+        <rdfs:label xml:lang="sv">Frivillig brandkår</rdfs:label>
+        <rdfs:label xml:lang="fi">Vapaapalokunnat</rdfs:label>
+        <rdfs:label xml:lang="en">Volunteer fire department</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RDw7nYm0HMneYER5mt0bocD -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RDw7nYm0HMneYER5mt0bocD">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <rdfs:label xml:lang="en">Pilates</rdfs:label>
+        <rdfs:label xml:lang="fi">Pilates</rdfs:label>
+        <rdfs:label xml:lang="sv">Pilates</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/REbQfib3U0p3KMNOjkLwTz -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/REbQfib3U0p3KMNOjkLwTz">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2573</dc:identifier>
+        <rdfs:label xml:lang="sv">Engelska</rdfs:label>
+        <rdfs:label xml:lang="fi">Englanti</rdfs:label>
+        <rdfs:label xml:lang="en">English</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RGIduWwBU1nZUUsHYnObIY -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RGIduWwBU1nZUUsHYnObIY">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19062</dc:identifier>
+        <rdfs:label xml:lang="en">Drums</rdfs:label>
+        <rdfs:label xml:lang="fi">Rummut</rdfs:label>
+        <rdfs:label xml:lang="sv">Trummor</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RJRYLzBMLexXsocvVXQ6Zc -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RJRYLzBMLexXsocvVXQ6Zc">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3453</dc:identifier>
+        <rdfs:label xml:lang="en">Computer games</rdfs:label>
+        <rdfs:label xml:lang="sv">Datorspel</rdfs:label>
+        <rdfs:label xml:lang="fi">Tietokonepelit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RKmvXsiQEJNHsYGVna6HJt -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RKmvXsiQEJNHsYGVna6HJt">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R73szzFiF4SWEuT4TVs2Cgw"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17607</dc:identifier>
+        <rdfs:label xml:lang="fi">Nuorisovaltuustot</rdfs:label>
+        <rdfs:label xml:lang="sv">Ungdomsfullmäktige</rdfs:label>
+        <rdfs:label xml:lang="en">Youth council</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RKvZ8ua8UWCaLyk9Q5nc5R -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RKvZ8ua8UWCaLyk9Q5nc5R">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCrZjuOmJ0dJH52VFXbprFB"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19175</dc:identifier>
+        <rdfs:label xml:lang="en">Japanese</rdfs:label>
+        <rdfs:label xml:lang="fi">Japani</rdfs:label>
+        <rdfs:label xml:lang="sv">Japanska</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RKzJLaHJQdOb5plXnQz2Ua -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RKzJLaHJQdOb5plXnQz2Ua">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDHQOxXa4OhXHD07Q7eeqJX"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18081</dc:identifier>
+        <rdfs:label xml:lang="fi">Seinäkiipeily</rdfs:label>
+        <rdfs:label xml:lang="sv">Väggklättring</rdfs:label>
+        <rdfs:label xml:lang="en">Wall climbing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RLV5RNFtGLmUV5hgwWzBhE -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RLV5RNFtGLmUV5hgwWzBhE">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9087</dc:identifier>
+        <rdfs:label xml:lang="fi">Juoksu</rdfs:label>
+        <rdfs:label xml:lang="sv">Löpning</rdfs:label>
+        <rdfs:label xml:lang="en">Running</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RLbDYRXrVxZvbXGVGylkO3 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RLbDYRXrVxZvbXGVGylkO3">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p14657</dc:identifier>
+        <rdfs:label xml:lang="fi">Partio</rdfs:label>
+        <rdfs:label xml:lang="en">Scouting</rdfs:label>
+        <rdfs:label xml:lang="sv">Scouting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RM1tTjMlc0FU7tNPWU12kB -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RM1tTjMlc0FU7tNPWU12kB">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4760</dc:identifier>
+        <rdfs:label xml:lang="fi">Kolmiloikka</rdfs:label>
+        <rdfs:label xml:lang="sv">Tresteg</rdfs:label>
+        <rdfs:label xml:lang="en">Triple jump</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RN8n64lnxqBfrTEIqvQy8x -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RN8n64lnxqBfrTEIqvQy8x">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8yEu4zfy4DGqQ3hHLb84z7"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p19834</dc:identifier>
+        <rdfs:label xml:lang="en">Artistic gymnastics</rdfs:label>
+        <rdfs:label xml:lang="sv">Artistisk gymnastik</rdfs:label>
+        <rdfs:label xml:lang="fi">Telinevoimistelu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/ROGhyR7x7qkYDCg32cGsl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/ROGhyR7x7qkYDCg32cGsl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCpC2vEXj92cc9EH0yqBMJ1"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p17522</dc:identifier>
+        <rdfs:label xml:lang="en">Fencing</rdfs:label>
+        <rdfs:label xml:lang="sv">Fäkting</rdfs:label>
+        <rdfs:label xml:lang="fi">Miekkailu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/ROmC5hfZUtXiAeAWec5N52 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/ROmC5hfZUtXiAeAWec5N52">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12078</dc:identifier>
+        <rdfs:label xml:lang="en">Canoeing</rdfs:label>
+        <rdfs:label xml:lang="sv">Kanotsport</rdfs:label>
+        <rdfs:label xml:lang="fi">Melonta</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RPBk9kBEAD81MXpkNiDwCI -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RPBk9kBEAD81MXpkNiDwCI">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBdqt7pb16HnKbK407wz06d"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p897</dc:identifier>
+        <rdfs:label xml:lang="sv">Kulstötning</rdfs:label>
+        <rdfs:label xml:lang="fi">Kuulantyöntö</rdfs:label>
+        <rdfs:label xml:lang="en">Shot put</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RPIg7UfQT9gXedHi38yB8U">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1743</dc:identifier>
+        <rdfs:label xml:lang="sv">Musiker</rdfs:label>
+        <rdfs:label xml:lang="en">Playing</rdfs:label>
+        <rdfs:label xml:lang="fi">Soittaminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RR6ADMvOmoWri7SmPat8cF -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RR6ADMvOmoWri7SmPat8cF">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBHyBQcL46mDarG6qXjgkBO"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p6231</dc:identifier>
+        <rdfs:label xml:lang="sv">Kappsegling</rdfs:label>
+        <rdfs:label xml:lang="fi">Purjehdus</rdfs:label>
+        <rdfs:label xml:lang="en">Sailing</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RSRu5rg7qtMOLcSGPnAXH -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RSRu5rg7qtMOLcSGPnAXH">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p20405</dc:identifier>
+        <rdfs:label xml:lang="en">Internet</rdfs:label>
+        <rdfs:label xml:lang="fi">Internet</rdfs:label>
+        <rdfs:label xml:lang="sv">Internet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RTnrSnJwjbYdAW0jntGEsy">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p485</dc:identifier>
+        <rdfs:label xml:lang="sv">Handarbete</rdfs:label>
+        <rdfs:label xml:lang="en">Handicraft</rdfs:label>
+        <rdfs:label xml:lang="fi">Käsityö</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RV75LrYifFBluIAYlqFApq -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RV75LrYifFBluIAYlqFApq">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p27546</dc:identifier>
+        <rdfs:label xml:lang="sv">Mopedering</rdfs:label>
+        <rdfs:label xml:lang="en">Mopeding</rdfs:label>
+        <rdfs:label xml:lang="fi">Mopoilu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RWztV8cfUvVQ5B2HZBxDS0 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RWztV8cfUvVQ5B2HZBxDS0">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8JUXqoaPI12Gfm1v4hYs6n"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p27500</dc:identifier>
+        <rdfs:label xml:lang="en">Kick scooters</rdfs:label>
+        <rdfs:label xml:lang="fi">Potkulaudat</rdfs:label>
+        <rdfs:label xml:lang="sv">Sparcyklar</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RZZAoLBS8yDOTEHX5s6cIK -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RZZAoLBS8yDOTEHX5s6cIK">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p22610</dc:identifier>
+        <rdfs:label xml:lang="en">Online games</rdfs:label>
+        <rdfs:label xml:lang="sv">Onlinespel</rdfs:label>
+        <rdfs:label xml:lang="fi">Verkkopelit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RZw3pn3eRfjLChMtcRPbd8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RZw3pn3eRfjLChMtcRPbd8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3278</dc:identifier>
+        <rdfs:label xml:lang="en">Air sports</rdfs:label>
+        <rdfs:label xml:lang="sv">Flygsport</rdfs:label>
+        <rdfs:label xml:lang="fi">Urheiluilmailu</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rb52UPCb5261uYKNwZPBoY -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rb52UPCb5261uYKNwZPBoY">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDD42I3j9BBo7dBNQrP4fUL"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5672</dc:identifier>
+        <rdfs:label xml:lang="en">Beauty</rdfs:label>
+        <rdfs:label xml:lang="fi">Kauneudenhoito</rdfs:label>
+        <rdfs:label xml:lang="sv">Skönhet</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RbXiK2WlwWdu3Sk3Thco8R -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RbXiK2WlwWdu3Sk3Thco8R">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBsIwI8iD69q5LXda2iCdww"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8941</dc:identifier>
+        <rdfs:label xml:lang="en">Agility</rdfs:label>
+        <rdfs:label xml:lang="fi">Agility</rdfs:label>
+        <rdfs:label xml:lang="sv">Agility</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RcYctIFBgNXfN0StNDFdOG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RcYctIFBgNXfN0StNDFdOG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RSRu5rg7qtMOLcSGPnAXH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2719</dc:identifier>
+        <rdfs:label xml:lang="sv">Bloggar</rdfs:label>
+        <rdfs:label xml:lang="fi">Blogit</rdfs:label>
+        <rdfs:label xml:lang="en">Blogs</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RcdQtUM0b19IjCEGKN2rC8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RcdQtUM0b19IjCEGKN2rC8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDD42I3j9BBo7dBNQrP4fUL"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4865</dc:identifier>
+        <rdfs:label xml:lang="en">Baking</rdfs:label>
+        <rdfs:label xml:lang="sv">Bakning</rdfs:label>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bakning</rdfs:label>
+        <rdfs:label xml:lang="fi">Leipominen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rd6ktynIauYv281PxLuRBX -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rd6ktynIauYv281PxLuRBX">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/Rx8ggy4htTkUDc5LVeIFCA"/>
+        <rdfs:label xml:lang="en">Fixing motorcycles</rdfs:label>
+        <rdfs:label xml:lang="fi">Moottoripyörien korjaaminen</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Re07baEHJ2M5SkOqY6XMLG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Re07baEHJ2M5SkOqY6XMLG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9R4QHuGlUhr9ium63KxadH"/>
+        <rdfs:label xml:lang="en">Laser tag</rdfs:label>
+        <rdfs:label xml:lang="sv">Lasergame</rdfs:label>
+        <rdfs:label xml:lang="fi">Megazone</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4280</dc:identifier>
+        <rdfs:label xml:lang="fi">Yleisö</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rk5DjjcBkY2INLpt3nDEY5 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rk5DjjcBkY2INLpt3nDEY5">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p20774</dc:identifier>
+        <rdfs:label xml:lang="en">Social media</rdfs:label>
+        <rdfs:label xml:lang="sv">Socialt medium</rdfs:label>
+        <rdfs:label xml:lang="fi">Sosiaalinen media</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RlDYghwLagz10h6w6bUGQn -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RlDYghwLagz10h6w6bUGQn">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9matmMSpqgwubOks3UA5a"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5007</dc:identifier>
+        <rdfs:label xml:lang="en">Circus arts</rdfs:label>
+        <rdfs:label xml:lang="sv">Cirkuskonst</rdfs:label>
+        <rdfs:label xml:lang="fi">Sirkustaide</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RllmvHoFtfoY5VeZucTwW2 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RllmvHoFtfoY5VeZucTwW2">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1686</dc:identifier>
+        <rdfs:label xml:lang="en">Fishing</rdfs:label>
+        <rdfs:label xml:lang="sv">Fiske</rdfs:label>
+        <rdfs:label xml:lang="fi">Kalastus</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RmHGduFZcGxRFf0o5lh4PL -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RmHGduFZcGxRFf0o5lh4PL">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p11617</dc:identifier>
+        <rdfs:label xml:lang="fi">Nuoret</rdfs:label>
+        <rdfs:label xml:lang="sv">Ungdomar</rdfs:label>
+        <rdfs:label xml:lang="en">Young people</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RmW7O99coO91IK5xHWVrLl -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RmW7O99coO91IK5xHWVrLl">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8nQg9vWsBzUCfTKWIE2Wbo"/>
+        <rdfs:label xml:lang="fi">Muut tapahtumat</rdfs:label>
+        <rdfs:label xml:lang="en">Other events</rdfs:label>
+        <rdfs:label xml:lang="sv">Övriga evenemanger</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RmXNwuogOCS9SLv1oN3NZu -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RmXNwuogOCS9SLv1oN3NZu">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RlDYghwLagz10h6w6bUGQn"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1277</dc:identifier>
+        <rdfs:label xml:lang="en">Acrobatics</rdfs:label>
+        <rdfs:label xml:lang="fi">Akrobatia</rdfs:label>
+        <rdfs:label xml:lang="sv">Akrobatik</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RnKkv991vAkLO9KKsgilcB -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RnKkv991vAkLO9KKsgilcB">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCJyHuwNS8jd9EGtmbk0Q1c"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p38287</dc:identifier>
+        <rdfs:label xml:lang="en">Buhurt</rdfs:label>
+        <rdfs:label xml:lang="fi">Buhurt</rdfs:label>
+        <rdfs:label xml:lang="sv">Buhurt</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RoaERCcPEM1apQrjnsf2m -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RoaERCcPEM1apQrjnsf2m">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p8113</dc:identifier>
+        <rdfs:label xml:lang="fi">Kirjallisuus</rdfs:label>
+        <rdfs:label xml:lang="en">Literature</rdfs:label>
+        <rdfs:label xml:lang="sv">Litteratur</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RojCJb6YPLdViRV1wCkLTQ -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RojCJb6YPLdViRV1wCkLTQ">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDHQOxXa4OhXHD07Q7eeqJX"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p27698</dc:identifier>
+        <rdfs:label xml:lang="en">Bouldering</rdfs:label>
+        <rdfs:label xml:lang="sv">Bouldering</rdfs:label>
+        <rdfs:label xml:lang="fi">Boulderointi</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RpcH8Y9fV8FaWWGfqKA3cz -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RpcH8Y9fV8FaWWGfqKA3cz">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p3547</dc:identifier>
+        <rdfs:label xml:lang="en">Hunting</rdfs:label>
+        <rdfs:label xml:lang="sv">Jakt</rdfs:label>
+        <rdfs:label xml:lang="fi">Metsästys</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rqfkpc8oOTFYbcUIxgmRYs -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rqfkpc8oOTFYbcUIxgmRYs">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8ZRq5o5iGoXIHqZ8tm5EqD"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18268</dc:identifier>
+        <rdfs:label xml:lang="en">Pastel</rdfs:label>
+        <rdfs:label xml:lang="sv">Pastell</rdfs:label>
+        <rdfs:label xml:lang="fi">Pastelli</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RsL5DVgQUqeHp8HlpsbWK4">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p9778</dc:identifier>
+        <rdfs:label xml:lang="sv">Samhälle</rdfs:label>
+        <rdfs:label xml:lang="en">Society</rdfs:label>
+        <rdfs:label xml:lang="fi">Yhteiskunta</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RsMyS0rd60FXaJX97N9RUA">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5462</dc:identifier>
+        <rdfs:label xml:lang="sv">Datateknik</rdfs:label>
+        <rdfs:label xml:lang="en">Information technology</rdfs:label>
+        <rdfs:label xml:lang="fi">Tietotekniikka</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RtBUg9v6wUz25FtyhSa6MG -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RtBUg9v6wUz25FtyhSa6MG">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RZw3pn3eRfjLChMtcRPbd8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p12958</dc:identifier>
+        <rdfs:label xml:lang="sv">Fallskärming</rdfs:label>
+        <rdfs:label xml:lang="fi">Laskuvarjohypyt</rdfs:label>
+        <rdfs:label xml:lang="en">Parachuting</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RtqdQ1hruw7vCBbcOMwdGy -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RtqdQ1hruw7vCBbcOMwdGy">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDBM5b9SnNlV5IZHNTi0p1C"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4157</dc:identifier>
+        <rdfs:label xml:lang="en">Rugby</rdfs:label>
+        <rdfs:label xml:lang="fi">Rugby</rdfs:label>
+        <rdfs:label xml:lang="sv">Rugby</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RuvBvQZL6ICcVB8G4BBCI2 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RuvBvQZL6ICcVB8G4BBCI2">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCibfXcXvjmJdzchnlVAZHp"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1148</dc:identifier>
+        <rdfs:label xml:lang="en">Comics</rdfs:label>
+        <rdfs:label xml:lang="fi">Sarjakuvat</rdfs:label>
+        <rdfs:label xml:lang="sv">Tecknad serie</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rwz0sPrSTLo8Ach8ttDw3c -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rwz0sPrSTLo8Ach8ttDw3c">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R8FSSA5cQqIWIUidMREPcvH"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p1755</dc:identifier>
+        <rdfs:label xml:lang="fi">Kasvit</rdfs:label>
+        <rdfs:label xml:lang="en">Plants</rdfs:label>
+        <rdfs:label xml:lang="sv">Växter</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RwzfBnHYPWOwg6YJHDtFk8 -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RwzfBnHYPWOwg6YJHDtFk8">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RDjBRo6iG1wcxcxfj6tHYQ8"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p5694</dc:identifier>
+        <rdfs:label xml:lang="fi">Kuvanveisto</rdfs:label>
+        <rdfs:label xml:lang="en">Sculpture</rdfs:label>
+        <rdfs:label xml:lang="sv">Skulptur</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Rx8ggy4htTkUDc5LVeIFCA -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Rx8ggy4htTkUDc5LVeIFCA">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R9QdadeSLbfFKQzB97RHL83"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p18266</dc:identifier>
+        <rdfs:label xml:lang="fi">Moottoripyöräily</rdfs:label>
+        <rdfs:label xml:lang="en">Motorcycling</rdfs:label>
+        <rdfs:label xml:lang="sv">Motorcykling</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RxegWlLlHyxQscin4zaBuP -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RxegWlLlHyxQscin4zaBuP">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/R7mZGCjUp5SsY7lQnaaKZ20"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p2428</dc:identifier>
+        <rdfs:label xml:lang="fi">Laulaminen</rdfs:label>
+        <rdfs:label xml:lang="en">Singing</rdfs:label>
+        <rdfs:label xml:lang="sv">Sång</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RyHBCijpbedAUgOwYl4Fry -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RyHBCijpbedAUgOwYl4Fry">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RBrPW7Wds2XCGTAlp5n2WuR"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p855</dc:identifier>
+        <rdfs:label xml:lang="en">Radio</rdfs:label>
+        <rdfs:label xml:lang="fi">Radio</rdfs:label>
+        <rdfs:label xml:lang="sv">Radio</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/RzCsVa9jo9WrkSlTvvTprH -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/RzCsVa9jo9WrkSlTvvTprH">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RxegWlLlHyxQscin4zaBuP"/>
+        <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p37063</dc:identifier>
+        <rdfs:label xml:lang="sv">Sånggrupper</rdfs:label>
+        <rdfs:label xml:lang="en">Vocal groups</rdfs:label>
+        <rdfs:label xml:lang="fi">Yhtyelaulu</rdfs:label>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.13) https://github.com/owlcs/owlapi -->
+

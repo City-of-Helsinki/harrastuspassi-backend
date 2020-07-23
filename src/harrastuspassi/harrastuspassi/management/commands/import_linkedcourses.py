@@ -14,7 +14,6 @@ from the linked courses image data structure so we can determine whether the ima
 has changed or not. we don't want to download the full image file every time to
 see if it has changed or not.
 """
-
 import iso8601
 import json
 import logging
@@ -30,14 +29,25 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models import Q
 from tempfile import NamedTemporaryFile
-from typing import Dict, Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterator, List, Optional, Set, Tuple, Union
 from urllib.parse import urlparse
 from harrastuspassi import settings
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from harrastuspassi.models import (Hobby,
+                                   HobbyAudience,
+                                   HobbyCategory,
+                                   HobbyEvent,
+                                   Location,
+                                   Organizer)
 
 
 LOG = logging.getLogger(__name__)
 REQUESTS_TIMEOUT = 15
+# Most of the events in linkedcourses are using keywords from
+# https://api.hel.fi/linkedevents/v1/keyword_set/helsinki:audiences/?include=keywords to define
+# the event audience
+
+INCLUDE_AUDIENCE_NAMES = ['Opiskelijat', 'Nuoret']
+EXCLUDE_AUDIENCE_NAMES = ['Koululaiset', 'Lapset', 'Lapsiperheet', 'Vauvaperheet']
 
 # Keywords in Linked Courses come from several ontologies.
 # We are interested mainly in YSO ontology.
@@ -52,6 +62,22 @@ class InvalidKeywordException(Exception):
 class Command(BaseCommand):
     help = 'Import data from Linked Courses'
     source = 'linked_courses'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.INCLUDE_AUDIENCE = self.populate_keyword_set(INCLUDE_AUDIENCE_NAMES, 'Include Audience')
+        self.EXCLUDE_AUDIENCE = self.populate_keyword_set(EXCLUDE_AUDIENCE_NAMES, 'Exclude Audience')
+
+    def populate_keyword_set(self, keyword_names: List, keyword_type: str, parent: str = '') -> Set[Keyword]:
+        """Stores ids for the audience keywords in order to save on DB queries."""
+        qs = HobbyAudience.objects.all()
+        if parent:
+            qs = qs.get(name=parent).get_children()
+        keyword_qs = qs.filter(name__in=keyword_names).values('data_source', 'origin_id')
+        if len(keyword_qs) < len(keyword_names):
+            self.stderr.write(f'Some of the keywords from {keyword_type} do not match the categories.')
+        keyword_set = set([Keyword(source=i['data_source'], id=i['origin_id']) for i in keyword_qs])
+        return keyword_set
 
     def add_arguments(self, parser):
         parser.add_argument('--url', action='store', dest='url', default=settings.LINKED_COURSES_URL,
@@ -90,8 +116,13 @@ class Command(BaseCommand):
         """ Handle one event. Can return an empty list, one object or many objects
             generated from the event.
         """
-        # first verify that keywords match categories. compare category source + id to keyword source + id
-        categories_for_event = self.determine_categories(event)
+        # if the age is not over 13 - skip event
+        event_keywords = self.get_keywords(event)
+        if not self.check_age(event, event_keywords):
+            return []
+
+        # verify that keywords match categories. compare category source + id to keyword source + id
+        categories_for_event = self.determine_categories(event_keywords)
         if len(categories_for_event) == 0:
             # This event does not map to any category we are interested in. Skip it.
             return []
@@ -103,6 +134,24 @@ class Command(BaseCommand):
         if self.is_hobby_event(event):
             result_objects.append(self.handle_hobby_event(event))
         return result_objects
+
+    def check_age(self, event: Dict, event_keywords: Set[Keyword]) -> bool:
+        if event.get('audience_min_age'):
+            if event['audience_min_age'] > 12:
+                return True
+            else:
+                self.stdout.write(f"audience_min_age for {event.get('name')} is {event['audience_min_age']}, skipping.")
+                return False
+        if event_keywords.intersection(self.INCLUDE_AUDIENCE):
+            if event_keywords.intersection(self.EXCLUDE_AUDIENCE):
+                msg = f"{event.get('name')} is also for {event_keywords.intersection(self.EXCLUDE_AUDIENCE)}, skipping."
+                self.stdout.write(msg)
+                return False
+            else:
+                return True
+        else:
+            self.stdout.write(f"{event.get('name')} no audience_min_age and suitable audience keywords. Skipping.")
+            return False
 
     def handle_hobby(self, event: Dict, categories: List[HobbyCategory]) -> Hobby:
         """ Handle an event, creating or updating existing Hobby """
@@ -213,13 +262,12 @@ class Command(BaseCommand):
                     f'multiple hobbies with origin_id {hobby_origin_id} found\n')
                 continue
 
-    def determine_categories(self, event: Dict) -> List[HobbyCategory]:
+    def determine_categories(self, event_keywords: Set[Keyword]) -> List[HobbyCategory]:
         """ Get a list of Category objects an event maps to based on its keywords """
-        event_keywords = self.get_keywords(event)
         filters = [Q(data_source=kw.source, origin_id=kw.id) for kw in event_keywords]
         return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
 
-    def get_keywords(self, event: Dict) -> List[Keyword]:
+    def get_keywords(self, event: Dict) -> Set[Keyword]:
         """ Get all keywords of an event """
         keywords = []
         for keyword in event.get('keywords', []):
@@ -227,7 +275,7 @@ class Command(BaseCommand):
                 keywords.append(self.parse_ld_keyword_id(keyword['@id']))
             except InvalidKeywordException:
                 self.stderr.write(f'Can not parse keyword: {repr(keyword)}\n')
-        return keywords
+        return set(keywords)
 
     def parse_ld_keyword_id(self, ld_keyword_id: str) -> Keyword:
         """ Parse keyword source and id from the id url. Avoid a roundtrip to the
@@ -265,11 +313,16 @@ class Command(BaseCommand):
             return None
         data = {
             'name': location_data['name'].get('fi'),  # TODO: language support
-            'zip_code': location_data['postal_code'],
-            'city': location_data['address_locality'].get('fi', ''),
-            'address': location_data['street_address'].get('fi', ''),
+            #  not using plain location_data.get('postal_code', '') to avoid None values if
+            #  location_data['postal__code'] == None
+            'zip_code': location_data.get('postal_code') if location_data.get('postal_code') else '',
             'coordinates': None
         }
+        if location_data['address_locality']:
+            data['city'] = location_data['address_locality'].get('fi', '')
+        if location_data['street_address']:
+            data['address'] = location_data['street_address'].get('fi', '')
+
         if location_data['position'] and location_data['position'].get('type') == 'Point':
             # Are these the right way?
             lon = location_data['position']['coordinates'][0]
@@ -278,8 +331,7 @@ class Command(BaseCommand):
         location, created = Location.objects.get_or_create(
             data_source=self.source,
             origin_id=location_data['@id'],
-            defaults=data
-        )
+            defaults=data)
         if not created:
             is_dirty = False
             for field, value in data.items():
