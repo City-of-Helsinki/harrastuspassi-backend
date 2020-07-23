@@ -2617,7 +2617,7 @@
     <!-- http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr -->
 
     <owl:Class rdf:about="http://webprotege.stanford.edu/RffLK7ptEOZVHHripRSBEr">
-        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/RCKyJgw2U73rCcBy0ZUnwW"/>
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
         <dc:identifier rdf:datatype="http://www.w3.org/2001/XMLSchema#string">p4280</dc:identifier>
         <rdfs:label xml:lang="fi">Yleisö</rdfs:label>
     </owl:Class>

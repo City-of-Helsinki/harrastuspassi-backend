@@ -14,6 +14,7 @@ from the linked courses image data structure so we can determine whether the ima
 has changed or not. we don't want to download the full image file every time to
 see if it has changed or not.
 """
+
 import iso8601
 import json
 import logging
@@ -32,7 +33,12 @@ from tempfile import NamedTemporaryFile
 from typing import Dict, Iterator, List, Optional, Set, Tuple, Union
 from urllib.parse import urlparse
 from harrastuspassi import settings
-from harrastuspassi.models import Hobby, HobbyCategory, HobbyEvent, Location, Organizer
+from harrastuspassi.models import (Hobby,
+                                   HobbyAudience,
+                                   HobbyCategory,
+                                   HobbyEvent,
+                                   Location,
+                                   Organizer)
 
 
 LOG = logging.getLogger(__name__)
@@ -60,17 +66,17 @@ class Command(BaseCommand):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.INCLUDE_AUDIENCE = self.populate_keyword_set(INCLUDE_AUDIENCE_NAMES, 'Include Audience', 'Yleisö')
-        self.EXCLUDE_AUDIENCE = self.populate_keyword_set(EXCLUDE_AUDIENCE_NAMES, 'Exclude Audience', 'Yleisö')
+        self.INCLUDE_AUDIENCE = self.populate_keyword_set(INCLUDE_AUDIENCE_NAMES, 'Include Audience')
+        self.EXCLUDE_AUDIENCE = self.populate_keyword_set(EXCLUDE_AUDIENCE_NAMES, 'Exclude Audience')
 
     def populate_keyword_set(self, keyword_names: List, keyword_type: str, parent: str = '') -> Set[Keyword]:
         """Stores ids for the audience keywords in order to save on DB queries."""
-        qs = HobbyCategory.objects.all()
+        qs = HobbyAudience.objects.all()
         if parent:
             qs = qs.get(name=parent).get_children()
         keyword_qs = qs.filter(name__in=keyword_names).values('data_source', 'origin_id')
         if len(keyword_qs) < len(keyword_names):
-            self.stderr.write(f'Some of the keywords from {keyword_type} do not match anything from HobbyCategory.')
+            self.stderr.write(f'Some of the keywords from {keyword_type} do not match the categories.')
         keyword_set = set([Keyword(source=i['data_source'], id=i['origin_id']) for i in keyword_qs])
         return keyword_set
 

@@ -138,6 +138,20 @@ class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
         return self.name
 
 
+class HobbyAudience(MPTTModel, ExternalDataModel):
+    name = models.CharField(max_length=256, verbose_name='Hobby Audience')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+    class Meta:
+        verbose_name_plural = 'Hobby Audience'
+
+    def __str__(self):
+        return self.name
+
+
 class HobbyQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'location__coordinates'
 
