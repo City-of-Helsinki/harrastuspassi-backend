@@ -7,6 +7,8 @@ from datetime import timedelta
 # Core configuration
 #
 
+DEBUG = os.environ.get('DEBUG', False)
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
@@ -29,7 +31,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
     'rest_framework.authtoken',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
