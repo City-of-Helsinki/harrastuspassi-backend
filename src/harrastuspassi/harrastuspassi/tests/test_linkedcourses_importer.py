@@ -3,6 +3,7 @@ import pytest
 from freezegun import freeze_time
 from django.core.files.base import ContentFile
 from harrastuspassi.management.commands.import_linkedcourses import Command as LinkedCoursesImportCommand
+from harrastuspassi.models import Hobby, HobbyEvent
 from harrastuspassi.tests.conftest import FROZEN_DATETIME
 
 pytest_plugins = ['harrastuspassi.tests.fixtures_linkedcourses']
@@ -27,4 +28,60 @@ def test_event_image_update(mocker, hobby, event_with_images_only, frozen_dateti
     event['images'][0]['last_modified_time'] = (frozen_datetime - datetime.timedelta(days=5)).isoformat() + 'Z'
     command.handle_hobby_cover_image(event, hobby)
     command.fetch_image.assert_called()
+
+
+@pytest.mark.django_db
+def test_deletions_none_deleted(imported_hobby, imported_hobby2):
+    command = LinkedCoursesImportCommand()
+    hobby_qs = Hobby.objects.filter(data_source='linked_courses')
+    event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 4
+    found_hobby_origin_ids = ['foo:1', 'foo:2']
+    found_hobbyevent_origin_ids = ['foo:1', 'foo:2', 'foo:3', 'foo:4']
+    command.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 4
+
+
+@pytest.mark.django_db
+def test_deletions_hobby_deleted(imported_hobby, imported_hobby2):
+    command = LinkedCoursesImportCommand()
+    hobby_qs = Hobby.objects.filter(data_source='linked_courses')
+    event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 4
+    found_hobby_origin_ids = ['foo:1']
+    found_hobbyevent_origin_ids = ['foo:1', 'foo:2', 'foo:3', 'foo:4']
+    command.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
+    assert hobby_qs.count() == 1
+    assert event_qs.count() == 2
+
+
+@pytest.mark.django_db
+def test_deletions_hobbyevent_deleted(imported_hobby, imported_hobby2):
+    command = LinkedCoursesImportCommand()
+    hobby_qs = Hobby.objects.filter(data_source='linked_courses')
+    event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 4
+    found_hobby_origin_ids = ['foo:1', 'foo:2']
+    found_hobbyevent_origin_ids = ['foo:1', 'foo:2', 'foo:3']
+    command.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 3
+
+
+@pytest.mark.django_db
+def test_deletions_hobby_and_events_deleted(imported_hobby, imported_hobby2):
+    command = LinkedCoursesImportCommand()
+    hobby_qs = Hobby.objects.filter(data_source='linked_courses')
+    event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
+    assert hobby_qs.count() == 2
+    assert event_qs.count() == 4
+    found_hobby_origin_ids = ['foo:1']
+    found_hobbyevent_origin_ids = ['foo:1', 'foo:2']
+    command.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
+    assert hobby_qs.count() == 1
+    assert event_qs.count() == 2
 
