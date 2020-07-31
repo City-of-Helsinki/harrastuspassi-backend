@@ -172,6 +172,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=1024, verbose_name='Hobby')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
+    cover_image_modified_at = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)

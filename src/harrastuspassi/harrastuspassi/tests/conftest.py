@@ -79,6 +79,17 @@ def frozen_date_plus_year():
 
 
 @pytest.fixture
+def frozen_datetime():
+    date_str, time_str = FROZEN_DATETIME.split(' ')
+    year, month, day = map(int, date_str.split('-'))
+    hour, minute, second = map(int, time_str.split(':'))
+    return datetime.datetime.combine(
+        datetime.date(year=year, month=month, day=day),
+        datetime.time(hour=hour, minute=minute, second=second),
+    )
+
+
+@pytest.fixture
 def location(municipality):
     return Location.objects.create(name='Tampere', municipality=municipality)
 
