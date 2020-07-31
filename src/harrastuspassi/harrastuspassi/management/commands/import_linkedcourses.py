@@ -81,6 +81,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(f'Starting to pull events from {options["url"]}\n')
+        found_hobby_origin_ids = []
+        found_hobbyevent_origin_ids = []
         orphaned_hobby_events = []
         with requests.Session() as session, transaction.atomic():
             session.headers.update({'Accept': 'application/json'})
@@ -93,8 +95,13 @@ class Command(BaseCommand):
                             # we might have created HobbyEvents which could not determine
                             # a Hobby instance. these are not yet persisted to db.
                             orphaned_hobby_events.append(obj)
+                        if isinstance(obj, Hobby):
+                            found_hobby_origin_ids.append(obj.origin_id)
+                        elif isinstance(obj, HobbyEvent):
+                            found_hobbyevent_origin_ids.append(obj.origin_id)
         # try to find hobbies for orphaned events now that we have processed all pages
         self.handle_orphaned_hobby_events(orphaned_hobby_events)
+        self.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
         self.stdout.write(f'Finished.\n')
 
     def get_event_pages(self, events_url: str) -> Iterator[List[Dict]]:
@@ -266,6 +273,28 @@ class Command(BaseCommand):
                     f'Orphan event {hobby_event.origin_id} ignored - '
                     f'multiple hobbies with origin_id {hobby_origin_id} found\n')
                 continue
+
+    def handle_deletions(
+            self,
+            found_hobby_origin_ids: List[str],
+            found_hobbyevent_origin_ids: List[str]
+        ) -> None:
+        hobbyevent_qs = HobbyEvent.objects.filter(data_source=self.source)
+        hobbyevents_to_delete_qs = hobbyevent_qs.exclude(origin_id__in=found_hobbyevent_origin_ids)
+        hobby_qs = Hobby.objects.filter(data_source=self.source)
+        hobbies_to_delete_qs = hobby_qs.exclude(origin_id__in=found_hobby_origin_ids)
+        if (
+            hobbyevents_to_delete_qs.count() >= hobbyevent_qs.count() or
+            hobbies_to_delete_qs.count() >= hobby_qs.count()
+        ):
+            self.stderr.write(
+                'Run would delete all Hobbies or HobbyEvents, something is wrong, skipping deletion.'
+            )
+            return
+        self.stdout.write(f'HobbyEvents being deleted count: {hobbyevents_to_delete_qs.count()}\n')
+        hobbyevents_to_delete_qs.delete()
+        self.stdout.write(f'Hobbies being deleted count: {hobbies_to_delete_qs.count()}\n')
+        hobbies_to_delete_qs.delete()
 
     def determine_categories(self, event_keywords: Set[Keyword]) -> List[HobbyCategory]:
         """ Get a list of Category objects an event maps to based on its keywords """
