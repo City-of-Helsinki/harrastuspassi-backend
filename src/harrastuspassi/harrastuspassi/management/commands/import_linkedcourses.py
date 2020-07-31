@@ -9,10 +9,6 @@ API request every time
 TODO: organizer is not saved for the Hobbies
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
 TODO: handle only recently changed or created events by querying modified_by
-TODO: updating images are not currently possible. more metadata needs to be saved
-from the linked courses image data structure so we can determine whether the image
-has changed or not. we don't want to download the full image file every time to
-see if it has changed or not.
 """
 import iso8601
 import json
@@ -174,14 +170,23 @@ class Command(BaseCommand):
         else:
             self.stdout.write(f'Created Hobby {hobby.pk} {hobby.name}\n')
         hobby.categories.set(categories)
-        if not hobby.cover_image:
-            # image is only saved if hobby has no image. it is never updated.
-            # TODO: make updating image possible. more metadata needs to be saved for the image.
-            image_file, image_name = self.get_image(event)
-            if image_file:
-                hobby.cover_image.save(f'hobby_{hobby.pk}_{image_name}', image_file)
-                hobby.save()
+        self.handle_hobby_cover_image(event, hobby)
         return hobby
+
+    def handle_hobby_cover_image(self, event: Dict, hobby: Hobby) -> None:
+        if not event['images']:
+            return
+        event_image_modified_at = iso8601.parse_date(event['images'][0]['last_modified_time'])
+        is_event_image_modified = hobby.cover_image_modified_at < event_image_modified_at
+        should_fetch_new_image = is_event_image_modified or not hobby.cover_image
+        if not should_fetch_new_image:
+            return
+        image_file, image_name = self.fetch_image(event)
+        if not image_file:
+            return
+        hobby.cover_image.save(f'hobby_{hobby.pk}_{image_name}', image_file)
+        hobby.cover_image_modified_at = event_image_modified_at
+        hobby.save()
 
     def handle_hobby_event(self, event: Dict) -> Optional[HobbyEvent]:
         """ Handle an event, creating or updating existing HobbyEvent """
@@ -359,7 +364,7 @@ class Command(BaseCommand):
             self.stderr.write(f'Could not parse location data: {str(e)}\n')
             return None
 
-    def get_image(self, event: Dict) -> Tuple[Optional[File], Optional[str]]:
+    def fetch_image(self, event: Dict) -> Tuple[Optional[File], Optional[str]]:
         """ Get a File instance with a downloaded image file.
             Returns the first image in the event if it's accessible.
         """
