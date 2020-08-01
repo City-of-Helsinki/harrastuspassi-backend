@@ -17,6 +17,7 @@ import operator
 import os
 import re
 import requests
+from decimal import Decimal
 from collections import namedtuple
 from django.core.files import File
 from functools import lru_cache, reduce
@@ -431,3 +432,16 @@ class Command(BaseCommand):
     def get_organizer(self, event: Dict) -> Organizer:
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
         return None
+
+    # def get_price_type(self, event: Dict) -> Hobby.PRICE_TYPE_CHOICES:
+    #     if event.get('offers'):
+    #         if event['offers'].get('is_free'):
+    #             if str
+    #         else:
+    #             if event['offers'].get('price') and Decimal(event['offers']['price']) > 0:
+    #                 return Hobby.TYPE_PAID
+    #             else:
+    #                 return Hobby.TYPE_FREE
+
+    #     else:
+    #         return Hobby.TYPE_FREE
