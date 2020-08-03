@@ -10,7 +10,6 @@ TODO: organizer is not saved for the Hobbies
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
 TODO: handle only recently changed or created events by querying modified_by
 """
-import pdb
 import iso8601
 import json
 import logging
@@ -122,7 +121,6 @@ class Command(BaseCommand):
             generated from the event.
         """
         # if the age is not over 13 - skip event
-        pdb.set_trace()
         event_keywords = self.get_keywords(event)
         if not self.check_age(event, event_keywords):
             return []
@@ -167,7 +165,7 @@ class Command(BaseCommand):
             'description': self.get_description(event),
             'organizer': self.get_organizer(event),
             'price_type': self.get_price_type(event),
-            'price': self.get_price(event)
+            'price_amount': self.get_price(event)
         }
         hobby, created = Hobby.objects.get_or_create(data_source=self.source, origin_id=event['@id'], defaults=data)
         if not created:
@@ -438,14 +436,14 @@ class Command(BaseCommand):
         return None
 
     def get_price_type(self, event: Dict) -> Hobby.PRICE_TYPE_CHOICES:
-        if event.get('offers'):
-            if event['offers'].get('is_free'):
-                if str(event['offers']['is_free']).lower() == 'true':
+        if event['offers']:
+            if event['offers'][0].get('is_free'):
+                if str(event['offers'][0]['is_free']).lower() == 'true':
                     return Hobby.TYPE_FREE
                 else:
                     return Hobby.TYPE_PAID
             else:
-                if event['offers'].get('price') and Decimal(event['offers']['price']) > 0:
+                if event['offers'][0].get('price') and Decimal(event['offers'][0]['price']) > 0:
                     return Hobby.TYPE_PAID
                 else:
                     return Hobby.TYPE_FREE
@@ -453,11 +451,11 @@ class Command(BaseCommand):
             return Hobby.TYPE_FREE
 
     def get_price(self, event: Dict) -> Decimal:
-        if not event.get('offers'):
+        if not event['offers']:
             return Decimal('0.0')
-        if event['offers'].get('price'):
+        if event['offers'][0].get('price'):
             try:
-                return Decimal(event['offers']['price'])
+                return Decimal(event['offers'][0]['price'])
             except (InvalidOperation, TypeError):
                 return Decimal('0.0')
         else:
