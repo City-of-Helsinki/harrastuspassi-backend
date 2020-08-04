@@ -161,7 +161,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
     TYPE_PAID = 'paid'  #  for the cases when the recurrence of payment is not defined
     TYPE_ANNUAL = 'annual'
     TYPE_SEASONAL = 'seasonal'
-    TYPE_ONE_TIME = 'one_time' 
+    TYPE_ONE_TIME = 'one_time'
 
     PRICE_TYPE_CHOICES = (
         (TYPE_FREE, _('Free')),
