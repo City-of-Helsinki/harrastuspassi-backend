@@ -158,6 +158,7 @@ class HobbyQuerySet(DistanceMixin, models.QuerySet):
 
 class Hobby(ExternalDataModel, TimestampedModel):
     TYPE_FREE = 'free'
+    TYPE_PAID = 'paid'  #  for the cases when the recurrence of payment is not defined
     TYPE_ANNUAL = 'annual'
     TYPE_SEASONAL = 'seasonal'
     TYPE_ONE_TIME = 'one_time'
@@ -167,6 +168,7 @@ class Hobby(ExternalDataModel, TimestampedModel):
         (TYPE_ANNUAL, _('Annual')),
         (TYPE_SEASONAL, _('Seasonal')),
         (TYPE_ONE_TIME, _('One time')),
+        (TYPE_PAID, _('Paid')),
     )
 
     name = models.CharField(max_length=1024, verbose_name='Hobby')

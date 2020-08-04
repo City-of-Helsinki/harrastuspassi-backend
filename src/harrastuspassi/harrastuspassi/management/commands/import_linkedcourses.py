@@ -17,6 +17,7 @@ import operator
 import os
 import re
 import requests
+from decimal import Decimal, InvalidOperation
 from collections import namedtuple
 from django.core.files import File
 from functools import lru_cache, reduce
@@ -140,7 +141,7 @@ class Command(BaseCommand):
 
     def check_age(self, event: Dict, event_keywords: Set[Keyword]) -> bool:
         if event.get('audience_min_age'):
-            if event['audience_min_age'] > 12:
+            if event['audience_min_age'] > 11:
                 return True
             else:
                 self.stdout.write(f"audience_min_age for {event.get('name')} is {event['audience_min_age']}, skipping.")
@@ -163,6 +164,8 @@ class Command(BaseCommand):
             'location': self.get_location(event),
             'description': self.get_description(event),
             'organizer': self.get_organizer(event),
+            'price_type': self.get_price_type(event),
+            'price_amount': self.get_price(event)
         }
         hobby, created = Hobby.objects.get_or_create(data_source=self.source, origin_id=event['@id'], defaults=data)
         if not created:
@@ -431,3 +434,29 @@ class Command(BaseCommand):
     def get_organizer(self, event: Dict) -> Organizer:
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
         return None
+
+    def get_price_type(self, event: Dict) -> Hobby.PRICE_TYPE_CHOICES:
+        if event['offers']:
+            if event['offers'][0].get('is_free'):
+                if str(event['offers'][0]['is_free']).lower() == 'true':
+                    return Hobby.TYPE_FREE
+                else:
+                    return Hobby.TYPE_PAID
+            else:
+                if event['offers'][0].get('price') and Decimal(event['offers'][0]['price']) > 0:
+                    return Hobby.TYPE_PAID
+                else:
+                    return Hobby.TYPE_FREE
+        else:
+            return Hobby.TYPE_FREE
+
+    def get_price(self, event: Dict) -> Decimal:
+        if not event['offers']:
+            return Decimal('0.0')
+        if event['offers'][0].get('price'):
+            try:
+                return Decimal(event['offers'][0]['price'])
+            except (InvalidOperation, TypeError):
+                return Decimal('0.0')
+        else:
+            return Decimal('0.0')
