@@ -232,6 +232,9 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
     end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
     end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
 
+    recurrence_start_event = models.ForeignKey("HobbyEvent", blank=True, null=True, on_delete=models.SET_NULL,
+                                               verbose_name=_('Recurrence start event'))
+
     objects = HobbyEventQuerySet.as_manager()
 
     class Meta:
