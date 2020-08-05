@@ -346,8 +346,10 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     def recurrent(self, request, pk=None, **opt):
         base_event = HobbyEvent.objects.get(id=pk)
 
-        if request.data.get('weeks', None):
-            delta = datetime.timedelta(weeks=request.data['weeks'])
+        if   request.data.get('days', None):
+            delta = datetime.timedelta(days=int(request.data['days']))
+        elif request.data.get('weeks', None):
+            delta = datetime.timedelta(weeks=int(request.data['weeks']))
         else:
             raise ValidationError(_("Unknown recurrency type"))
 
