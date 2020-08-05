@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+from copy import copy
 from collections import defaultdict
 from functools import wraps
 from itertools import chain
@@ -16,6 +17,7 @@ from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import permissions, viewsets, serializers
 from rest_framework import filters as drf_filters
+from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
@@ -339,6 +341,39 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
             return None
         else:
             return super().paginator
+
+    @action(detail=True, methods=['post'])
+    def recurrent(self, request, pk=None, **opt):
+        base_event = HobbyEvent.objects.get(id=pk)
+
+        if request.data.get('weeks'):
+            delta = datetime.timedelta(weeks=request.data['weeks'])
+        else:
+            raise ValidationError(_("Unknown recurrency type"))
+
+        if not request.data.get('end_date'):
+            raise ValidationError(_("No end date specified"))
+        end_date = datetime.date.fromisoformat(request.data.get('end_date'))
+
+        count = 0
+        current_date = base_event.start_date
+        recurrent_event_list = []
+        while current_date < end_date:
+            count += 1
+            if count > 50:
+                raise ValidationError(_("Too many recurrent events"))
+
+            event = copy(base_event)
+            event.pk = None
+            event.pk = base_event
+            event.start_date += delta * count
+            event.end_date += delta * count
+            recurrent_event_list.append(event)
+            current_date = event.start_date
+
+        for event in recurrent_event_list: event.save()
+
+        return Response({'events':[event.pk for event in recurrent_event_list]})
 
 
 class OrganizerViewSet(viewsets.ModelViewSet):
