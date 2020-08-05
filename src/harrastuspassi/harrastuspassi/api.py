@@ -346,32 +346,33 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     def recurrent(self, request, pk=None, **opt):
         base_event = HobbyEvent.objects.get(id=pk)
 
-        if request.data.get('weeks'):
+        if request.data.get('weeks', None):
             delta = datetime.timedelta(weeks=request.data['weeks'])
         else:
             raise ValidationError(_("Unknown recurrency type"))
 
-        if not request.data.get('end_date'):
+        if not request.data.get('end_date', None):
             raise ValidationError(_("No end date specified"))
-        end_date = datetime.date.fromisoformat(request.data.get('end_date'))
+        end_date = datetime.date.fromisoformat(request.data.get('end_date', None))
 
         count = 0
         current_date = base_event.start_date
         recurrent_event_list = []
-        while current_date < end_date:
+        while current_date + delta <= end_date:
             count += 1
             if count > 50:
                 raise ValidationError(_("Too many recurrent events"))
 
             event = copy(base_event)
             event.pk = None
-            event.pk = base_event
+            event.recurrence_start_event = base_event
             event.start_date += delta * count
             event.end_date += delta * count
             recurrent_event_list.append(event)
             current_date = event.start_date
 
-        for event in recurrent_event_list: event.save()
+        for event in recurrent_event_list:
+            event.save()
 
         return Response({'events':[event.pk for event in recurrent_event_list]})
 
