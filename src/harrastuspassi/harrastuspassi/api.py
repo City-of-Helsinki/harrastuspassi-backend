@@ -355,7 +355,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
 
         if not request.data.get('end_date', None):
             raise ValidationError(_("No end date specified"))
-        year, month, day = map(int, request.data.get('end_date', None))
+        year, month, day = map(int, request.data.get('end_date', None).split('-'))
         end_date = datetime.date(year, month, day)
 
         count = 0
