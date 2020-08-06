@@ -15,8 +15,8 @@ from harrastuspassi.models import (
     Promotion,
 )
 
-FROZEN_DATE = '2022-2-22'
-FROZEN_DATETIME = '2022-2-22 16:00:00'
+FROZEN_DATE = '2022-02-22'
+FROZEN_DATETIME = '2022-02-22 16:00:00'
 
 
 @pytest.fixture
@@ -115,6 +115,17 @@ def hobbyevent(hobby):
         hobby=hobby,
         start_date='2019-01-01',
         end_date='2019-01-01',
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
+    )
+
+
+@pytest.fixture
+def hobbyevent2(hobby):
+    return HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date=FROZEN_DATE,
+        end_date=FROZEN_DATE,
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
     )
