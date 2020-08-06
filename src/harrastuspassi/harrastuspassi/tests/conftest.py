@@ -121,11 +121,11 @@ def hobbyevent(hobby):
 
 
 @pytest.fixture
-def hobbyevent2(hobby):
+def hobbyevent2(hobby, frozen_date):
     return HobbyEvent.objects.create(
         hobby=hobby,
-        start_date=FROZEN_DATE,
-        end_date=FROZEN_DATE,
+        start_date=frozen_date,
+        end_date=frozen_date,
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
     )

@@ -47,11 +47,11 @@ def test_hobbyevent_recursion_weeks_limits(user_api_client, hobbyevent2, frozen_
 def test_hobbyevent_recursion_days(user_api_client, hobbyevent2, frozen_date):
     """ Test that given day ammount gives correct ammount of events """
     url = reverse('hobbyevent-recurrent', kwargs={'pk': hobbyevent2.pk})
-    end_date = frozen_date + datetime.timedelta(days=9)
+    end_date = frozen_date + datetime.timedelta(days=8)
     response = user_api_client.post(url, { "days": 3, "end_date": end_date.isoformat() })
     assert response.status_code == 200
     assert len(response.data['events']) == 2
-    end_date = frozen_date + datetime.timedelta(days=9)
+    end_date = frozen_date + datetime.timedelta(days=7)
     response = user_api_client.post(url, { "days": 1, "end_date": end_date.isoformat() })
     assert response.status_code == 200
     assert len(response.data['events']) == 7
