@@ -1,5 +1,6 @@
 import datetime
 import pytest
+from decimal import Decimal
 from freezegun import freeze_time
 from django.core.files.base import ContentFile
 from harrastuspassi.management.commands.import_linkedcourses import Command as LinkedCoursesImportCommand
@@ -13,6 +14,7 @@ pytest_plugins = ['harrastuspassi.tests.fixtures_linkedcourses']
 @pytest.mark.django_db
 def test_event_image_update(mocker, hobby, event_with_images_only, frozen_datetime):
     command = LinkedCoursesImportCommand()
+
     command.fetch_image = mocker.Mock(return_value=(ContentFile('foo'), 'foo.jpg'), name='fetch_image')
     # New image
     event = event_with_images_only
@@ -33,6 +35,7 @@ def test_event_image_update(mocker, hobby, event_with_images_only, frozen_dateti
 @pytest.mark.django_db
 def test_deletions_none_deleted(imported_hobby, imported_hobby2):
     command = LinkedCoursesImportCommand()
+    command.source = 'linked_courses'
     hobby_qs = Hobby.objects.filter(data_source='linked_courses')
     event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
     assert hobby_qs.count() == 2
@@ -47,6 +50,7 @@ def test_deletions_none_deleted(imported_hobby, imported_hobby2):
 @pytest.mark.django_db
 def test_deletions_hobby_deleted(imported_hobby, imported_hobby2):
     command = LinkedCoursesImportCommand()
+    command.source = 'linked_courses'
     hobby_qs = Hobby.objects.filter(data_source='linked_courses')
     event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
     assert hobby_qs.count() == 2
@@ -61,6 +65,7 @@ def test_deletions_hobby_deleted(imported_hobby, imported_hobby2):
 @pytest.mark.django_db
 def test_deletions_hobbyevent_deleted(imported_hobby, imported_hobby2):
     command = LinkedCoursesImportCommand()
+    command.source = 'linked_courses'
     hobby_qs = Hobby.objects.filter(data_source='linked_courses')
     event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
     assert hobby_qs.count() == 2
@@ -75,6 +80,7 @@ def test_deletions_hobbyevent_deleted(imported_hobby, imported_hobby2):
 @pytest.mark.django_db
 def test_deletions_hobby_and_events_deleted(imported_hobby, imported_hobby2):
     command = LinkedCoursesImportCommand()
+    command.source = 'linked_courses'
     hobby_qs = Hobby.objects.filter(data_source='linked_courses')
     event_qs = HobbyEvent.objects.filter(data_source='linked_courses')
     assert hobby_qs.count() == 2
@@ -94,11 +100,16 @@ def test_price_type_import(basic_event):
     assert command.get_price_type(event) == Hobby.TYPE_FREE
     event['offers'] = [{'is_free': 'true'}]
     assert command.get_price_type(event) == Hobby.TYPE_FREE
-    event['offers'] = [{'is_free': 'false'}]
-    assert command.get_price_type(event) == Hobby.TYPE_PAID
-    event['offers'] = [{'is_free': '', 'price': '0.0'}]
+    event['offers'] = [{'is_free': 'false', 'price': 'null', 'info_url': 'null', 'description': 'null'}]
     assert command.get_price_type(event) == Hobby.TYPE_FREE
-    event['offers'] = [{'is_free': '', 'price': '1.0'}]
+    event['offers'] = [{'is_free': 'false', 'price': {'fi': 'VaPaA pääsy.'}, 'info_url': 'null'}]
+    assert command.get_price_type(event) == Hobby.TYPE_FREE
+    event['offers'] = [{'is_free': 'false', 'price': {'fi': '10/20/30$'}}]
+    assert command.get_price_type(event) == Hobby.TYPE_PAID
+    event['offers'] = [{'is_free': 'false', 'price': 'null', 'info_url': 'https://buythetickets.here'}]
+    assert command.get_price_type(event) == Hobby.TYPE_PAID
+    event['offers'] = [{'is_free': 'false', 'price': 'null', 'info_url': 'null',
+                        'description': {'fi': 'Tickets from Jenni 044832932'}}]
     assert command.get_price_type(event) == Hobby.TYPE_PAID
 
 
@@ -107,10 +118,10 @@ def test_price_import(basic_event):
     command = LinkedCoursesImportCommand()
     event = basic_event
     event['offers'] = []
-    assert command.get_price(event) == 0
-    event['offers'] = [{'price': '10.0'}]
-    assert command.get_price(event) == 10
-    event['offers'] = [{'price': ''}]
-    assert command.get_price(event) == 0
-    event['offers'] = [{'price': None}]
-    assert command.get_price(event) == 0
+    assert command.get_price(event) == Decimal(0)
+    event['offers'] = [{'price': {'fi': '10.0'}}]
+    assert command.get_price(event) == Decimal(10)
+    event['offers'] = [{'price': {'fi': 'funny circus 10/20/30$'}}]
+    assert command.get_price(event) == Decimal(10)
+    event['offers'] = [{'price': {'fi': 'Vapaa pÄÄsy!'}}]
+    assert command.get_price(event) == Decimal(0)

@@ -17,7 +17,7 @@ import operator
 import os
 import re
 import requests
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 from collections import namedtuple
 from django.core.files import File
 from functools import lru_cache, reduce
@@ -50,6 +50,10 @@ EXCLUDE_AUDIENCE_NAMES = ['Koululaiset', 'Lapset', 'Lapsiperheet', 'Vauvaperheet
 # We are interested mainly in YSO ontology.
 # Keyword source is the name of the ontology and id is the identifier in that ontology.
 Keyword = namedtuple('Keyword', ['source', 'id'])
+SourceUrls = {'linked_courses': settings.LINKED_COURSES_URL,
+              'helmet': settings.HELMET_URL,
+              'lippupiste': settings.LIPPUPISTE_URL,
+              'linkedevents': settings.LINKEDEVENTS_URL}
 
 
 class InvalidKeywordException(Exception):
@@ -58,7 +62,6 @@ class InvalidKeywordException(Exception):
 
 class Command(BaseCommand):
     help = 'Import data from Linked Courses'
-    source = 'linked_courses'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,11 +80,16 @@ class Command(BaseCommand):
         return keyword_set
 
     def add_arguments(self, parser):
-        parser.add_argument('--url', action='store', dest='url', default=settings.LINKED_COURSES_URL,
-                            help='Import from a given URL')
+        parser.add_argument('--source', action='store', dest='source', default='linked_courses',
+                            choices=SourceUrls.keys(),
+                            help=f'Source to be used for imports, can take the following values: {SourceUrls.keys()}')
+        parser.add_argument('--url', action='store', dest='url',
+                            help='Import from a given URL. Used to override urls recorded in settings.py')
 
     def handle(self, *args, **options):
-        self.stdout.write(f'Starting to pull events from {options["url"]}\n')
+        self.source = options['source']
+        options['url'] = options['url'] if options['url'] else SourceUrls[self.source]
+        self.stdout.write(f'Starting to pull {options["source"]} events, url: {options["url"]}\n')
         found_hobby_origin_ids = []
         found_hobbyevent_origin_ids = []
         orphaned_hobby_events = []
@@ -318,10 +326,10 @@ class Command(BaseCommand):
         """ Parse keyword source and id from the id url. Avoid a roundtrip to the
             API for getting the actual Keyword object.
         """
-        match = re.match('https?://.*/linkedcourses/.*/keyword/(.*):(.*)/', ld_keyword_id)
+        match = re.match('https?://.*/(linkedcourses|linkedevents)/.*/keyword/(.*):(.*)/', ld_keyword_id)
         if match is None:
             raise InvalidKeywordException
-        return Keyword(source=match.group(1), id=match.group(2))
+        return Keyword(source=match.group(2), id=match.group(3))
 
     def is_hobby(self, event: Dict) -> bool:
         """ Event should form a Hobby if:
@@ -435,28 +443,36 @@ class Command(BaseCommand):
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
         return None
 
+    def possible_dict_to_str(self, entry) -> str:
+        if isinstance(entry, dict):
+            return str(entry.get('fi', 'null')).lower()
+        else:
+            return str(entry).lower()
+
     def get_price_type(self, event: Dict) -> Hobby.PRICE_TYPE_CHOICES:
         if event['offers']:
-            if event['offers'][0].get('is_free'):
-                if str(event['offers'][0]['is_free']).lower() == 'true':
+            if str(event['offers'][0].get('is_free')):
+                is_free = str(event['offers'][0].get('is_free')).lower()
+                price = self.possible_dict_to_str(event['offers'][0].get('price', 'null'))
+                info_url = self.possible_dict_to_str(event['offers'][0].get('info_url', 'null'))
+                description = self.possible_dict_to_str(event['offers'][0].get('description', 'null'))
+                if is_free == 'true':
                     return Hobby.TYPE_FREE
                 else:
-                    return Hobby.TYPE_PAID
-            else:
-                if event['offers'][0].get('price') and Decimal(event['offers'][0]['price']) > 0:
-                    return Hobby.TYPE_PAID
-                else:
-                    return Hobby.TYPE_FREE
+                    if (price == 'null' and info_url == 'null' and description == 'null'):
+                        return Hobby.TYPE_FREE
+                    elif 'vapaa pääsy' in (price or info_url or description):
+                        return Hobby.TYPE_FREE
+                    else:
+                        return Hobby.TYPE_PAID
         else:
             return Hobby.TYPE_FREE
 
     def get_price(self, event: Dict) -> Decimal:
         if not event['offers']:
-            return Decimal('0.0')
-        if event['offers'][0].get('price'):
-            try:
-                return Decimal(event['offers'][0]['price'])
-            except (InvalidOperation, TypeError):
-                return Decimal('0.0')
-        else:
-            return Decimal('0.0')
+            return Decimal(0)
+        price = self.possible_dict_to_str(event['offers'][0].get('price', 'null'))
+        if any([i in price for i in ['vapaa', 'nul']]):
+            return Decimal(0)
+        values = re.findall(r'\d+', price)
+        return Decimal(values[0]) if values else Decimal(0)
