@@ -138,12 +138,27 @@ class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
         return self.name
 
 
+class HobbyAudience(MPTTModel, ExternalDataModel):
+    name = models.CharField(max_length=256, verbose_name='Hobby Audience')
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+    class Meta:
+        verbose_name_plural = 'Hobby Audience'
+
+    def __str__(self):
+        return self.name
+
+
 class HobbyQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'location__coordinates'
 
 
 class Hobby(ExternalDataModel, TimestampedModel):
     TYPE_FREE = 'free'
+    TYPE_PAID = 'paid'  #  for the cases when the recurrence of payment is not defined
     TYPE_ANNUAL = 'annual'
     TYPE_SEASONAL = 'seasonal'
     TYPE_ONE_TIME = 'one_time'
@@ -153,11 +168,13 @@ class Hobby(ExternalDataModel, TimestampedModel):
         (TYPE_ANNUAL, _('Annual')),
         (TYPE_SEASONAL, _('Seasonal')),
         (TYPE_ONE_TIME, _('One time')),
+        (TYPE_PAID, _('Paid')),
     )
 
     name = models.CharField(max_length=1024, verbose_name='Hobby')
     location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     cover_image = models.ImageField(upload_to='hobby_images', null=True, blank=True)
+    cover_image_modified_at = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True)
     organizer = models.ForeignKey(Organizer, null=True, blank=True, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
@@ -214,6 +231,9 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
                                                      verbose_name=_('Start weekday'))
     end_date = models.DateField(blank=False, null=False, verbose_name=_('End date'))
     end_time = models.TimeField(blank=False, null=False, verbose_name=_('End time'))
+
+    recurrence_start_event = models.ForeignKey("HobbyEvent", blank=True, null=True, on_delete=models.SET_NULL,
+                                               verbose_name=_('Recurrence start event'))
 
     objects = HobbyEventQuerySet.as_manager()
 

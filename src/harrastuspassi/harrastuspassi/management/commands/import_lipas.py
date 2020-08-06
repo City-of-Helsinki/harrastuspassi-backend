@@ -47,6 +47,8 @@ class Command(BaseCommand):
         updated_hobbies = 0
         created_locations = 0
         updated_locations = 0
+        found_hobby_origin_ids = []
+        found_hobbyevent_origin_ids = []
 
         self.stdout.write(f'Starting to pull data from {options["url"]}')
         start_time = time.time()
@@ -129,6 +131,7 @@ class Command(BaseCommand):
                         }
                     )
                     hobby.categories.set([category])
+                    found_hobby_origin_ids.append(hobby.origin_id)
 
                     hobbyevent, hobbyevent_created = HobbyEvent.objects.update_or_create(
                         data_source=self.source,
@@ -141,6 +144,7 @@ class Command(BaseCommand):
                             'end_time': datetime.datetime.strptime('00:00', '%H:%M').time(),
                         }
                     )
+                    found_hobbyevent_origin_ids.append(hobbyevent.origin_id)
 
                     if hobby_created:
                         created_hobbies += 1
@@ -149,3 +153,22 @@ class Command(BaseCommand):
                 page_number += 1
         execution_time = round(time.time() - start_time, 2)
         self.stdout.write(f'\n{created_hobbies} new hobbies, {updated_hobbies} updated hobbies, {created_hobbies} new locations, {updated_hobbies} updated locations in {execution_time} seconds')
+        self.handle_deletions(found_hobby_origin_ids, found_hobbyevent_origin_ids)
+
+    def handle_deletions(self, found_hobby_origin_ids, found_hobbyevent_origin_ids):
+        hobbyevent_qs = HobbyEvent.objects.filter(data_source=self.source)
+        hobbyevents_to_delete_qs = hobbyevent_qs.exclude(origin_id__in=found_hobbyevent_origin_ids)
+        hobby_qs = Hobby.objects.filter(data_source=self.source)
+        hobbies_to_delete_qs = hobby_qs.exclude(origin_id__in=found_hobby_origin_ids)
+        if (
+            hobbyevents_to_delete_qs.count() >= hobbyevent_qs.count() or
+            hobbies_to_delete_qs.count() >= hobby_qs.count()
+        ):
+            self.stderr.write(
+                'Run would delete all Hobbies or HobbyEvents, something is wrong, skipping deletion.'
+            )
+            return
+        self.stdout.write(f'HobbyEvents being deleted count: {hobbyevents_to_delete_qs.count()}\n')
+        hobbyevents_to_delete_qs.delete()
+        self.stdout.write(f'Hobbies being deleted count: {hobbies_to_delete_qs.count()}\n')
+        hobbies_to_delete_qs.delete()
