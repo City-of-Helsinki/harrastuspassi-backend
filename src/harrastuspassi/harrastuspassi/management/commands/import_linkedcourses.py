@@ -362,7 +362,7 @@ class Command(BaseCommand):
             return None
         data = {}
         if location_data['name']:
-            data['name'] = location_data['name'].get('fi', ''),  # TODO: language support
+            data['name'] = location_data['name'].get('fi', '')  # TODO: language support
         #  not using plain location_data.get('postal_code', '') to avoid None values if
         #  location_data['postal__code'] == None
         data['zip_code'] = location_data.get('postal_code') if location_data.get('postal_code') else ''
