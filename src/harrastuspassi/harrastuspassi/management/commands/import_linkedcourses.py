@@ -17,6 +17,7 @@ import operator
 import os
 import re
 import requests
+from bs4 import BeautifulSoup
 from decimal import Decimal
 from collections import namedtuple
 from django.core.files import File
@@ -44,7 +45,7 @@ REQUESTS_TIMEOUT = 15
 # the event audience
 
 INCLUDE_AUDIENCE_NAMES = ['Opiskelijat', 'Nuoret']
-EXCLUDE_AUDIENCE_NAMES = ['Koululaiset', 'Lapset', 'Lapsiperheet', 'Vauvaperheet']
+EXCLUDE_AUDIENCE_NAMES = ['Lapset', 'Lapsiperheet', 'Vauvaperheet']
 
 # Keywords in Linked Courses come from several ontologies.
 # We are interested mainly in YSO ontology.
@@ -187,6 +188,7 @@ class Command(BaseCommand):
                 hobby.save()
         else:
             self.stdout.write(f'Created Hobby {hobby.pk} {hobby.name}\n')
+
         hobby.categories.set(categories)
         self.handle_hobby_cover_image(event, hobby)
         return hobby
@@ -350,19 +352,21 @@ class Command(BaseCommand):
         return is_self_contained_event or is_plain_subevent
 
     def get_location(self, event: Dict) -> Optional[Location]:
+        if event.get('location') is None:
+            return None
         location_url = event['location'].get('@id')
         if location_url is None:
             return None
         location_data = self.fetch_location_data(location_url)
         if location_data is None:
             return None
-        data = {
-            'name': location_data['name'].get('fi'),  # TODO: language support
-            #  not using plain location_data.get('postal_code', '') to avoid None values if
-            #  location_data['postal__code'] == None
-            'zip_code': location_data.get('postal_code') if location_data.get('postal_code') else '',
-            'coordinates': None
-        }
+        data = {}
+        if location_data['name']:
+            data['name'] = location_data['name'].get('fi', ''),  # TODO: language support
+        #  not using plain location_data.get('postal_code', '') to avoid None values if
+        #  location_data['postal__code'] == None
+        data['zip_code'] = location_data.get('postal_code') if location_data.get('postal_code') else ''
+        data['coordinates'] = None
         if location_data['address_locality']:
             data['city'] = location_data['address_locality'].get('fi', '')
         if location_data['street_address']:
@@ -433,29 +437,47 @@ class Command(BaseCommand):
         parsed = urlparse(url)
         return os.path.basename(parsed.path)
 
-    def get_description(self, event: Dict) -> str:
-        short_description = event.get('short_description')
-        if short_description is None:
-            return ''
-        return short_description.get('fi')  # TODO: language support
+    def get_description(self, event: Dict) -> str:  # TODO: language support
+        description = self.possible_dict_to_str(event.get('short_description'), '')
+        if description in ['', 'null']:
+            description_raw = self.possible_dict_to_str(event.get('description'), '')
+            soup = BeautifulSoup(description_raw)
+            long_description = soup.get_text()
+        if event['offers']:
+            info_url = self.possible_dict_to_str(event['offers'][0].get('info_url'))
+            offer_description = self.possible_dict_to_str(event['offers'][0].get('description'))
+            if description and description != 'null':
+                if offer_description and (offer_description != 'null'):
+                    description = f'{description} Offer: {offer_description}'
+                if info_url and (info_url != 'null'):
+                    description = f'{description} Tickets: {info_url}'
+            else:
+                description = long_description
+                if info_url and (info_url != 'null'):
+                    description = f'Tickets: {info_url} {description} '
+                if offer_description and (offer_description != 'null'):
+                    description = f'Offer: {offer_description} {description}'
+            return description
+        else:
+            return long_description if description in [None, '', 'null'] else description
 
     def get_organizer(self, event: Dict) -> Organizer:
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
         return None
 
-    def possible_dict_to_str(self, entry) -> str:
+    def possible_dict_to_str(self, entry, placeholder=None) -> str:
         if isinstance(entry, dict):
-            return str(entry.get('fi', 'null')).lower()
+            return str(entry.get('fi', placeholder))
         else:
-            return str(entry).lower()
+            return str(entry)
 
     def get_price_type(self, event: Dict) -> Hobby.PRICE_TYPE_CHOICES:
         if event['offers']:
             if str(event['offers'][0].get('is_free')):
                 is_free = str(event['offers'][0].get('is_free')).lower()
-                price = self.possible_dict_to_str(event['offers'][0].get('price', 'null'))
-                info_url = self.possible_dict_to_str(event['offers'][0].get('info_url', 'null'))
-                description = self.possible_dict_to_str(event['offers'][0].get('description', 'null'))
+                price = self.possible_dict_to_str(event['offers'][0].get('price', 'null'), 'null').lower()
+                info_url = self.possible_dict_to_str(event['offers'][0].get('info_url', 'null'), 'null').lower()
+                description = self.possible_dict_to_str(event['offers'][0].get('description', 'null'), 'null').lower()
                 if is_free == 'true':
                     return Hobby.TYPE_FREE
                 else:
