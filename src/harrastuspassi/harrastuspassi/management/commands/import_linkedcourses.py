@@ -10,7 +10,6 @@ TODO: organizer is not saved for the Hobbies
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
 TODO: handle only recently changed or created events by querying modified_by
 """
-import pdb
 import iso8601
 import json
 import logging
