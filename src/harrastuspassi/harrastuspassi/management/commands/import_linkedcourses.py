@@ -10,6 +10,7 @@ TODO: organizer is not saved for the Hobbies
 TODO: multiple objects with same data_source and origin_id are not handled correctly and will crash
 TODO: handle only recently changed or created events by querying modified_by
 """
+import pdb
 import iso8601
 import json
 import logging
@@ -362,7 +363,7 @@ class Command(BaseCommand):
             return None
         data = {}
         if location_data['name']:
-            data['name'] = location_data['name'].get('fi', ''),  # TODO: language support
+            data['name'] = location_data['name'].get('fi', '')  # TODO: language support
         #  not using plain location_data.get('postal_code', '') to avoid None values if
         #  location_data['postal__code'] == None
         data['zip_code'] = location_data.get('postal_code') if location_data.get('postal_code') else ''
