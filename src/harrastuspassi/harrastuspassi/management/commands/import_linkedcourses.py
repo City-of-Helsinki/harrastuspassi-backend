@@ -312,7 +312,10 @@ class Command(BaseCommand):
     def determine_categories(self, event_keywords: Set[Keyword]) -> List[HobbyCategory]:
         """ Get a list of Category objects an event maps to based on its keywords """
         filters = [Q(data_source=kw.source, origin_id=kw.id) for kw in event_keywords]
-        return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
+        if filters:
+            return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
+        else:
+            return []
 
     def get_keywords(self, event: Dict) -> Set[Keyword]:
         """ Get all keywords of an event """

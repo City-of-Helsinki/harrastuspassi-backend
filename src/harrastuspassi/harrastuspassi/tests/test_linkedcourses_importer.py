@@ -147,3 +147,11 @@ def test_description_import(basic_event):
     assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
     event['short_description'] = {'en': 'Short description'}
     assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+
+
+@pytest.mark.django_db
+def test_event_with_no_keywords(basic_event):
+    command = LinkedCoursesImportCommand()
+    event = basic_event
+    event['keywords'] = []
+    assert command.handle_event(event) == []

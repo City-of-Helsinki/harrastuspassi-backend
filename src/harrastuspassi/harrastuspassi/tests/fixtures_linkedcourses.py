@@ -48,7 +48,7 @@ def basic_event():
         "start_time": "2020-08-22",
         "end_time": None,
         "custom_data": None,
-        "audience_min_age": 9,
+        "audience_min_age": 12,
         "audience_max_age": 17,
         "super_event_type": None,
         "deleted": False,
@@ -62,7 +62,13 @@ def basic_event():
         },
         "location_extra_info": None,
         "description": {
-            "fi": "<p> <span style='background - color: initial;''>Työnjaossa pääset siivoamaan karsinoita ja tekemään muita navettatöitä, hoitamaan ja puuhailemaan erilaisten eläinten kanssa sekä ruokkimaan eläimiä. Voit esimerkiksi päästä taluttamaan lehmää, hypyttämään vuohta agility radalla, harjaamaan kania tai jopa ratsastamaan. Työnjako alkaa klo 10.30 ja loppuu klo 15. Ota mukaan säänmukaiset ja navettaan sopivat vaatteet sekä kumisaappaat, osa päivästä ollaan ulkona. Toimintapäiviin sisältyy yhteinen ruokatauko, jolloin syödään omia eväitä. </span> </p>"
+            "fi": "<p> <span style='background - color: initial;''>Työnjaossa pääset siivoamaan\
+            karsinoita ja tekemään muita navettatöitä, hoitamaan ja puuhailemaan erilaisten eläinten\
+            kanssa sekä ruokkimaan eläimiä. Voit esimerkiksi päästä taluttamaan lehmää, hypyttämään\
+            vuohta agility radalla, harjaamaan kania tai jopa ratsastamaan. Työnjako alkaa klo 10.30\
+            ja loppuu klo 15. Ota mukaan säänmukaiset ja navettaan sopivat vaatteet sekä kumisaappaat,\
+            osa päivästä ollaan ulkona. Toimintapäiviin sisältyy yhteinen ruokatauko, jolloin syödään\
+            omia eväitä. </span> </p>"
         },
         "provider_contact_info": None,
         "provider": None,
