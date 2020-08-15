@@ -143,6 +143,10 @@ def test_description_import(basic_event):
     assert command.get_description(event) == 'Offer: Offers description. Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '  # noqa: E501
     event['offers'] = [{'info_url': 'null', 'description': 'null'}]
     assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    event['offers'] = [{'info_url': 'None', 'description': 'None'}]
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    event['offers'] = [{'info_url': '', 'description': ''}]
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
     event['offers'] = []
     assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
     event['short_description'] = {'en': 'Short description'}
