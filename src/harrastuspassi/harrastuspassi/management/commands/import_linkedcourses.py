@@ -272,7 +272,7 @@ class Command(BaseCommand):
                 self.stderr.write(f'Orphan event {hobby_event.origin_id} is missing hobby origin id, skipping.')
                 continue
             try:
-                hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id)
+                hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id['@id'])
                 hobby_event.hobby = hobby
                 hobby_event.save()
                 self.stdout.write(f'Created HobbyEvent {hobby_event.pk} {str(hobby_event)}\n')
@@ -444,21 +444,21 @@ class Command(BaseCommand):
         description = self.possible_dict_to_str(event.get('short_description'), '')
         if description in ['', 'null']:
             description_raw = self.possible_dict_to_str(event.get('description'), '')
-            soup = BeautifulSoup(description_raw)
+            soup = BeautifulSoup(description_raw, features="html.parser")
             long_description = soup.get_text()
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url'))
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description'))
-            if description and description != 'null':
-                if offer_description and (offer_description != 'null'):
+            if description not in ['', 'None', 'null']:
+                if offer_description not in ['', 'None', 'null']:
                     description = f'{description} Offer: {offer_description}'
-                if info_url and (info_url != 'null'):
+                if info_url not in ['', 'None', 'null']:
                     description = f'{description} Tickets: {info_url}'
             else:
                 description = long_description
-                if info_url and (info_url != 'null'):
+                if info_url not in ['', 'None', 'null']:
                     description = f'Tickets: {info_url} {description} '
-                if offer_description and (offer_description != 'null'):
+                if offer_description not in ['', 'None', 'null']:
                     description = f'Offer: {offer_description} {description}'
             return description
         else:
