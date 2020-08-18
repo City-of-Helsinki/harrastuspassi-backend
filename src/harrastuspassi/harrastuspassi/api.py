@@ -2,7 +2,6 @@
 
 import datetime
 import logging
-from copy import copy
 from collections import defaultdict
 from functools import wraps
 from itertools import chain
@@ -41,6 +40,7 @@ from harrastuspassi.serializers import (
     HobbyCategorySerializer,
     HobbyDetailSerializer,
     HobbyDetailSerializerPre1,
+    HobbyEventCreateSerializer,
     HobbyEventSerializer,
     HobbySerializer,
     HobbySerializerPre1,
@@ -342,42 +342,10 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
         else:
             return super().paginator
 
-    @action(detail=True, methods=['post'])
-    def recurrent(self, request, pk=None, **opt):
-        base_event = HobbyEvent.objects.get(id=pk)
-
-        if   request.data.get('days', None):
-            delta = datetime.timedelta(days=int(request.data['days']))
-        elif request.data.get('weeks', None):
-            delta = datetime.timedelta(weeks=int(request.data['weeks']))
-        else:
-            raise ValidationError(_("Unknown recurrency type"))
-
-        if not request.data.get('end_date', None):
-            raise ValidationError(_("No end date specified"))
-        year, month, day = map(int, request.data.get('end_date', None).split('-'))
-        end_date = datetime.date(year, month, day)
-
-        count = 0
-        current_date = base_event.start_date
-        recurrent_event_list = []
-        while current_date + delta <= end_date:
-            count += 1
-            if count > 50:
-                raise ValidationError(_("Too many recurrent events"))
-
-            event = copy(base_event)
-            event.pk = None
-            event.recurrence_start_event = base_event
-            event.start_date += delta * count
-            event.end_date += delta * count
-            recurrent_event_list.append(event)
-            current_date = event.start_date
-
-        for event in recurrent_event_list:
-            event.save()
-
-        return Response({'events':[event.pk for event in recurrent_event_list]})
+    def get_serializer_class(self):
+        if self.request.method.lower() == 'post':
+          return HobbyEventCreateSerializer
+        return super().get_serializer_class()
 
 
 class OrganizerViewSet(viewsets.ModelViewSet):

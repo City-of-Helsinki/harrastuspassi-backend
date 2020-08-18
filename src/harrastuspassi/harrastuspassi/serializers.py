@@ -233,6 +233,22 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         read_only_fields = ('start_weekday',)
 
 
+class HobbyEventCreateSerializer(HobbyEventSerializer):
+    is_recurrent = serializers.BooleanField(default=False, required=False, write_only=True)
+    recurrency_count = serializers.IntegerField(default=0, min_value=0, max_value=50, required=False, write_only=True)
+
+    class Meta(HobbyEventSerializer.Meta):
+        fields = HobbyEventSerializer.Meta.fields + ('is_recurrent', 'recurrency_count')
+
+    def create(self, validated_data):
+        is_recurrent = validated_data.pop('is_recurrent')
+        recurrency_count = validated_data.pop('recurrency_count')
+        base_event = super().create(validated_data)
+        if is_recurrent:
+            base_event.create_recurrency(recurrency_count=recurrency_count)
+        return base_event
+
+
 class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):
     cover_image = Base64ImageField(required=False, allow_null=True)
 
