@@ -217,6 +217,9 @@ class HobbyNestedSerializerPre1(HobbySerializerPre1):
 
 
 class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
+    is_recurrent = serializers.BooleanField(default=False, required=False, write_only=True)
+    recurrency_count = serializers.IntegerField(default=0, min_value=0, max_value=50, required=False, write_only=True)
+
     def get_extra_fields(self, includes, context):
         fields = super().get_extra_fields(includes, context)
         if 'hobby_detail' in includes:
@@ -227,19 +230,6 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
             fields['hobby'] = HobbyNestedSerializerPre1(context=context)
         return fields
 
-    class Meta:
-        model = HobbyEvent
-        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday')
-        read_only_fields = ('start_weekday',)
-
-
-class HobbyEventCreateSerializer(HobbyEventSerializer):
-    is_recurrent = serializers.BooleanField(default=False, required=False, write_only=True)
-    recurrency_count = serializers.IntegerField(default=0, min_value=0, max_value=50, required=False, write_only=True)
-
-    class Meta(HobbyEventSerializer.Meta):
-        fields = HobbyEventSerializer.Meta.fields + ('is_recurrent', 'recurrency_count')
-
     def create(self, validated_data):
         is_recurrent = validated_data.pop('is_recurrent')
         recurrency_count = validated_data.pop('recurrency_count')
@@ -247,6 +237,11 @@ class HobbyEventCreateSerializer(HobbyEventSerializer):
         if is_recurrent:
             base_event.create_recurrency(recurrency_count=recurrency_count)
         return base_event
+
+    class Meta:
+        model = HobbyEvent
+        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday', 'is_recurrent', 'recurrency_count')
+        read_only_fields = ('start_weekday',)
 
 
 class PromotionSerializer(ExtraDataMixin, serializers.ModelSerializer):

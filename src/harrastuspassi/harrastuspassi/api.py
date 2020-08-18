@@ -40,7 +40,6 @@ from harrastuspassi.serializers import (
     HobbyCategorySerializer,
     HobbyDetailSerializer,
     HobbyDetailSerializerPre1,
-    HobbyEventCreateSerializer,
     HobbyEventSerializer,
     HobbySerializer,
     HobbySerializerPre1,
@@ -341,11 +340,6 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
             return None
         else:
             return super().paginator
-
-    def get_serializer_class(self):
-        if self.request.method.lower() == 'post':
-          return HobbyEventCreateSerializer
-        return super().get_serializer_class()
 
 
 class OrganizerViewSet(viewsets.ModelViewSet):
