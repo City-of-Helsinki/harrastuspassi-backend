@@ -46,7 +46,7 @@ def basic_event():
         "last_modified_time": "2020-07-30T12:19:11.898081Z",
         "date_published": "2020-07-30T11:17:00Z",
         "start_time": "2020-08-22",
-        "end_time": None,
+        "end_time": "2020-08-22",
         "custom_data": None,
         "audience_min_age": 12,
         "audience_max_age": 17,

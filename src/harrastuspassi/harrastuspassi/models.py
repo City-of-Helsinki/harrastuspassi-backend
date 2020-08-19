@@ -78,7 +78,9 @@ class LocationQuerySet(DistanceMixin, models.QuerySet):
 
 class Municipality(TimestampedModel):
     name = models.CharField(max_length=256, verbose_name='Municipality')
-    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='municipalities_where_moderator', verbose_name=_('Moderators'))
+    moderators = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
+                                        related_name='municipalities_where_moderator',
+                                        verbose_name=_('Moderators'))
 
     @classmethod
     def get_current_municipality_for_moderator(self, user):
@@ -158,7 +160,7 @@ class HobbyQuerySet(DistanceMixin, models.QuerySet):
 
 class Hobby(ExternalDataModel, TimestampedModel):
     TYPE_FREE = 'free'
-    TYPE_PAID = 'paid'  #  for the cases when the recurrence of payment is not defined
+    TYPE_PAID = 'paid'  # for the cases when the recurrence of payment is not defined
     TYPE_ANNUAL = 'annual'
     TYPE_SEASONAL = 'seasonal'
     TYPE_ONE_TIME = 'one_time'
@@ -180,7 +182,8 @@ class Hobby(ExternalDataModel, TimestampedModel):
     municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
     categories = models.ManyToManyField(HobbyCategory, blank=True, related_name='hobbies', verbose_name=_('Categories'))
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE, verbose_name='Price type')
+    price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE,
+                                  verbose_name='Price type')
     price_amount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True)
 
     objects = HobbyQuerySet.as_manager()
@@ -247,10 +250,13 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.start_date != self.end_date:
-            return f'{self.hobby.name} {self.start_date} - {self.end_date}'
+        if hasattr(self, 'hobby'):
+            if self.start_date != self.end_date:
+                return f'{self.hobby.name} {self.start_date} - {self.end_date}'
+            else:
+                return f'{self.hobby.name} {self.start_date}'
         else:
-            return f'{self.hobby.name} {self.start_date}'
+            return f'Orphan HobbyEvent with no Hobby'
 
 
 class Promotion(TimestampedModel):
@@ -271,7 +277,7 @@ class Promotion(TimestampedModel):
     used_count = models.PositiveIntegerField(default=0)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
-    
+
     objects = PromotionQuerySet.as_manager()
 
     def __str__(self):
