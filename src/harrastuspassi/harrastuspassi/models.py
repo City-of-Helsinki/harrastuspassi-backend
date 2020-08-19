@@ -250,7 +250,7 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
         return super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.hobby:
+        if hasattr(self, 'hobby'):
             if self.start_date != self.end_date:
                 return f'{self.hobby.name} {self.start_date} - {self.end_date}'
             else:

@@ -277,7 +277,7 @@ class Command(BaseCommand):
                 self.stderr.write(f'Orphan event {hobby_event.origin_id} is missing hobby origin id, skipping.')
                 continue
             try:
-                hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id['@id'])
+                hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id)
                 hobby_event.hobby = hobby
                 hobby_event.save()
                 self.stdout.write(f'Created HobbyEvent {hobby_event.pk} {str(hobby_event)}\n')

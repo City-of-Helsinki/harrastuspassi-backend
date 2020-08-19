@@ -167,4 +167,13 @@ def test_orphaned_event(basic_event):
     command.source = 'linked_courses'
     event = basic_event
     event['super_event'] = {'@id': 'https://hobby-not-created-yet'}
-    str(command.handle_hobby_event(event)) == 'Orphan HobbyEvent with no Hobby'
+    hobbyevent = command.handle_hobby_event(event)
+    assert str(hobbyevent) == 'Orphan HobbyEvent with no Hobby'
+    hobbyevents = [hobbyevent]
+    command.handle_orphaned_hobby_events(hobbyevents)
+    assert HobbyEvent.objects.count() == 0
+    Hobby(name='test',
+          data_source=command.source,
+          origin_id=hobbyevent._hobby_origin_id).save()
+    command.handle_orphaned_hobby_events(hobbyevents)
+    assert HobbyEvent.objects.count() == 1
