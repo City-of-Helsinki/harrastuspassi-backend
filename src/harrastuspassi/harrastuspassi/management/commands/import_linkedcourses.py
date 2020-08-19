@@ -217,13 +217,18 @@ class Command(BaseCommand):
             self.stderr.write(f'Can not parse start or end time of event {event["id"]}')
             return None
         if event['super_event']:
-            hobby_origin_id = event['super_event']
+            hobby_origin_id = event['super_event']['@id']
         else:
             # this is a self-contained event which produces both hobby and hobbyevent
             hobby_origin_id = event['@id']
-        try:
-            hobby = Hobby.objects.get(data_source=self.source, origin_id=hobby_origin_id)
-        except Hobby.DoesNotExist:
+        hobby_qs = Hobby.objects.filter(data_source=self.source, origin_id__contains=hobby_origin_id)
+        if len(hobby_qs) == 1:
+            hobby = hobby_qs[0]
+        elif len(hobby_qs) > 1:
+            msg = f'origin_id: {hobby_origin_id} data_source: {self.source} resulted in {len(hobby_qs)} Hobbies.'
+            self.stderr.write(msg)
+            return
+        else:
             hobby = None
         data = {
             'hobby': hobby,
@@ -312,7 +317,10 @@ class Command(BaseCommand):
     def determine_categories(self, event_keywords: Set[Keyword]) -> List[HobbyCategory]:
         """ Get a list of Category objects an event maps to based on its keywords """
         filters = [Q(data_source=kw.source, origin_id=kw.id) for kw in event_keywords]
-        return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
+        if filters:
+            return list(HobbyCategory.objects.filter(reduce(operator.or_, filters)))
+        else:
+            return []
 
     def get_keywords(self, event: Dict) -> Set[Keyword]:
         """ Get all keywords of an event """
@@ -438,28 +446,38 @@ class Command(BaseCommand):
         return os.path.basename(parsed.path)
 
     def get_description(self, event: Dict) -> str:  # TODO: language support
-        description = self.possible_dict_to_str(event.get('short_description'), '')
-        if description in ['', 'null']:
+        description = self.possible_dict_to_str(event.get('short_description'), '').strip(' ')
+        description = re.sub('\s+', ' ', description)
+        if not self.content_present(description):
             description_raw = self.possible_dict_to_str(event.get('description'), '')
-            soup = BeautifulSoup(description_raw)
-            long_description = soup.get_text()
+            soup = BeautifulSoup(description_raw, features="html.parser")
+            long_description = soup.get_text().strip(' ')
+            long_description = re.sub('\s+', ' ', long_description)
         if event['offers']:
-            info_url = self.possible_dict_to_str(event['offers'][0].get('info_url'))
-            offer_description = self.possible_dict_to_str(event['offers'][0].get('description'))
-            if description and description != 'null':
-                if offer_description and (offer_description != 'null'):
+            info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
+            offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
+            offer_description = re.sub('\s+', ' ', offer_description)
+            if self.content_present(description):
+                if self.content_present(offer_description):
                     description = f'{description} Offer: {offer_description}'
-                if info_url and (info_url != 'null'):
+                if self.content_present(info_url):
                     description = f'{description} Tickets: {info_url}'
             else:
                 description = long_description
-                if info_url and (info_url != 'null'):
-                    description = f'Tickets: {info_url} {description} '
-                if offer_description and (offer_description != 'null'):
+                if self.content_present(info_url):
+                    description = f'Tickets: {info_url} {description}'
+                if self.content_present(offer_description):
                     description = f'Offer: {offer_description} {description}'
-            return description
+            return description.strip(' ')
         else:
-            return long_description if description in [None, '', 'null'] else description
+            return long_description if description in ['', 'null', 'None', None] else description
+
+    def content_present(self, to_check: str) -> bool:
+        no_content = ['', 'null', 'None', None]
+        if to_check in no_content:
+            return False
+        else:
+            return True
 
     def get_organizer(self, event: Dict) -> Organizer:
         # TODO: there is currently no organizer data in Linked Courses. return Helsinki here?
