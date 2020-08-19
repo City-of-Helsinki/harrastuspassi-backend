@@ -226,7 +226,7 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
         (7, _('Sunday')),
     )
     hobby = models.ForeignKey(Hobby, related_name='events', verbose_name=_('Hobby'),
-                              blank=True, null=True, on_delete=models.CASCADE)
+                              null=False, on_delete=models.CASCADE)
     start_date = models.DateField(blank=False, null=False, verbose_name=_('Start date'))
     start_time = models.TimeField(blank=False, null=False, verbose_name=_('Start time'))
     # note that ISO 8601 weekdays are used in start_weekday: 1=Monday, 7=Sunday
