@@ -447,13 +447,16 @@ class Command(BaseCommand):
 
     def get_description(self, event: Dict) -> str:  # TODO: language support
         description = self.possible_dict_to_str(event.get('short_description'), '').strip(' ')
+        description = re.sub('\s+', ' ', description)
         if not self.content_present(description):
             description_raw = self.possible_dict_to_str(event.get('description'), '')
             soup = BeautifulSoup(description_raw, features="html.parser")
             long_description = soup.get_text().strip(' ')
+            long_description = re.sub('\s+', ' ', long_description)
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
+            offer_description = re.sub('\s+', ' ', offer_description)
             if self.content_present(description):
                 if self.content_present(offer_description):
                     description = f'{description} Offer: {offer_description}'

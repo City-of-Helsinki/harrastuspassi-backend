@@ -132,7 +132,7 @@ def test_description_import(basic_event):
     command = LinkedCoursesImportCommand()
     event = basic_event
     event['short_description'] = {'fi': 'Short description'}
-    event['description'] = {'fi': '<p>Poesian ja Runokuun yhteisillassa.</p><p>Ovet klo 19:00.<br>htumaan.</p><p>Esiintyjät: </p>'}  # noqa: E501
+    event['description'] = {'fi': '<p>Poesian ja Runokuun \n\r \xa0 \x1fyhteisillassa.</p><p>Ovet klo 19:00.<br>htumaan.</p><p>Esiintyjät: </p>'}  # noqa: E501
     event['offers'] = [{'info_url': {'fi': 'https://ticketshere.info'}, 'description': {'fi': 'Offers description.'}}]
     assert command.get_description(event) == 'Short description Offer: Offers description. Tickets: https://ticketshere.info'  # noqa: E501
     event['short_description'] = {'fi': ''}
