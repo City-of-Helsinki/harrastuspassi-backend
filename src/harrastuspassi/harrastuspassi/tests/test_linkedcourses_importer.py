@@ -136,21 +136,21 @@ def test_description_import(basic_event):
     event['offers'] = [{'info_url': {'fi': 'https://ticketshere.info'}, 'description': {'fi': 'Offers description.'}}]
     assert command.get_description(event) == 'Short description Offer: Offers description. Tickets: https://ticketshere.info'  # noqa: E501
     event['short_description'] = {'fi': ''}
-    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:  '  # noqa: E501
+    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['short_description'] = 'null'
-    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:  '  # noqa: E501
+    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['offers'] = [{'info_url': 'null', 'description': {'fi': 'Offers description.'}}]
-    assert command.get_description(event) == 'Offer: Offers description. Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '  # noqa: E501
+    assert command.get_description(event) == 'Offer: Offers description. Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['offers'] = [{'info_url': 'null', 'description': 'null'}]
-    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
     event['offers'] = [{'info_url': 'None', 'description': 'None'}]
-    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
     event['offers'] = [{'info_url': '', 'description': ''}]
-    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
     event['offers'] = []
-    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
     event['short_description'] = {'en': 'Short description'}
-    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät: '
+    assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
 
 
 @pytest.mark.django_db
@@ -159,3 +159,12 @@ def test_event_with_no_keywords(basic_event):
     event = basic_event
     event['keywords'] = []
     assert command.handle_event(event) == []
+
+
+@pytest.mark.django_db
+def test_orphaned_event(basic_event):
+    command = LinkedCoursesImportCommand()
+    command.source = 'linked_courses'
+    event = basic_event
+    event['super_event'] = {'@id': 'https://hobby-not-created-yet'}
+    str(command.handle_hobby_event(event)) == 'Orphan HobbyEvent with no Hobby'
