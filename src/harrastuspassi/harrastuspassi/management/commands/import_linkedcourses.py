@@ -230,12 +230,13 @@ class Command(BaseCommand):
             return
         else:
             hobby = None
+
         data = {
             'hobby': hobby,
             'start_date': event_start_dt.date(),
-            'start_time': event_start_dt.time(),
+            'start_time': event_start_dt.timetz(),
             'end_date': event_end_dt.date(),
-            'end_time': event_end_dt.time(),
+            'end_time': event_end_dt.timetz(),
         }
         if hobby is None:
             # we have no Hobby for this HobbyEvent (yet)
@@ -296,7 +297,7 @@ class Command(BaseCommand):
             self,
             found_hobby_origin_ids: List[str],
             found_hobbyevent_origin_ids: List[str]
-        ) -> None:
+            ) -> None:
         hobbyevent_qs = HobbyEvent.objects.filter(data_source=self.source)
         hobbyevents_to_delete_qs = hobbyevent_qs.exclude(origin_id__in=found_hobbyevent_origin_ids)
         hobby_qs = Hobby.objects.filter(data_source=self.source)
@@ -447,16 +448,16 @@ class Command(BaseCommand):
 
     def get_description(self, event: Dict) -> str:  # TODO: language support
         description = self.possible_dict_to_str(event.get('short_description'), '').strip(' ')
-        description = re.sub('\s+', ' ', description)
+        description = re.sub(r'\s+', ' ', description)
         if not self.content_present(description):
             description_raw = self.possible_dict_to_str(event.get('description'), '')
             soup = BeautifulSoup(description_raw, features="html.parser")
             long_description = soup.get_text().strip(' ')
-            long_description = re.sub('\s+', ' ', long_description)
+            long_description = re.sub(r'\s+', ' ', long_description)
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
-            offer_description = re.sub('\s+', ' ', offer_description)
+            offer_description = re.sub(r'\s+', ' ', offer_description)
             if self.content_present(description):
                 if self.content_present(offer_description):
                     description = f'{description} Offer: {offer_description}'
