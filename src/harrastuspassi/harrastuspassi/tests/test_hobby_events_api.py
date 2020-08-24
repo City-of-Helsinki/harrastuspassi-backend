@@ -402,3 +402,15 @@ def test_price_type_filter(user_api_client, location, organizer, municipality):
     assert response.status_code == 200
     assert len(response.data) == 1
     assert response.data[0]['hobby'] == one_time_type_hobby.id
+
+
+@pytest.mark.django_db
+def test_hobby_event_recurrence(user_api_client, valid_hobbyevent_data):
+    url = reverse('hobbyevent-list')
+    valid_hobbyevent_data['is_recurrent'] = True
+    valid_hobbyevent_data['recurrency_count'] = 2
+    assert HobbyEvent.objects.count() == 0
+    response = user_api_client.post(url, valid_hobbyevent_data, format='json')
+    assert response.status_code == 201
+    assert HobbyEvent.objects.count() == 3
+    assert HobbyEvent.objects.filter(recurrence_start_event=response.data['id']).count() == 2
