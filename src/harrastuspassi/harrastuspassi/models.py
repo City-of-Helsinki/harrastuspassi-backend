@@ -1,6 +1,8 @@
 
 # -*- coding: utf-8 -*-
 import logging
+import datetime
+from copy import copy
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.db.models.functions import GeoFunc
 from django.contrib.gis.geos import Point
@@ -248,6 +250,23 @@ class HobbyEvent(ExternalDataModel, TimestampedModel):
         # precalculate ISO 8601 day of week for cheaper querying
         self.start_weekday = self.start_date.isoweekday()
         return super().save(*args, **kwargs)
+
+    def create_recurrency(self, recurrency_count=0):
+        count = 0
+        delta = datetime.timedelta(days=7)
+        recurrence_date = self.start_date
+        created_events = []
+        while count < recurrency_count:
+            count += 1
+            event = copy(self)
+            event.pk = None
+            event.recurrence_start_event = self
+            event.start_date += delta * count
+            event.end_date += delta * count
+            recurrence_date = event.start_date
+            event.save()
+            created_events.append(event)
+        return created_events
 
     def __str__(self):
         if hasattr(self, 'hobby'):
