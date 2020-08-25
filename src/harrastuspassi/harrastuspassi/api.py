@@ -113,6 +113,24 @@ class HobbyCategoryFilter(filters.FilterSet):
     parent = filters.ModelChoiceFilter(null_label='Root category', queryset=HobbyCategory.objects.all())
 
 
+class HobbyEventSearchFilter(drf_filters.SearchFilter):
+    """ Custom search filter that takes categories parents into account """
+    def filter_queryset(self, request, queryset, view):
+        qs = super().filter_queryset(request, queryset, view)
+        search_terms = self.get_search_terms(request)
+        for search_term in search_terms:
+            parent_categories = HobbyCategory.objects.filter(
+                Q(name_fi__icontains=search_term) |
+                Q(name_en__icontains=search_term) |
+                Q(name_sv__icontains=search_term)
+            )
+            parent_category_ids = [category_id for category_id in parent_categories.values_list('pk', flat=True)]
+            descendant_category_ids = [category_id for category_id in parent_categories.get_descendants(include_self=False).values_list('pk', flat=True)]
+            category_ids = [*parent_category_ids, *descendant_category_ids]
+            qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+        return qs
+
+
 class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyCategoryFilter
@@ -323,7 +341,7 @@ class HobbyEventFilter(filters.FilterSet):
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
-    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
+    filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
@@ -332,7 +350,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
-    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name_fi', 'hobby__categories__name_en', 'hobby__categories__name_sv']
+    search_fields = ['hobby__name', 'hobby__description']
 
     @property
     def paginator(self):
