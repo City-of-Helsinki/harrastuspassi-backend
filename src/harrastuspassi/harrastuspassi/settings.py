@@ -21,4 +21,6 @@ LIPPUPISTE_URL = getattr(settings, 'HARRASTUSPASSI_LIPPPUPISTE_URL',
 #  Included: yso:p11617 - nuoriso, yso:p16486 - opiskelijat
 #  Excluded: yso:p4354 - lapset, yso:p13050 - lapsiperheet, yso:p16485 - peruskoululaiset, yso:p20513 - vauvaperheet
 LINKEDEVENTS_URL = getattr(settings, 'HARRASTUSPASSI_LINKEDEVENTS_URL',
-                           'https://api.hel.fi/linkedevents/v1/event/?keyword=yso:p11617,yso:p16486&keyword!=yso:p4354,yso:p13050,yso:p16485,yso:p20513')
+                           'https://api.hel.fi/linkedevents/v1/event/?start=now&keyword=yso:p11617,yso:p16486&keyword!=yso:p4354,yso:p13050,yso:p16485,yso:p20513')
+
+TIME_ZONE = getattr(settings, 'TIME_ZONE', 'Europe/Helsinki')
