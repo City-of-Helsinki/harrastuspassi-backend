@@ -414,3 +414,22 @@ def test_hobby_event_recurrence(user_api_client, valid_hobbyevent_data):
     assert response.status_code == 201
     assert HobbyEvent.objects.count() == 3
     assert HobbyEvent.objects.filter(recurrence_start_event=response.data['id']).count() == 2
+
+
+@pytest.mark.django_db
+def test_hobby_event_search(user_api_client, hobby_with_events):
+    """
+    Custom HobbyEventSearchFilter should include category's descendants in the queryset.
+    """
+    api_url = reverse('hobbyevent-list')
+    parent_category = HobbyCategory.objects.create(
+        name_fi='Yleisurheilu'
+    )
+    child_category = HobbyCategory.objects.create(
+        name_fi='Kuulantyöntö',
+        parent=parent_category
+    )
+    hobby_with_events.categories.add(child_category)
+    url = f'{api_url}?search=yleisurheilu'
+    response = user_api_client.get(url)
+    assert len(response.data) == 2

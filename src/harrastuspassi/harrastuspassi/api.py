@@ -113,6 +113,29 @@ class HobbyCategoryFilter(filters.FilterSet):
     parent = filters.ModelChoiceFilter(null_label='Root category', queryset=HobbyCategory.objects.all())
 
 
+class HobbyEventSearchFilter(drf_filters.SearchFilter):
+    """ Custom search filter that takes categories descendants into account """
+    def filter_queryset(self, request, queryset, view):
+        qs = super().filter_queryset(request, queryset, view)
+        search_terms = self.get_search_terms(request)
+        for search_term in search_terms:
+            parent_categories_qs = HobbyCategory.objects.filter(
+                Q(name_fi__icontains=search_term) |
+                Q(name_en__icontains=search_term) |
+                Q(name_sv__icontains=search_term)
+            )
+            parent_ids = list(parent_categories_qs.values_list('pk', flat=True))
+            descendant_ids = list(parent_categories_qs.get_descendants(include_self=False).values_list('pk', flat=True))
+            category_ids = [*parent_ids, *descendant_ids]
+            try:
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+            except AssertionError:
+                # AssertionError: Cannot combine a unique query with a non-unique query.
+                # Both queries must be distinct (unique query)
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids).distinct()
+        return qs
+
+
 class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HobbyCategoryFilter
@@ -323,7 +346,7 @@ class HobbyEventFilter(filters.FilterSet):
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
-    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
+    filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
@@ -332,7 +355,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
-    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name_fi', 'hobby__categories__name_en', 'hobby__categories__name_sv']
+    search_fields = ['hobby__name', 'hobby__description']
 
     @property
     def paginator(self):
