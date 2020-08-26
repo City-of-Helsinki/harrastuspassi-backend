@@ -114,19 +114,19 @@ class HobbyCategoryFilter(filters.FilterSet):
 
 
 class HobbyEventSearchFilter(drf_filters.SearchFilter):
-    """ Custom search filter that takes categories parents into account """
+    """ Custom search filter that takes categories descendants into account """
     def filter_queryset(self, request, queryset, view):
         qs = super().filter_queryset(request, queryset, view)
         search_terms = self.get_search_terms(request)
         for search_term in search_terms:
-            parent_categories = HobbyCategory.objects.filter(
+            parent_categories_qs = HobbyCategory.objects.filter(
                 Q(name_fi__icontains=search_term) |
                 Q(name_en__icontains=search_term) |
                 Q(name_sv__icontains=search_term)
             )
-            parent_category_ids = [category_id for category_id in parent_categories.values_list('pk', flat=True)]
-            descendant_category_ids = [category_id for category_id in parent_categories.get_descendants(include_self=False).values_list('pk', flat=True)]
-            category_ids = [*parent_category_ids, *descendant_category_ids]
+            parent_ids = list(parent_categories_qs.values_list('pk', flat=True))
+            descendant_ids = list(parent_categories_qs.get_descendants(include_self=False).values_list('pk', flat=True))
+            category_ids = [*parent_ids, *descendant_ids]
             qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
         return qs
 

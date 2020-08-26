@@ -417,7 +417,10 @@ def test_hobby_event_recurrence(user_api_client, valid_hobbyevent_data):
 
 
 @pytest.mark.django_db
-def test_hobby_event_parent_search(user_api_client, hobby_with_events):
+def test_hobby_event_search(user_api_client, hobby_with_events):
+    """
+    Custom HobbyEventSearchFilter should include category's descendants in the queryset.
+    """
     api_url = reverse('hobbyevent-list')
     parent_category = HobbyCategory.objects.create(
         name_fi='Yleisurheilu'
