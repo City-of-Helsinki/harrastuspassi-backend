@@ -127,7 +127,12 @@ class HobbyEventSearchFilter(drf_filters.SearchFilter):
             parent_ids = list(parent_categories_qs.values_list('pk', flat=True))
             descendant_ids = list(parent_categories_qs.get_descendants(include_self=False).values_list('pk', flat=True))
             category_ids = [*parent_ids, *descendant_ids]
-            qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+            try:
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+            except AssertionError:
+                # AssertionError: Cannot combine a unique query with a non-unique query.
+                # Both queries must be distinct (unique query)
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids).distinct()
         return qs
 
 
