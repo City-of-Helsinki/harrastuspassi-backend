@@ -2,7 +2,6 @@
 
 import datetime
 import logging
-from copy import copy
 from collections import defaultdict
 from functools import wraps
 from itertools import chain
@@ -112,6 +111,29 @@ class ExtraDataSchema(AutoSchema):
 
 class HobbyCategoryFilter(filters.FilterSet):
     parent = filters.ModelChoiceFilter(null_label='Root category', queryset=HobbyCategory.objects.all())
+
+
+class HobbyEventSearchFilter(drf_filters.SearchFilter):
+    """ Custom search filter that takes categories descendants into account """
+    def filter_queryset(self, request, queryset, view):
+        qs = super().filter_queryset(request, queryset, view)
+        search_terms = self.get_search_terms(request)
+        for search_term in search_terms:
+            parent_categories_qs = HobbyCategory.objects.filter(
+                Q(name_fi__icontains=search_term) |
+                Q(name_en__icontains=search_term) |
+                Q(name_sv__icontains=search_term)
+            )
+            parent_ids = list(parent_categories_qs.values_list('pk', flat=True))
+            descendant_ids = list(parent_categories_qs.get_descendants(include_self=False).values_list('pk', flat=True))
+            category_ids = [*parent_ids, *descendant_ids]
+            try:
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+            except AssertionError:
+                # AssertionError: Cannot combine a unique query with a non-unique query.
+                # Both queries must be distinct (unique query)
+                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids).distinct()
+        return qs
 
 
 class HobbyCategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -324,7 +346,7 @@ class HobbyEventFilter(filters.FilterSet):
 
 
 class HobbyEventViewSet(viewsets.ModelViewSet):
-    filter_backends = (filters.DjangoFilterBackend, drf_filters.SearchFilter)
+    filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
     queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
@@ -333,7 +355,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     serializer_class = HobbyEventSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
-    search_fields = ['hobby__name', 'hobby__description', 'hobby__categories__name_fi', 'hobby__categories__name_en', 'hobby__categories__name_sv']
+    search_fields = ['hobby__name', 'hobby__description']
 
     @property
     def paginator(self):
@@ -341,43 +363,6 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
             return None
         else:
             return super().paginator
-
-    @action(detail=True, methods=['post'])
-    def recurrent(self, request, pk=None, **opt):
-        base_event = HobbyEvent.objects.get(id=pk)
-
-        if   request.data.get('days', None):
-            delta = datetime.timedelta(days=int(request.data['days']))
-        elif request.data.get('weeks', None):
-            delta = datetime.timedelta(weeks=int(request.data['weeks']))
-        else:
-            raise ValidationError(_("Unknown recurrency type"))
-
-        if not request.data.get('end_date', None):
-            raise ValidationError(_("No end date specified"))
-        year, month, day = map(int, request.data.get('end_date', None).split('-'))
-        end_date = datetime.date(year, month, day)
-
-        count = 0
-        current_date = base_event.start_date
-        recurrent_event_list = []
-        while current_date + delta <= end_date:
-            count += 1
-            if count > 50:
-                raise ValidationError(_("Too many recurrent events"))
-
-            event = copy(base_event)
-            event.pk = None
-            event.recurrence_start_event = base_event
-            event.start_date += delta * count
-            event.end_date += delta * count
-            recurrent_event_list.append(event)
-            current_date = event.start_date
-
-        for event in recurrent_event_list:
-            event.save()
-
-        return Response({'events':[event.pk for event in recurrent_event_list]})
 
 
 class OrganizerViewSet(viewsets.ModelViewSet):
