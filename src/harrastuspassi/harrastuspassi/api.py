@@ -352,7 +352,10 @@ class HobbyEventFilter(filters.FilterSet):
 class HobbyEventViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
-    queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
+    queryset = HobbyEvent.objects.filter(hobby_via_next_event__isnull=False).select_related(
+        'hobby__location',
+        'hobby__organizer'
+    )
     schema = ExtraDataSchema(
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))

@@ -433,3 +433,31 @@ def test_hobby_event_search(user_api_client, hobby_with_events):
     url = f'{api_url}?search=yleisurheilu'
     response = user_api_client.get(url)
     assert len(response.data) == 2
+
+
+@freeze_time(FROZEN_DATE)
+@pytest.mark.django_db
+def test_hobby_event_api_returns_next_event(user_api_client, hobby):
+    """ HobbyEvent endpoint should only return next event """
+    url = reverse('hobbyevent-list')
+    tomorrow = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date() + datetime.timedelta(days=1)
+    day_after_tomorrow = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date() + datetime.timedelta(days=2)
+    next_event = HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date=tomorrow,
+        start_time='16:00',
+        end_date=tomorrow,
+        end_time='17:45'
+    )
+    HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date=day_after_tomorrow,
+        start_time='16:00',
+        end_date=day_after_tomorrow,
+        end_time='17:45'
+    )
+    hobby.next_event = next_event
+    hobby.save()
+    response = user_api_client.get(url)
+    assert len(response.data) == 1
+    assert response.data[0]['id'] == next_event.pk
