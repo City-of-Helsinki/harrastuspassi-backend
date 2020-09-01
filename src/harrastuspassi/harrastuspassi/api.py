@@ -364,7 +364,7 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
         hobby_in_query_params = self.request.query_params.get('hobby', None)
         queryset = HobbyEvent.objects.all()
         # Hobby may have dozens of events, so only return relevant for the list view
-        if not hobby_in_query_params:
+        if self.action == 'list' and not hobby_in_query_params:
             queryset = queryset.filter(hobby_via_next_event__isnull=False)
         return queryset.select_related('hobby__location', 'hobby__organizer')
 
