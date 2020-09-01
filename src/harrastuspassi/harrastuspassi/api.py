@@ -362,14 +362,11 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         hobby_in_query_params = self.request.query_params.get('hobby', None)
-        if hobby_in_query_params:
-            queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
-        else:
-            queryset = HobbyEvent.objects.filter(hobby_via_next_event__isnull=False).select_related(
-                'hobby__location',
-                'hobby__organizer'
-            )
-        return queryset
+        queryset = HobbyEvent.objects.all()
+        # Hobby may have dozens of events, so only return relevant for the list view
+        if not hobby_in_query_params:
+            queryset = queryset.filter(hobby_via_next_event__isnull=False)
+        return queryset.select_related('hobby__location', 'hobby__organizer')
 
     @property
     def paginator(self):
