@@ -352,10 +352,6 @@ class HobbyEventFilter(filters.FilterSet):
 class HobbyEventViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
-    queryset = HobbyEvent.objects.filter(hobby_via_next_event__isnull=False).select_related(
-        'hobby__location',
-        'hobby__organizer'
-    )
     schema = ExtraDataSchema(
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))
@@ -363,6 +359,17 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
     search_fields = ['hobby__name', 'hobby__description']
+
+    def get_queryset(self):
+        hobby_in_query_params = self.request.query_params.get('hobby', None)
+        if hobby_in_query_params:
+            queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
+        else:
+            queryset = HobbyEvent.objects.filter(hobby_via_next_event__isnull=False).select_related(
+                'hobby__location',
+                'hobby__organizer'
+            )
+        return queryset
 
     @property
     def paginator(self):
