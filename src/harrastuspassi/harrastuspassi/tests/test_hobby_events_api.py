@@ -8,12 +8,16 @@ from harrastuspassi.tests.conftest import FROZEN_DATE, FROZEN_DATETIME
 
 @freeze_time(FROZEN_DATE)
 @pytest.mark.django_db
-def test_list_events(api_client, hobby_with_events):
-    """ HobbyEvents should be listable """
+def test_list_events(api_client, hobby, hobby_with_events):
+    """
+    HobbyEvents should be listable. Listing events should return only one event per hobby.
+    """
     url = reverse('hobbyevent-list')
     response = api_client.get(url)
     assert response.status_code == 200
-    assert len(response.data) == hobby_with_events.events.count()
+    # although there are multiple events attached to a hobby,
+    # only next one should be returned
+    assert len(response.data) == 1
 
 
 @freeze_time(FROZEN_DATE)
@@ -40,7 +44,7 @@ def test_list_events_filter_by_time(api_client, hobby_with_events, hobby_with_ev
     response = api_client.get(url)
     assert response.status_code == 200
     event_ids = set(e['id'] for e in response.data)
-    assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
+    assert event_ids == {hobby_with_events.next_event.pk}
 
 
 @pytest.mark.django_db
@@ -58,7 +62,7 @@ def test_list_events_filter_by_category(
     response = api_client.get(url)
     assert response.status_code == 200
     event_ids = set(e['id'] for e in response.data)
-    assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
+    assert event_ids == {hobby_with_events.next_event.pk}
 
 
 def set_event_times(events, start_time):
@@ -122,7 +126,7 @@ def test_list_events_filter_by_weekday(api_client, hobby_with_events, hobby_with
     response = api_client.get(url)
     assert response.status_code == 200
     event_ids = set(e['id'] for e in response.data)
-    assert event_ids == set(hobby_with_events.events.values_list('id', flat=True))
+    assert event_ids == {hobby_with_events.next_event.pk}
 
 
 @freeze_time(FROZEN_DATE)
@@ -140,21 +144,15 @@ def test_list_events_near_point(
     assert response.status_code == 200
     events = response.json()
     assert hobby_near_with_events.pk == events[0]['hobby']
-    assert hobby_near_with_events.pk == events[1]['hobby']
-    assert hobby_midway_with_events.pk == events[2]['hobby']
-    assert hobby_midway_with_events.pk == events[3]['hobby']
-    assert hobby_far_with_events.pk == events[4]['hobby']
-    assert hobby_far_with_events.pk == events[5]['hobby']
+    assert hobby_midway_with_events.pk == events[1]['hobby']
+    assert hobby_far_with_events.pk == events[2]['hobby']
     # Reverse
     url = f'{api_url}?ordering=-nearest&near_latitude=1.00000&near_longitude=1.00000'
     response = api_client.get(url)
     assert response.status_code == 200
     events = response.json()
-    assert hobby_near_with_events.pk == events[5]['hobby']
-    assert hobby_near_with_events.pk == events[4]['hobby']
-    assert hobby_midway_with_events.pk == events[3]['hobby']
-    assert hobby_midway_with_events.pk == events[2]['hobby']
-    assert hobby_far_with_events.pk == events[1]['hobby']
+    assert hobby_near_with_events.pk == events[2]['hobby']
+    assert hobby_midway_with_events.pk == events[1]['hobby']
     assert hobby_far_with_events.pk == events[0]['hobby']
 
 
@@ -223,6 +221,8 @@ def test_list_events_exclude_past_events(api_client, hobby):
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.strptime('14:59', '%H:%M').time()
     )
+    hobby.next_event = test_event
+    hobby.save()
     response = api_client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 1
@@ -276,6 +276,8 @@ def test_hobby_event_text_search(
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.strptime('14:59', '%H:%M').time()
     )
+    test_hobby.next_event = test_event
+    test_hobby.save()
     # Test searching by name
     url = f'{api_url}?search=lorem ipsum'
     response = api_client.get(url)
@@ -322,13 +324,15 @@ def test_price_type_filter(user_api_client, location, organizer, municipality):
         municipality=municipality,
         price_type=Hobby.TYPE_FREE
     )
-    HobbyEvent.objects.create(
+    free_type_hobby_event = HobbyEvent.objects.create(
         hobby=free_type_hobby,
         start_date=datetime.datetime(2020, 5, 17),
         end_date=datetime.datetime(2020, 5, 17),
         start_time=datetime.datetime.now(),
         end_time=datetime.datetime.now()
     )
+    free_type_hobby.next_event = free_type_hobby_event
+    free_type_hobby.save()
     annual_type_hobby = Hobby.objects.create(
         name='Annual type hobby',
         location=location,
@@ -336,13 +340,15 @@ def test_price_type_filter(user_api_client, location, organizer, municipality):
         municipality=municipality,
         price_type=Hobby.TYPE_ANNUAL
     )
-    HobbyEvent.objects.create(
+    annual_type_hobby_event = HobbyEvent.objects.create(
         hobby=annual_type_hobby,
         start_date=datetime.datetime(2020, 5, 17),
         end_date=datetime.datetime(2020, 5, 17),
         start_time=datetime.datetime.now(),
         end_time=datetime.datetime.now()
     )
+    annual_type_hobby.next_event = annual_type_hobby_event
+    annual_type_hobby.save()
     seasonal_type_hobby = Hobby.objects.create(
         name='Seasonal type hobby',
         location=location,
@@ -350,13 +356,15 @@ def test_price_type_filter(user_api_client, location, organizer, municipality):
         municipality=municipality,
         price_type=Hobby.TYPE_SEASONAL
     )
-    HobbyEvent.objects.create(
+    seasonal_type_hobby_event = HobbyEvent.objects.create(
         hobby=seasonal_type_hobby,
         start_date=datetime.datetime(2020, 5, 17),
         end_date=datetime.datetime(2020, 5, 17),
         start_time=datetime.datetime.now(),
         end_time=datetime.datetime.now()
     )
+    seasonal_type_hobby.next_event = seasonal_type_hobby_event
+    seasonal_type_hobby.save()
     one_time_type_hobby = Hobby.objects.create(
         name='One time type hobby',
         location=location,
@@ -364,13 +372,15 @@ def test_price_type_filter(user_api_client, location, organizer, municipality):
         municipality=municipality,
         price_type=Hobby.TYPE_ONE_TIME
     )
-    HobbyEvent.objects.create(
+    one_time_type_hobby_event = HobbyEvent.objects.create(
         hobby=one_time_type_hobby,
         start_date=datetime.datetime(2020, 5, 17),
         end_date=datetime.datetime(2020, 5, 17),
         start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
         end_time=datetime.datetime.now()
     )
+    one_time_type_hobby.next_event = one_time_type_hobby_event
+    one_time_type_hobby.save()
     response = user_api_client.get(url, format='json')
     assert response.status_code == 200
     assert len(response.data) == 4
@@ -432,7 +442,7 @@ def test_hobby_event_search(user_api_client, hobby_with_events):
     hobby_with_events.categories.add(child_category)
     url = f'{api_url}?search=yleisurheilu'
     response = user_api_client.get(url)
-    assert len(response.data) == 2
+    assert len(response.data) == 1
 
 
 @freeze_time(FROZEN_DATE)
