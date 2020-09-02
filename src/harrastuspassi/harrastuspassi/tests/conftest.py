@@ -151,21 +151,25 @@ def hobbycategory_hierarchy_root():
 
 @pytest.fixture
 def hobby_with_events(hobby, frozen_date):
-    HobbyEvent.objects.create(hobby=hobby, start_date=frozen_date, start_time='18:00',
-                              end_date=frozen_date, end_time='19:00')
+    next_event = HobbyEvent.objects.create(hobby=hobby, start_date=frozen_date, start_time='18:00',
+                                           end_date=frozen_date, end_time='19:00')
     another_date = frozen_date + datetime.timedelta(days=7)
     HobbyEvent.objects.create(hobby=hobby, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
+    hobby.next_event = next_event
+    hobby.save()
     return hobby
 
 
 @pytest.fixture
 def hobby_with_events2(hobby2, frozen_date):
-    HobbyEvent.objects.create(hobby=hobby2, start_date=frozen_date, start_time='12:00',
-                              end_date=frozen_date, end_time='13:00')
+    next_event = HobbyEvent.objects.create(hobby=hobby2, start_date=frozen_date, start_time='12:00',
+                                           end_date=frozen_date, end_time='13:00')
     another_date = frozen_date + datetime.timedelta(days=7)
     HobbyEvent.objects.create(hobby=hobby2, start_date=another_date, start_time='12:00',
                               end_date=another_date, end_time='13:00')
+    hobby2.next_event = next_event
+    hobby2.save()
     return hobby2
 
 
@@ -302,31 +306,37 @@ def hobby_near(location_near, organizer):
 
 @pytest.fixture
 def hobby_far_with_events(hobby_far, frozen_date):
-    HobbyEvent.objects.create(hobby=hobby_far, start_date=frozen_date, start_time='18:00',
-                              end_date=frozen_date, end_time='19:00')
+    next_event = HobbyEvent.objects.create(hobby=hobby_far, start_date=frozen_date, start_time='18:00',
+                                           end_date=frozen_date, end_time='19:00')
     another_date = frozen_date + datetime.timedelta(days=7)
     HobbyEvent.objects.create(hobby=hobby_far, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
+    hobby_far.next_event = next_event
+    hobby_far.save()
     return hobby_far
 
 
 @pytest.fixture
 def hobby_midway_with_events(hobby_midway, frozen_date):
-    HobbyEvent.objects.create(hobby=hobby_midway, start_date=frozen_date, start_time='18:00',
-                              end_date=frozen_date, end_time='19:00')
+    next_event = HobbyEvent.objects.create(hobby=hobby_midway, start_date=frozen_date, start_time='18:00',
+                                           end_date=frozen_date, end_time='19:00')
     another_date = frozen_date + datetime.timedelta(days=7)
     HobbyEvent.objects.create(hobby=hobby_midway, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
+    hobby_midway.next_event = next_event
+    hobby_midway.save()
     return hobby_midway
 
 
 @pytest.fixture
 def hobby_near_with_events(hobby_near, frozen_date):
-    HobbyEvent.objects.create(hobby=hobby_near, start_date=frozen_date, start_time='18:00',
-                              end_date=frozen_date, end_time='19:00')
+    next_event = HobbyEvent.objects.create(hobby=hobby_near, start_date=frozen_date, start_time='18:00',
+                                           end_date=frozen_date, end_time='19:00')
     another_date = frozen_date + datetime.timedelta(days=7)
     HobbyEvent.objects.create(hobby=hobby_near, start_date=another_date, start_time='18:00',
                               end_date=another_date, end_time='19:00')
+    hobby_near.next_event = next_event
+    hobby_near.save()
     return hobby_near
 
 
