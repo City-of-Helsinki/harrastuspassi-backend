@@ -187,6 +187,8 @@ class Hobby(ExternalDataModel, TimestampedModel):
     price_type = models.CharField(max_length=1024, choices=PRICE_TYPE_CHOICES, default=TYPE_FREE,
                                   verbose_name='Price type')
     price_amount = models.DecimalField(max_digits=5, decimal_places=2, default=0, blank=True)
+    next_event = models.OneToOneField('HobbyEvent', on_delete=models.SET_NULL, null=True, blank=True,
+                                      verbose_name=_('Next event'), related_name='hobby_via_next_event')
 
     objects = HobbyQuerySet.as_manager()
 

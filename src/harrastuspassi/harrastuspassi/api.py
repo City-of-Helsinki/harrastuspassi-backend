@@ -118,6 +118,7 @@ class HobbyEventSearchFilter(drf_filters.SearchFilter):
     def filter_queryset(self, request, queryset, view):
         qs = super().filter_queryset(request, queryset, view)
         search_terms = self.get_search_terms(request)
+        category_ids = []
         for search_term in search_terms:
             parent_categories_qs = HobbyCategory.objects.filter(
                 Q(name_fi__icontains=search_term) |
@@ -126,13 +127,16 @@ class HobbyEventSearchFilter(drf_filters.SearchFilter):
             )
             parent_ids = list(parent_categories_qs.values_list('pk', flat=True))
             descendant_ids = list(parent_categories_qs.get_descendants(include_self=False).values_list('pk', flat=True))
-            category_ids = [*parent_ids, *descendant_ids]
+            category_ids += parent_ids
+            category_ids += descendant_ids
+        if category_ids:
             try:
-                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids)
+                qs |= queryset.filter(hobby__categories__in=category_ids)
             except AssertionError:
                 # AssertionError: Cannot combine a unique query with a non-unique query.
                 # Both queries must be distinct (unique query)
-                qs |= HobbyEvent.objects.filter(hobby__categories__in=category_ids).distinct()
+                qs |= queryset.filter(hobby__categories__in=category_ids).distinct()
+            qs = qs.distinct()
         return qs
 
 
@@ -348,7 +352,6 @@ class HobbyEventFilter(filters.FilterSet):
 class HobbyEventViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend, HobbyEventSearchFilter)
     filterset_class = HobbyEventFilter
-    queryset = HobbyEvent.objects.all().select_related('hobby__location', 'hobby__organizer')
     schema = ExtraDataSchema(
         include_description=('Include extra data in the response. Multiple include parameters are supported.'
                              ' Possible options: hobby_detail'))
@@ -356,6 +359,14 @@ class HobbyEventViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     pagination_class = DefaultPagination
     search_fields = ['hobby__name', 'hobby__description']
+
+    def get_queryset(self):
+        hobby_in_query_params = self.request.query_params.get('hobby', None)
+        queryset = HobbyEvent.objects.all()
+        # Hobby may have dozens of events, so only return relevant for the list view
+        if self.action == 'list' and not hobby_in_query_params:
+            queryset = queryset.filter(hobby_via_next_event__isnull=False)
+        return queryset.select_related('hobby__location', 'hobby__organizer')
 
     @property
     def paginator(self):
