@@ -453,26 +453,19 @@ class Command(BaseCommand):
         if not self.content_present(description):
             description_raw = self.possible_dict_to_str(event.get('description'), '')
             soup = BeautifulSoup(description_raw, features="html.parser")
-            long_description = soup.get_text().strip(' ')
-            long_description = re.sub(r'\s+', ' ', long_description)
+            long_description = soup.get_text()
+            long_description = re.sub(r'\s+', ' ', long_description).strip(' ')
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
+
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
-            offer_description = re.sub(r'\s+', ' ', offer_description)
             if self.content_present(description):
-                if self.content_present(offer_description):
-                    description = f'{description} Offer: {offer_description}'
-                if self.content_present(info_url):
-                    description = f'{description} Tickets: {info_url}'
+                description = f'{description} {offer_description} {info_url}'
             else:
-                description = long_description
-                if self.content_present(info_url):
-                    description = f'Tickets: {info_url} {description}'
-                if self.content_present(offer_description):
-                    description = f'Offer: {offer_description} {description}'
-            return description.strip(' ')
-        else:
-            return long_description if description in ['', 'null', 'None', None] else description
+                description = f'{offer_description} {info_url} {long_description}'
+            description = re.sub(r'[\'"]?(null|None)[\'"]?', '', description)
+            description = re.sub(r'\s+', ' ', description).strip(' ')
+        return description if self.content_present(description) else long_description
 
     def content_present(self, to_check: str) -> bool:
         no_content = ['', 'null', 'None', None]

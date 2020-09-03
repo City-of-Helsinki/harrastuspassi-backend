@@ -133,14 +133,14 @@ def test_description_import(basic_event):
     event = basic_event
     event['short_description'] = {'fi': 'Short description'}
     event['description'] = {'fi': '<p>Poesian ja Runokuun \n\r \xa0 \x1fyhteisillassa.</p><p>Ovet klo 19:00.<br>htumaan.</p><p>Esiintyjät: </p>'}  # noqa: E501
-    event['offers'] = [{'info_url': {'fi': 'https://ticketshere.info'}, 'description': {'fi': 'Offers description.'}}]
-    assert command.get_description(event) == 'Short description Offer: Offers description. Tickets: https://ticketshere.info'  # noqa: E501
+    event['offers'] = [{'info_url': {'fi': 'https://ticketshere.info'}, 'description': {'fi': 'Offers description.'}, 'price': {'fi': "65"}}]  # noqa: E501
+    assert command.get_description(event) == 'Short description Offers description. https://ticketshere.info'  # noqa: E501
     event['short_description'] = {'fi': ''}
-    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
+    assert command.get_description(event) == 'Offers description. https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['short_description'] = 'null'
-    assert command.get_description(event) == 'Offer: Offers description. Tickets: https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
+    assert command.get_description(event) == 'Offers description. https://ticketshere.info Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['offers'] = [{'info_url': 'null', 'description': {'fi': 'Offers description.'}}]
-    assert command.get_description(event) == 'Offer: Offers description. Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
+    assert command.get_description(event) == 'Offers description. Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'  # noqa: E501
     event['offers'] = [{'info_url': 'null', 'description': 'null'}]
     assert command.get_description(event) == 'Poesian ja Runokuun yhteisillassa.Ovet klo 19:00.htumaan.Esiintyjät:'
     event['offers'] = [{'info_url': 'None', 'description': 'None'}]
