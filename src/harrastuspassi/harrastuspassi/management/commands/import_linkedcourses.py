@@ -455,16 +455,27 @@ class Command(BaseCommand):
             soup = BeautifulSoup(description_raw, features="html.parser")
             long_description = soup.get_text()
             long_description = re.sub(r'\s+', ' ', long_description).strip(' ')
+
+        if self.content_present(event['audience_min_age']) and self.content_present(event['audience_max_age']):
+            age = f"Kenelle: {event['audience_min_age']}-{event['audience_max_age']}v."
+        elif self.content_present(event['audience_min_age']):
+            age = f"Kenelle: {event['audience_min_age']}v.-"
+        elif self.content_present(event['audience_max_age']):
+            age = f"Kenelle: -{event['audience_max_age']}v."
+        else:
+            age = ''
+
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
 
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
             if self.content_present(description):
-                description = f'{description} {offer_description} {info_url}'
+                description = f'{description} {offer_description} {age} {info_url}'
             else:
-                description = f'{offer_description} {info_url} {long_description}'
+                description = f'{offer_description} {info_url} {age} {long_description}'
             description = re.sub(r'[\'"]?(null|None)[\'"]?', '', description)
             description = re.sub(r'\s+', ' ', description).strip(' ')
+
         return description if self.content_present(description) else long_description
 
     def content_present(self, to_check: str) -> bool:
