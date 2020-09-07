@@ -204,8 +204,8 @@ class Hobby(ExternalDataModel, TimestampedModel):
         super().clean()
         if self.price_type == self.TYPE_FREE and self.price_amount != 0:
             raise ValidationError('Price amount has to be 0 if price type is free')
-        if self.price_type != self.TYPE_FREE and self.price_amount == 0:
-            raise ValidationError('Price amount can not be 0 if price type is something else than free')
+        if self.price_type not in [self.TYPE_FREE, self.TYPE_PAID] and self.price_amount == 0:
+            raise ValidationError('Price amount can not be 0 if price type is something else than free or paid')
         if self.price_amount < 0:
             raise ValidationError('Price amount can not be negative')
 
