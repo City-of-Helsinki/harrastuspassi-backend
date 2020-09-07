@@ -29,6 +29,10 @@ class Command(BaseCommand):
         4412: 'Pyöräily',
         4405: 'Retkeily',
         3230: 'Uinti',
+        3130: 'Uinti',
+        3210: 'Uinti',
+        3220: 'Uinti',
+        3110: 'Uinti',
         1130: 'Kuntosalit',
         4452: 'Melonta',
         1210: 'Yleisurheilu',
@@ -94,7 +98,7 @@ class Command(BaseCommand):
                     type_code = sports_place['type'].get('typeCode')
 
                     self.stdout.write(f'Handling hobby: {name}')
-                    if not zip_code_is_valid or not is_free or not type_code in self.category_mappings.keys():
+                    if not zip_code_is_valid or not type_code in self.category_mappings.keys():
                         continue
                     location, location_created = Location.objects.update_or_create(
                         data_source=self.source,
@@ -119,14 +123,18 @@ class Command(BaseCommand):
                     category, _category_created = HobbyCategory.objects.get_or_create(
                         name=self.category_mappings[type_code],
                     )
-
+                    # Lipas import only tells us if a hobby is free, there is no price information or type available
+                    if is_free:
+                        price_type = Hobby.TYPE_FREE
+                    else:
+                        price_type = Hobby.TYPE_PAID
                     hobby, hobby_created = Hobby.objects.update_or_create(
                         data_source=self.source,
                         origin_id=sports_place.get('sportsPlaceId'),
                         defaults={
                             'location': location,
                             'name': sports_place['name'],
-                            'price_type': Hobby.TYPE_FREE,
+                            'price_type': price_type,
                             'description': sports_place['properties'].get('infoFi', ''),
                         }
                     )
