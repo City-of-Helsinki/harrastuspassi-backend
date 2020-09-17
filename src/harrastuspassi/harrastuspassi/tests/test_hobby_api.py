@@ -1,6 +1,7 @@
 import pytest
+from django.contrib.gis.geos import Point
 from django.urls import reverse
-from harrastuspassi.models import Hobby
+from harrastuspassi.models import Hobby, Location
 from rest_framework.exceptions import ErrorDetail
 
 
@@ -232,6 +233,32 @@ def test_hobby_list_near_point(
     assert hobby_near.pk == hobbies[2]['id']
     assert hobby_midway.pk == hobbies[1]['id']
     assert hobby_far.pk == hobbies[0]['id']
+
+
+@pytest.mark.django_db
+def test_hobby_distance_filter(api_client):
+    """
+    Sorting Hobbies by distance should only return hobbies
+    that are closer than value provided with max_distance query param
+    """
+    api_url = reverse('hobby-list')
+    location_ylojarvi = Location.objects.create(name='Ylöjärvi', coordinates=Point(23.764732, 61.859539))
+    location_sastamala = Location.objects.create(name='Sastamala', coordinates=Point(22.995811, 61.503266))
+    location_orivesi = Location.objects.create(name='Orivesi', coordinates=Point(24.289451, 61.661839))
+    Hobby.objects.create(name='Harrastus Ylöjärvellä', location=location_ylojarvi)
+    Hobby.objects.create(name='Harrastus Sastamalassa', location=location_sastamala)
+    Hobby.objects.create(name='Harrastus Orivedellä', location=location_orivesi)
+
+    # Only location_orivesi should be within the distance provided in query params
+    url = f'{api_url}?ordering=nearest&near_latitude=61.500986&near_longitude=23.762713&max_distance=35'
+    response = api_client.get(url)
+    assert len(response.data) == 1
+    assert response.data[0]['location'] == location_orivesi.pk
+
+    # Change max_distance to 50. All locations should be withing this distance
+    url = f'{api_url}?ordering=nearest&near_latitude=61.500986&near_longitude=23.762713&max_distance=50'
+    response = api_client.get(url)
+    assert len(response.data) == 3
 
 
 @pytest.mark.django_db
