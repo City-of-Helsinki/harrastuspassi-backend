@@ -3,7 +3,6 @@
 import datetime
 import logging
 from collections import defaultdict
-from functools import wraps
 from itertools import chain
 
 from django.contrib.gis.measure import Distance
@@ -17,7 +16,6 @@ from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import permissions, viewsets, serializers
 from rest_framework import filters as drf_filters
-from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
