@@ -134,7 +134,7 @@ def test_description_import(basic_event):
     event['short_description'] = {'fi': 'Short description'}
     event['description'] = {'fi': '<p>Poesian ja Runokuun \n\r \xa0 \x1fyhteisillassa.</p><p>Ovet klo 19:00.<br>htumaan.</p><p>Esiintyjät: </p>'}  # noqa: E501
     event['offers'] = [{'info_url': {'fi': 'https://ticketshere.info'}, 'description': {'fi': 'Offers description.'}, 'price': {'fi': "65"}}]  # noqa: E501
-    assert command.get_description(event) == 'Short description Offers description. Kenelle: 12-17v. https://ticketshere.info'  # noqa: E501
+    assert command.get_description(event) == 'Short description Kenelle: 12-17v. Offers description. https://ticketshere.info'  # noqa: E501
     event['short_description'] = {'fi': ''}
     event['audience_min_age'] = None
     event['audience_max_age'] = None
