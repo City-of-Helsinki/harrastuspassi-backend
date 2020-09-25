@@ -318,11 +318,13 @@ class HobbyEventFilter(filters.FilterSet):
         fields=(
             # (field name, param name)
             ('geometrydistance_to_point', 'nearest'),
+            ('start_date', 'start_date'),
         ),
         field_labels={
             'geometrydistance_to_point': _('Nearest'),
+            'start_date': _('Start date'),
         },
-        label=_('Ordering. Choices: `nearest`')
+        label=_('Ordering. Choices: `nearest`, `start_date`')
     )
     near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
     near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
