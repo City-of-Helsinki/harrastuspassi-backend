@@ -46,7 +46,7 @@ REQUESTS_TIMEOUT = 15
 # the event audience
 
 INCLUDE_AUDIENCE_NAMES = ['Opiskelijat', 'Nuoret']
-EXCLUDE_AUDIENCE_NAMES = ['Lapset', 'Lapsiperheet', 'Vauvaperheet']
+EXCLUDE_AUDIENCE_NAMES = ['Lapsiperheet', 'Vauvaperheet']
 
 # Keywords in Linked Courses come from several ontologies.
 # We are interested mainly in YSO ontology.
@@ -151,11 +151,11 @@ class Command(BaseCommand):
         return result_objects
 
     def check_age(self, event: Dict, event_keywords: Set[Keyword]) -> bool:
-        if event.get('audience_min_age'):
-            if event['audience_min_age'] > 11:
+        if event.get('audience_max_age'):
+            if event['audience_max_age'] > 14:
                 return True
             else:
-                self.stdout.write(f"audience_min_age for {event.get('name')} is {event['audience_min_age']}, skipping.")
+                self.stdout.write(f"audience_max_age for {event.get('name')} is {event['audience_max_age']}, skipping.")
                 return False
         if event_keywords.intersection(self.INCLUDE_AUDIENCE):
             if event_keywords.intersection(self.EXCLUDE_AUDIENCE):
@@ -465,14 +465,19 @@ class Command(BaseCommand):
         else:
             age = ''
 
+        if self.content_present(description):
+            description = f'{description} {age}'.strip(' ')
+        else:
+            long_description = f'{age} {long_description}'.strip(' ')
+
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
 
             offer_description = self.possible_dict_to_str(event['offers'][0].get('description')).strip(' ')
             if self.content_present(description):
-                description = f'{description} {offer_description} {age} {info_url}'
+                description = f'{description} {offer_description} {info_url}'
             else:
-                description = f'{offer_description} {info_url} {age} {long_description}'
+                description = f'{offer_description} {info_url} {long_description}'
             description = re.sub(r'[\'"]?(null|None)[\'"]?', '', description)
             description = re.sub(r'\s+', ' ', description).strip(' ')
 

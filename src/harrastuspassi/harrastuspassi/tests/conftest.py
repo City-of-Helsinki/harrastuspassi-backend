@@ -137,6 +137,11 @@ def hobby2(location, organizer, municipality):
 
 
 @pytest.fixture
+def hobby3(location, organizer, municipality):
+    return Hobby.objects.create(name='Test Hobby 3', location=location, organizer=organizer, municipality=municipality)
+
+
+@pytest.fixture
 def hobby_category():
     return HobbyCategory.objects.create(name='Language learning')
 

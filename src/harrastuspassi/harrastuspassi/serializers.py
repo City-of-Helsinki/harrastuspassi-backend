@@ -240,7 +240,18 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
 
     class Meta:
         model = HobbyEvent
-        fields = ('end_date', 'end_time', 'hobby', 'id', 'start_date', 'start_time', 'start_weekday', 'is_recurrent', 'recurrency_count')
+        fields = (
+            'end_date',
+            'end_time',
+            'hobby',
+            'id',
+            'start_date',
+            'start_time',
+            'start_weekday',
+            'is_recurrent',
+            'recurrency_count',
+            'data_source',
+        )
         read_only_fields = ('start_weekday',)
 
 
