@@ -465,10 +465,20 @@ class Command(BaseCommand):
         else:
             age = ''
 
+        link = ''
+        if event.get('external_links', ''):
+            link = event['external_links'].get('fi', {}).get('registration', '')
+            if link:
+                link = f'Ilmoitaudu: {link}'
+
+        org_info = ''
+        if event.get('organizer_info', ''):
+            org_info = event['organizer_info'].get('fi', '')
+
         if self.content_present(description):
-            description = f'{description} {age}'.strip(' ')
+            description = f'{description} {age} {link} {org_info}'.strip(' ')
         else:
-            long_description = f'{age} {long_description}'.strip(' ')
+            long_description = f'{age} {link} {org_info} {long_description}'.strip(' ')
 
         if event['offers']:
             info_url = self.possible_dict_to_str(event['offers'][0].get('info_url')).strip(' ')
