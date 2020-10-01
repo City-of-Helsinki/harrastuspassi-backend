@@ -471,3 +471,51 @@ def test_hobby_event_api_returns_next_event(user_api_client, hobby):
     response = user_api_client.get(url)
     assert len(response.data) == 1
     assert response.data[0]['id'] == next_event.pk
+
+
+@freeze_time(FROZEN_DATETIME)
+@pytest.mark.django_db
+def test_hobbyevent_start_date_ordering(api_client, hobby, hobby2, hobby3):
+    """ HobbyEvents should be orderable by start_date """
+    date_today = datetime.datetime.strptime(FROZEN_DATE, '%Y-%m-%d').date()
+    hobbyevent_first = HobbyEvent.objects.create(
+        hobby=hobby,
+        start_date=date_today,
+        end_date=date_today,
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
+    )
+    hobby.next_event = hobbyevent_first
+    hobby.save()
+    hobbyevent_second = HobbyEvent.objects.create(
+        hobby=hobby2,
+        start_date=date_today + datetime.timedelta(days=7),
+        end_date=date_today + datetime.timedelta(days=7),
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
+    )
+    hobby2.next_event = hobbyevent_second
+    hobby2.save()
+    hobbyevent_third = HobbyEvent.objects.create(
+        hobby=hobby3,
+        start_date=date_today + datetime.timedelta(days=14),
+        end_date=date_today + datetime.timedelta(days=14),
+        start_time=datetime.datetime.strptime('09:00', '%H:%M').time(),
+        end_time=datetime.datetime.strptime('10:30', '%H:%M').time()
+    )
+    hobby3.next_event = hobbyevent_third
+    hobby3.save()
+    api_url = reverse('hobbyevent-list')
+    url = f'{api_url}?ordering=start_date'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert hobbyevent_first.pk == response.data[0]['id']
+    assert hobbyevent_second.pk == response.data[1]['id']
+    assert hobbyevent_third.pk == response.data[2]['id']
+    # Reverse
+    url = f'{api_url}?ordering=-start_date'
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert hobbyevent_first.pk == response.data[2]['id']
+    assert hobbyevent_second.pk == response.data[1]['id']
+    assert hobbyevent_third.pk == response.data[0]['id']

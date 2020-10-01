@@ -4,7 +4,7 @@ import logging
 import datetime
 from copy import copy
 from django.contrib.gis.db import models as gis_models
-from django.contrib.gis.db.models.functions import GeoFunc
+from django.contrib.gis.db.models.functions import GeoFunc, Distance
 from django.contrib.gis.geos import Point
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -66,11 +66,17 @@ class DistanceMixin:
         x = lon
         y = lat
         point = Point(x, y, srid=COORDINATE_SYSTEM_ID)
-        return self.annotate(distance_to_point=GeometryDistance(self.coordinates_field, point))
+        return self.annotate(distance_to_point=Distance(self.coordinates_field, point))
+
+    def annotate_geometrydistance_to(self, lat, lon):
+        x = lon
+        y = lat
+        point = Point(x, y, srid=COORDINATE_SYSTEM_ID)
+        return self.annotate(geometrydistance_to_point=GeometryDistance(self.coordinates_field, point))
 
     def order_by_distance_to(self, lat, lon):
-        qs = self.annotate_distance_to(lat, lon)
-        qs = qs.order_by('distance_to_point')
+        qs = self.annotate_geometrydistance_to(lat, lon)
+        qs = qs.order_by('geometrydistance_to_point')
         return qs
 
 

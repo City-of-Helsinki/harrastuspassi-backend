@@ -3,9 +3,9 @@
 import datetime
 import logging
 from collections import defaultdict
-from functools import wraps
 from itertools import chain
 
+from django.contrib.gis.measure import Distance
 from django.db.models import F, Q
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext as _
@@ -16,7 +16,6 @@ from guardian.ctypes import get_content_type
 from guardian.shortcuts import get_objects_for_user
 from rest_framework import permissions, viewsets, serializers
 from rest_framework import filters as drf_filters
-from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError, APIException
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
@@ -54,17 +53,15 @@ from project.pagination import DefaultPagination
 LOG = logging.getLogger(__name__)
 
 
-def dummy_filter(filter_callable):
+def dummy_filter(filter_instance):
     """
     Ignore filter method of Filter classes.
     Can be used for documentation-only params and custom non-field filters.
     """
-    def wrapped_filter(*args, **kwargs):
-        return wrapped_filter(*args, **kwargs)
-    def noop_filter(self, qs, value):
+    def noop_filter(qs, value):
         return qs
-    wrapped_filter.filter = noop_filter
-    return wraps(filter_callable)(wrapped_filter)
+    filter_instance.filter = noop_filter
+    return filter_instance
 
 
 class HasPermOrReadOnly(permissions.BasePermission):
@@ -162,6 +159,7 @@ class HierarchyModelMultipleChoiceFilter(filters.ModelMultipleChoiceFilter):
 
 
 class NearestOrderingFilter(filters.OrderingFilter):
+
     def get_coordinates(self):
         errors = defaultdict(list)
 
@@ -202,14 +200,31 @@ class NearestOrderingFilter(filters.OrderingFilter):
 
         return near_latitude, near_longitude
 
+    def get_max_distance(self):
+        errors = defaultdict(list)
+        max_distance = self.parent.data.get('max_distance', None)
+        if max_distance is not None:
+            try:
+                max_distance = int(max_distance)
+            except ValueError:
+                errors['max_distance'].append(_('Must be an integer.'))
+        if errors:
+            raise ValidationError(errors)
+        return max_distance
+
     def filter(self, qs, value):
         if value in EMPTY_VALUES:
             return qs
         ordering = [self.get_ordering_value(param) for param in value]
-        if 'distance_to_point' in ordering or '-distance_to_point' in ordering:
+        if 'geometrydistance_to_point' in ordering or '-geometrydistance_to_point' in ordering:
             near_latitude, near_longitude = self.get_coordinates()
+            qs = qs.annotate_geometrydistance_to(near_latitude, near_longitude)
             qs = qs.annotate_distance_to(near_latitude, near_longitude)
-        return qs.order_by(*ordering)
+        qs = qs.order_by(*ordering)
+        max_distance = self.get_max_distance()
+        if max_distance is not None:
+            qs = qs.filter(distance_to_point__lte=Distance(km=max_distance))
+        return qs
 
 
 class HobbyFilter(filters.FilterSet):
@@ -220,15 +235,16 @@ class HobbyFilter(filters.FilterSet):
     ordering = NearestOrderingFilter(
         fields=(
             # (field name, param name)
-            ('distance_to_point', 'nearest'),
+            ('geometrydistance_to_point', 'nearest'),
         ),
         field_labels={
-            'distance_to_point': _('Nearest'),
+            'geometrydistance_to_point': _('Nearest'),
         },
         label=_('Ordering. Choices: `nearest`')
     )
     near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
     near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
+    max_distance = dummy_filter(filters.NumberFilter(label=_('Max distance in kilometers. Can only be used with `nearest` ordering.')))
     price_type = filters.CharFilter(method='filter_price_type', label=_('Filter Hobbies by price type'))
 
     class Meta:
@@ -299,12 +315,14 @@ class HobbyEventFilter(filters.FilterSet):
     ordering = NearestOrderingFilter(
         fields=(
             # (field name, param name)
-            ('distance_to_point', 'nearest'),
+            ('geometrydistance_to_point', 'nearest'),
+            ('start_date', 'start_date'),
         ),
         field_labels={
-            'distance_to_point': _('Nearest'),
+            'geometrydistance_to_point': _('Nearest'),
+            'start_date': _('Start date'),
         },
-        label=_('Ordering. Choices: `nearest`')
+        label=_('Ordering. Choices: `nearest`, `start_date`')
     )
     near_latitude = dummy_filter(filters.NumberFilter(label=_('Near latitude. This field is required when `nearest` ordering is used.')))
     near_longitude = dummy_filter(filters.NumberFilter(label=_('Near longitude. This field is required when `nearest` ordering is used.')))
@@ -421,10 +439,10 @@ class PromotionFilter(filters.FilterSet):
     ordering = NearestOrderingFilter(
         fields=(
             # (field name, param name)
-            ('distance_to_point', 'nearest'),
+            ('geometrydistance_to_point', 'nearest'),
         ),
         field_labels={
-            'distance_to_point': _('Nearest'),
+            'geometrydistance_to_point': _('Nearest'),
         },
         label=_('Ordering. Choices: `nearest`')
     )
