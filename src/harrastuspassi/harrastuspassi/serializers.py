@@ -112,7 +112,7 @@ class MunicipalitySerializer(serializers.ModelSerializer):
 
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
-    cover_image = Base64ImageField(required=False, allow_null=True)
+    cover_image = serializers.SerializerMethodField()
     municipality = MunicipalitySerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
@@ -130,6 +130,23 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
                 'can_edit': checker.has_perm('change_hobby', instance)
             }
         return {}
+    
+    def get_cover_image(self, instance):
+        request = self.context.get('request')
+        cover_image = None
+        if instance.cover_image:
+            cover_image = instance.cover_image
+        else:
+            related_categories = instance.categories.all().get_ancestors(include_self=True)
+            related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
+            if related_categories_with_image.exists():
+                cover_image = related_categories_with_image[0].cover_image
+
+        if cover_image:
+            cover_image = request.build_absolute_uri(cover_image.url)
+        
+        return cover_image
+
 
     class Meta:
         model = Hobby
