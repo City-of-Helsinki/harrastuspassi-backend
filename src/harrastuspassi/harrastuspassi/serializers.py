@@ -140,7 +140,7 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             related_categories = instance.categories.all().get_ancestors(include_self=True)
             related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
             if related_categories_with_image.exists():
-                cover_image = related_categories_with_image[len(related_categories_with_image)-1].cover_image
+                cover_image = related_categories_with_image.last().cover_image
 
         if cover_image:
             cover_image = request.build_absolute_uri(cover_image.url)
