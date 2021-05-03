@@ -295,17 +295,6 @@ class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
         serializer.save(created_by=self.request.user, municipality=municipality)
 
-    def retrieve(self, request, *args, pk=None, **kwargs):
-        # TODO: DEPRECATE VERSION pre1
-        if self.request.version == 'pre1':
-            serializer_class = HobbyDetailSerializerPre1
-        else:
-            serializer_class = HobbyDetailSerializer
-        queryset = Hobby.objects.all()
-        hobby = get_object_or_404(queryset, pk=pk)
-        serializer = serializer_class(hobby)
-        return Response(serializer.data)
-
 
 class HobbyEventFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(

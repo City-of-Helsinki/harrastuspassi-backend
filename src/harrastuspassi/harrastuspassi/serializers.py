@@ -140,6 +140,8 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             related_categories = instance.categories.all().get_ancestors(include_self=True)
             related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
             if related_categories_with_image.exists():
+                # get_ancestors() by default returns ancestors by descending order
+                # (root ancestor first, immediate parent last)
                 cover_image = related_categories_with_image.last().cover_image
 
         if cover_image:
