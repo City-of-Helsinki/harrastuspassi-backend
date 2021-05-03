@@ -28,6 +28,7 @@ class HobbyCategoryAdmin(DraggableMPTTAdmin):
 
 class HobbyEventInline(admin.TabularInline):
     model = HobbyEvent
+    fields = ('start_date', 'start_time', 'start_weekday', 'end_date', 'end_time',)
     extra = 0
 
 
