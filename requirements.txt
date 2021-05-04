@@ -20,7 +20,6 @@ packaging==19.0
 pathlib2==2.3.4
 pep8-naming==0.4.1
 pluggy==0.12.0
-prospector==1.1.6.4
 py==1.8.0
 pycodestyle==2.5.0
 pydocstyle==4.0.0
