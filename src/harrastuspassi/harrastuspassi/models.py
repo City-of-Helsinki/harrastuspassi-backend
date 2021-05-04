@@ -217,10 +217,10 @@ class Hobby(ExternalDataModel, TimestampedModel):
             raise ValidationError('Price amount can not be negative')
 
     def update_next_event(self):
-        next_event_id = self.events.filter(
+        next_event = self.events.filter(
             end_date__gte=datetime.date.today()
-        ).values_list('id').order_by('start_date')[:1]
-        self.next_event = next_event_id
+        ).earliest('start_date')
+        self.next_event = next_event
         self.save()
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
