@@ -137,6 +137,7 @@ class Organizer(ExternalDataModel, TimestampedModel):
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, verbose_name='Hobby Category')
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    cover_image = models.ImageField(upload_to='hobbycategory_images', null=True, blank=True)
 
     class MPTTMeta:
         order_insertion_by = ['name']
