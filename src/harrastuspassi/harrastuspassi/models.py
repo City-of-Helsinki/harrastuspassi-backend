@@ -222,7 +222,6 @@ class Hobby(ExternalDataModel, TimestampedModel):
         ).earliest('start_date')
         self.next_event = next_event
         self.save()
-        self.next_event.save()
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'
