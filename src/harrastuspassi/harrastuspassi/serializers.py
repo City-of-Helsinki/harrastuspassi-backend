@@ -110,9 +110,26 @@ class MunicipalitySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class HobbyCoverImageField(Base64ImageField):
+
+    def get_attribute(self, instance):
+        cover_image = None
+        if instance.cover_image:
+            cover_image = instance.cover_image
+        else:
+            related_categories = instance.categories.all().get_ancestors(include_self=True)
+            related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
+            if related_categories_with_image.exists():
+                # get_ancestors() by default returns ancestors by descending order
+                # (root ancestor first, immediate parent last)
+                cover_image = related_categories_with_image.last().cover_image
+        
+        return cover_image
+
+
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
-    cover_image = serializers.SerializerMethodField()
+    cover_image = HobbyCoverImageField(required=False, allow_null=True)
     municipality = MunicipalitySerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
@@ -131,24 +148,6 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
             }
         return {}
     
-    def get_cover_image(self, instance):
-        request = self.context.get('request')
-        cover_image = None
-        if instance.cover_image:
-            cover_image = instance.cover_image
-        else:
-            related_categories = instance.categories.all().get_ancestors(include_self=True)
-            related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
-            if related_categories_with_image.exists():
-                # get_ancestors() by default returns ancestors by descending order
-                # (root ancestor first, immediate parent last)
-                cover_image = related_categories_with_image.last().cover_image
-
-        if cover_image:
-            cover_image = request.build_absolute_uri(cover_image.url)
-        
-        return cover_image
-
 
     class Meta:
         model = Hobby
