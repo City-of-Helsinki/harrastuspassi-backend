@@ -391,7 +391,7 @@ class OrganizerViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         qs = Organizer.objects.all()
         if self.request.user.is_authenticated:
-            return get_objects_for_user(self.request.user, 'change_location', qs)
+            return get_objects_for_user(self.request.user, 'change_organizer', qs)
         return qs.order_by('name')
 
     def perform_create(self, serializer):

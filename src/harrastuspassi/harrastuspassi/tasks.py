@@ -1,7 +1,7 @@
 
 from django.contrib.auth import get_user_model
 from guardian.shortcuts import get_objects_for_user, get_users_with_perms, assign_perm, remove_perm
-from harrastuspassi.models import Hobby, Promotion, Location
+from harrastuspassi.models import Hobby, Promotion, Location, Organizer
 
 
 def update_hobby_permissions(hobby_id):
@@ -161,3 +161,56 @@ def update_user_location_permissions(user_ids):
 
         remove_perm('change_location', user, locations_to_remove_perm)
         assign_perm('change_location', user, locations_to_assign_perm)
+
+
+def update_organizer_permissions(organizer_id):
+    organizer = Organizer.objects.get(pk=organizer_id)
+
+    def get_users_that_should_have_edit_permission(organizer):
+        qs = get_user_model().objects.none()
+        if organizer.municipality:
+            qs |= organizer.municipality.moderators.all()
+        if organizer.created_by:
+            qs |= get_user_model().objects.filter(pk=organizer.created_by.pk)
+        return qs
+
+    users_that_have_perm = get_users_with_perms(organizer, only_with_perms_in=['change_organizer'])
+    user_ids_that_have_perm = [u.pk for u in users_that_have_perm]
+
+    users_that_should_have_perm = get_users_that_should_have_edit_permission(organizer)
+    user_ids_that_should_have_perm = [u.pk for u in users_that_should_have_perm]
+    user_ids_to_assign_perm = set(user_ids_that_should_have_perm) - set(user_ids_that_have_perm)
+    users_to_assign_perm = get_user_model().objects.filter(id__in=user_ids_to_assign_perm)
+
+    user_ids_to_remove_perm = set(user_ids_that_have_perm) - set(user_ids_that_should_have_perm)
+    users_to_remove_perm = get_user_model().objects.filter(id__in=user_ids_to_remove_perm)
+
+    # Because django-guardian doesn't have bulk remove for identities
+    for user in users_to_remove_perm:
+        remove_perm('change_organizer', user, organizer)
+
+    assign_perm('change_organizer', users_to_assign_perm, organizer)
+
+
+def update_user_organizer_permissions(user_ids):
+    users = get_user_model().objects.filter(id__in=user_ids)
+
+    def get_organizers_user_should_have_edit_permission_for(user):
+        qs = Organizer.objects.filter(municipality__in=user.municipalities_where_moderator.all())
+        qs |= Organizer.objects.filter(created_by=user)
+        return qs
+
+    for user in users:
+        organizers_user_has_perm_for = get_objects_for_user(user, 'change_organizer', Organizer)
+        organizer_ids_user_has_perm_for = [l.pk for l in organizers_user_has_perm_for]
+
+        organizers_user_should_have_perm_for = get_organizers_user_should_have_edit_permission_for(user)
+        organizer_ids_user_should_have_perm_for = [h.pk for h in organizers_user_should_have_perm_for]
+        organizer_ids_to_assign_perm = set(organizer_ids_user_should_have_perm_for) - set(organizer_ids_user_has_perm_for)
+        organizers_to_assign_perm = Organizer.objects.filter(id__in=organizer_ids_to_assign_perm)
+
+        organizer_ids_to_remove_perm = set(organizer_ids_user_has_perm_for) - set(organizer_ids_user_should_have_perm_for)
+        organizers_to_remove_perm = Organizer.objects.filter(id__in=organizer_ids_to_remove_perm)
+
+        remove_perm('change_organizer', user, organizers_to_remove_perm)
+        assign_perm('change_organizer', user, organizers_to_assign_perm)
