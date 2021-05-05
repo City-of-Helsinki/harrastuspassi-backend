@@ -186,15 +186,15 @@ class NearestOrderingFilter(filters.OrderingFilter):
             raise ValidationError(errors)
 
         try:
-            assert near_latitude >= -180.0
-            assert near_latitude <= 180.0
+            assert near_latitude >= -90.0
+            assert near_latitude <= 90.0
         except AssertionError:
-            errors['near_latitude'].append(_('Value must be within -180.0 and 180.0.'))
+            errors['near_latitude'].append(_('Value must be within -90.0 and 90.0.'))
         try:
-            assert near_longitude >= -90.0
-            assert near_longitude <= 90.0
+            assert near_longitude >= -180.0
+            assert near_longitude <= 180.0
         except AssertionError:
-            errors['near_longitude'].append(_('Value must be within -90.0 and 90.0.'))
+            errors['near_longitude'].append(_('Value must be within -180.0 and 180.0.'))
         if errors:
             raise ValidationError(errors)
 
