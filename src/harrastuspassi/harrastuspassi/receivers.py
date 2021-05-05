@@ -21,7 +21,7 @@ def location_post_save(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Organizer)
-def location_post_save(sender, instance, **kwargs):
+def organizer_post_save(sender, instance, **kwargs):
     tasks.update_organizer_permissions(instance.pk)
 
 
