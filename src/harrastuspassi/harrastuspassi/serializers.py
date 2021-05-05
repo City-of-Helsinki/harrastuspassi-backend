@@ -255,6 +255,7 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         base_event = super().create(validated_data)
         if is_recurrent:
             base_event.create_recurrency(recurrency_count=recurrency_count)
+        base_event.hobby.update_next_event()
         return base_event
 
     class Meta:
