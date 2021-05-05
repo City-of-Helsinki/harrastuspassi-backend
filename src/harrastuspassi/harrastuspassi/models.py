@@ -129,6 +129,8 @@ class Location(ExternalDataModel, TimestampedModel):
 
 class Organizer(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, verbose_name='Organizer')
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

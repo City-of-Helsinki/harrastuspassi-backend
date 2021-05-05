@@ -388,6 +388,16 @@ class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizerSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        qs = Organizer.objects.all()
+        if self.request.user.is_authenticated:
+            return get_objects_for_user(self.request.user, 'change_organizer', qs)
+        return qs.order_by('name')
+
+    def perform_create(self, serializer):
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)        
+        serializer.save(created_by=self.request.user, municipality=municipality)
+
 
 class LocationViewSet(viewsets.ModelViewSet):
     serializer_class = LocationSerializer
@@ -397,7 +407,7 @@ class LocationViewSet(viewsets.ModelViewSet):
         qs = Location.objects.all()
         if self.request.user.is_authenticated:
             return get_objects_for_user(self.request.user, 'change_location', qs)
-        return qs
+        return qs.order_by('name')
 
     def get_serializer_class(self):
         # TODO: DEPRECATE VERSION pre1
