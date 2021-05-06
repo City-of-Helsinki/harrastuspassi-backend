@@ -110,9 +110,26 @@ class MunicipalitySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class HobbyCoverImageField(Base64ImageField):
+
+    def get_attribute(self, instance):
+        cover_image = None
+        if instance.cover_image:
+            cover_image = instance.cover_image
+        else:
+            related_categories = instance.categories.all().get_ancestors(include_self=True)
+            related_categories_with_image = related_categories.exclude(cover_image='').filter(cover_image__isnull=False)
+            if related_categories_with_image.exists():
+                # get_ancestors() by default returns ancestors by descending order
+                # (root ancestor first, immediate parent last)
+                cover_image = related_categories_with_image.last().cover_image
+        
+        return cover_image
+
+
 class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
     permissions = serializers.SerializerMethodField()
-    cover_image = Base64ImageField(required=False, allow_null=True)
+    cover_image = HobbyCoverImageField(required=False, allow_null=True)
     municipality = MunicipalitySerializer(read_only=True)
 
     def get_extra_fields(self, includes, context):
@@ -130,6 +147,7 @@ class HobbySerializer(ExtraDataMixin, serializers.ModelSerializer):
                 'can_edit': checker.has_perm('change_hobby', instance)
             }
         return {}
+    
 
     class Meta:
         model = Hobby
@@ -236,6 +254,7 @@ class HobbyEventSerializer(ExtraDataMixin, serializers.ModelSerializer):
         base_event = super().create(validated_data)
         if is_recurrent:
             base_event.create_recurrency(recurrency_count=recurrency_count)
+        base_event.hobby.update_next_event()
         return base_event
 
     class Meta:

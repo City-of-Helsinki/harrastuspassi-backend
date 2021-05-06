@@ -186,15 +186,15 @@ class NearestOrderingFilter(filters.OrderingFilter):
             raise ValidationError(errors)
 
         try:
-            assert near_latitude >= -180.0
-            assert near_latitude <= 180.0
+            assert near_latitude >= -90.0
+            assert near_latitude <= 90.0
         except AssertionError:
-            errors['near_latitude'].append(_('Value must be within -180.0 and 180.0.'))
+            errors['near_latitude'].append(_('Value must be within -90.0 and 90.0.'))
         try:
-            assert near_longitude >= -90.0
-            assert near_longitude <= 90.0
+            assert near_longitude >= -180.0
+            assert near_longitude <= 180.0
         except AssertionError:
-            errors['near_longitude'].append(_('Value must be within -90.0 and 90.0.'))
+            errors['near_longitude'].append(_('Value must be within -180.0 and 180.0.'))
         if errors:
             raise ValidationError(errors)
 
@@ -295,17 +295,6 @@ class HobbyViewSet(PermissionPrefetchMixin, viewsets.ModelViewSet):
         municipality = Municipality.get_current_municipality_for_moderator(self.request.user)
         serializer.save(created_by=self.request.user, municipality=municipality)
 
-    def retrieve(self, request, *args, pk=None, **kwargs):
-        # TODO: DEPRECATE VERSION pre1
-        if self.request.version == 'pre1':
-            serializer_class = HobbyDetailSerializerPre1
-        else:
-            serializer_class = HobbyDetailSerializer
-        queryset = Hobby.objects.all()
-        hobby = get_object_or_404(queryset, pk=pk)
-        serializer = serializer_class(hobby)
-        return Response(serializer.data)
-
 
 class HobbyEventFilter(filters.FilterSet):
     category = HierarchyModelMultipleChoiceFilter(
@@ -399,6 +388,16 @@ class OrganizerViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizerSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        qs = Organizer.objects.all()
+        if self.request.user.is_authenticated:
+            return get_objects_for_user(self.request.user, 'change_organizer', qs)
+        return qs.order_by('name')
+
+    def perform_create(self, serializer):
+        municipality = Municipality.get_current_municipality_for_moderator(self.request.user)        
+        serializer.save(created_by=self.request.user, municipality=municipality)
+
 
 class LocationViewSet(viewsets.ModelViewSet):
     serializer_class = LocationSerializer
@@ -408,7 +407,7 @@ class LocationViewSet(viewsets.ModelViewSet):
         qs = Location.objects.all()
         if self.request.user.is_authenticated:
             return get_objects_for_user(self.request.user, 'change_location', qs)
-        return qs
+        return qs.order_by('name')
 
     def get_serializer_class(self):
         # TODO: DEPRECATE VERSION pre1

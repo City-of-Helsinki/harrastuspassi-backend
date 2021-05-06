@@ -19,8 +19,8 @@ class Command(BaseCommand):
 
     category_mappings = {
         1180: 'Frisbeegolf',
-        4401: 'Kävely',
-        4403: 'Kävely',
+        4401: 'Muu urheilu ja liikunta',
+        4403: 'Muu urheilu ja liikunta',
         4402: 'Hiihto',
         1520: 'Luistelu',
         4404: 'Retkeily',

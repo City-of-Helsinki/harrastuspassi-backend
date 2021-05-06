@@ -129,6 +129,8 @@ class Location(ExternalDataModel, TimestampedModel):
 
 class Organizer(ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, verbose_name='Organizer')
+    municipality = models.ForeignKey(Municipality, null=True, blank=True, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
@@ -137,6 +139,7 @@ class Organizer(ExternalDataModel, TimestampedModel):
 class HobbyCategory(MPTTModel, ExternalDataModel, TimestampedModel):
     name = models.CharField(max_length=256, verbose_name='Hobby Category')
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    cover_image = models.ImageField(upload_to='hobbycategory_images', null=True, blank=True)
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -215,6 +218,16 @@ class Hobby(ExternalDataModel, TimestampedModel):
         if self.price_amount < 0:
             raise ValidationError('Price amount can not be negative')
 
+    def update_next_event(self):
+        try:
+            next_event = self.events.filter(
+                end_date__gte=datetime.date.today()
+            ).earliest('start_date')
+        except HobbyEvent.DoesNotExist:
+            next_event = None
+
+        self.next_event = next_event
+        self.save()
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'

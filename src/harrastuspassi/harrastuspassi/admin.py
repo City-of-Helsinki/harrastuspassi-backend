@@ -28,12 +28,13 @@ class HobbyCategoryAdmin(DraggableMPTTAdmin):
 
 class HobbyEventInline(admin.TabularInline):
     model = HobbyEvent
+    fields = ('start_date', 'start_time', 'start_weekday', 'end_date', 'end_time',)
     extra = 0
 
 
 class HobbyAdmin(GuardedModelAdmin):
     inlines = (HobbyEventInline,)
-    raw_id_fields = ('location',)
+    raw_id_fields = ('location', 'next_event',)
     filter_horizontal = ('categories',)
     list_display = ('name', 'location', 'created_at', 'updated_at')
     list_filter = ('price_type',
