@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import datetime
+import os
 from copy import copy
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.db.models.functions import GeoFunc, Distance
@@ -12,6 +13,8 @@ from django.db.models import F
 from django.db.models.expressions import Func
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import pre_save, post_delete
+from django.dispatch import receiver
 from mptt.models import MPTTModel, TreeForeignKey
 from harrastuspassi import settings
 
@@ -228,6 +231,28 @@ class Hobby(ExternalDataModel, TimestampedModel):
 
         self.next_event = next_event
         self.save()
+
+@receiver(post_delete, sender=Hobby)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.cover_image:
+        if os.path.isfile(instance.cover_image.path):
+            os.remove(instance.cover_image.path)
+
+@receiver(pre_save, sender=Hobby)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        hobby = Hobby.objects.get(pk=instance.pk)
+    except Hobby.DoesNotExist:
+        return False
+
+    if hobby.cover_image:
+        new_file = instance.cover_image
+        if not hobby.cover_image == new_file:
+            if os.path.isfile(hobby.cover_image.path):
+                os.remove(hobby.cover_image.path)
 
 class HobbyEventQuerySet(DistanceMixin, models.QuerySet):
     coordinates_field = 'hobby__location__coordinates'
