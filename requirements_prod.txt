@@ -17,7 +17,7 @@ gunicorn==19.9.0
 iso8601==0.1.12
 newrelic==4.20.1.121
 owlready2==0.21
-PyJWT==1.7.1
+PyJWT==2.4.0
 PyYAML==5.1.1
 python-memcached==1.57
 raven==6.10.0
