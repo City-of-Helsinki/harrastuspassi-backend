@@ -18,7 +18,7 @@ iso8601==0.1.12
 newrelic==4.20.1.121
 owlready2==0.21
 PyJWT==1.7.1
-PyYAML==5.1.1
+PyYAML==5.4
 python-memcached==1.57
 raven==6.10.0
 redis==2.10.6
